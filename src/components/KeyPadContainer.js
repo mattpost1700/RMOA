@@ -1,46 +1,34 @@
 import React from "react";
 import ButtonContainer from "./ButtonContainer";
 import EnterClearContainer from "./EnterClearContainer";
+import "../appCSS/key-pad-container.css";
 
 class KeyPadContainer extends React.Component {
     render(){
         return(
-            <div
-            style={{
-                display: "block",
-                width: "500px",
-                align: "center",
-                border: "1px solid"
-                
-            }}
-            id="parent_container"
-            >
-                <h1>Restaurant Login</h1>  
-                <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column"
-                }}
-                >
-                    <input
-                    id="empId"
-                    type="text"
-                    placeholder="Emp Id"
-                    ></input>
-                    <input
-                    id="empPin"
-                    type="password"
-                    placeholder="Emp PIN"
-                    ></input>
-                </div>
-                <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row"
-                }}
-                >
-                    <ButtonContainer />
-                    <EnterClearContainer />
+            <div className={"login"}>
+                <h1 className={"login__title"}>Restaurant Login</h1>
+                <div className="login__content">
+                    <div className={"login__details"}>
+                        <label htmlFor="empId">User Id</label>
+                        <input
+                            className={"login__id"}
+                            id="empId"
+                            type="text"
+                            placeholder="Emp Id"
+                        />
+                        <label htmlFor="empPin">Pin</label>
+                        <input
+                            className={"login__pin"}
+                            id="empPin"
+                            type="password"
+                            placeholder="Emp PIN"
+                        />
+                    </div>
+                    <div className={"keypad-buttons"}>
+                        <ButtonContainer />
+                        <EnterClearContainer />
+                    </div>
                 </div>
             </div>
         )

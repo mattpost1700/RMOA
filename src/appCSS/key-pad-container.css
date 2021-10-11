@@ -1,0 +1,27 @@
+.login__title{
+    text-align: center;
+    font-weight: 400;
+    font-size: 90px;
+    margin: 25px 0;
+
+}
+.login__content{
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.keypad-buttons{
+    display: flex;
+    justify-content: space-between;
+}
+
+.login__id{
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 3px;
+}
+.login__pin{
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 3px;
+}

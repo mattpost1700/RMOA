@@ -1,51 +1,41 @@
 import React from "react";
 import KeyPadButton from "./KeyPadButton";
+import "../appCSS/button-container.css";
 class ButtonContainer extends React.Component{
     render(){
         return(
-        <div>
-            <table>
-                <tbody>
-                <tr>
-                    <td>
-                        <KeyPadButton label={7}/>
-                    </td>
-                    <td>
-                        <KeyPadButton label={8}/>
-                    </td>
-                    <td>
-                        <KeyPadButton label={9}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <KeyPadButton label={4}/>
-                    </td>
-                    <td>
-                        <KeyPadButton label={5}/>
-                    </td>
-                    <td>
-                        <KeyPadButton label={6}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <KeyPadButton label={1}/>
-                    </td>
-                    <td>
-                        <KeyPadButton label={2}/>
-                    </td>
-                    <td>
-                        <KeyPadButton label={3}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <KeyPadButton label={0}/>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <div className={"keypad"}>
+            <div className="keypad__button">
+                <KeyPadButton label={7}/>
+            </div>
+            <div className="keypad__button">
+                <KeyPadButton label={8}/>
+            </div>
+            <div className="keypad__button">
+                <KeyPadButton label={9}/>
+            </div>
+            <div className="keypad__button">
+                <KeyPadButton label={4}/>
+            </div>
+            <div className="keypad__button">
+                <KeyPadButton label={5}/>
+            </div>
+            <div className="keypad__button">
+                <KeyPadButton label={6}/>
+            </div>
+            <div className="keypad__button">
+                <KeyPadButton label={1}/>
+            </div>
+            <div className="keypad__button">
+                <KeyPadButton label={2}/>
+            </div>
+            <div className="keypad__button">
+                <KeyPadButton label={3}/>
+            </div>
+            <div className="keypad__button">
+                <KeyPadButton label={0}/>
+            </div>
+
         </div>
         )
     }
