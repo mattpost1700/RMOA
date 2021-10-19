@@ -1,16 +1,18 @@
 import React from "react";
 
+import "../appCSS/side-bar.css";
+
 class SideBar extends React.Component{
     render(){
         return(
             
-            <ul
+            <ul className={"sidebar"}
             id="sideBarList">
-                <li>Menu #1</li>
-                <li>Menu #2</li>
-                <li>Menu #3</li>
-                <li>Menu #4</li>
-                <li>Menu #5</li>
+                <li className={"sidebar__item"}>Menu #1</li>
+                <li className={"sidebar__item"}>Menu #2</li>
+                <li className={"sidebar__item"}>Menu #3</li>
+                <li className={"sidebar__item"}>Menu #4</li>
+                <li className={"sidebar__item"}>Menu #5</li>
             </ul>
         )
     }

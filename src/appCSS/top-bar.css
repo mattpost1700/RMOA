@@ -1,0 +1,50 @@
+.topbar{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    border-bottom: 2px solid #707070;
+    height: 100%;
+}
+.topbar__left{
+    padding: 0 15px;
+}
+.topbar__left-text{
+    font-size: 20px;
+    font-weight: 600;
+}
+.topbar__left-back{
+    border: 1px solid #707070;
+    border-radius: 4px;
+    background: none;
+    font-size: 16px;
+    width: calc(100% - 20px);
+    text-align: left;
+}
+.topbar__wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+.topbar__middle {
+}
+.topbar__middle-text{
+    font-weight: 600;
+    margin-bottom: 0;
+}
+.topbar__middle-text:last-child{
+    margin-top: 5px;
+}
+
+.topbar__right{
+    padding-right: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.topbar__right-text{
+    font-weight: 600;
+}
+.topbar__right-button{
+    background: #FFC107;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+}
