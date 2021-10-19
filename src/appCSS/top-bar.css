@@ -3,6 +3,7 @@
     grid-template-columns: 1fr 4fr;
     border-bottom: 2px solid #707070;
     height: 100%;
+    padding-bottom: 25px;
 }
 .topbar__left{
     padding: 0 15px;
@@ -16,9 +17,18 @@
     border-radius: 4px;
     background: none;
     font-size: 16px;
-    width: calc(100% - 20px);
-    text-align: left;
+    padding: 5px 10px;
+    min-width: 100px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.4s;
 }
+.topbar__left-back:hover{
+    padding-left: 6px;
+    padding-right: 14px;
+}
+
+
 .topbar__wrapper{
     display: flex;
     justify-content: space-between;
@@ -47,4 +57,5 @@
     border: none;
     border-radius: 4px;
     padding: 5px 10px;
+    cursor: pointer;
 }

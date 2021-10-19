@@ -8,7 +8,7 @@ class TopBar extends React.Component{
             <div className={"topbar"}>
                 <div id="leftPart" className={"topbar__left"}>
                     <p className={"topbar__left-text"}>{this.props.topBarTitleProps}</p>
-                    <button className={"topbar__left-back"}>Back</button>
+                    <button className={"topbar__left-back"}>&#60;&#60; Back</button>
                 </div>
                 <div className="topbar__wrapper">
                 <div id="middlePart" className={"topbar__middle"}>
