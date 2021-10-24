@@ -2,10 +2,11 @@ import React from "react";
 
 import SideBar from "./SideBar";
 import TopBar from "./TopBar";
-import SeatingChart from "./SeatingChart";
-import OptionScreen from "./OptionScreen";
+import SeatingChart from "./mainContentContainer/SeatingChart";
+import OptionScreen from "./mainContentContainer/OptionScreen";
 import "../appCSS/main-screen-overlay.css";
 class MainScreenOverlay extends React.Component{
+    //This information should be mapped to the current user
     state ={
         topBarTitle: "TopBar Title",
         userID: "90210",
@@ -40,23 +41,18 @@ class MainScreenOverlay extends React.Component{
         mainContent: SeatingChart,
     }
     handleMainContent = (m_id) =>{
-        console.log(m_id);
+        //console.log(m_id);
 
         let sb = this.state.sideBarOptions;
-        console.log(sb);
-        // let newContent = sb.reduce((p_id, q_id) =>{
-        //     console.log("q_id", q_id);
-        //     if(p_id === q_id.id){
-        //         return q_id.component;
-        //     }
-        // },m_id);
+        //console.log(sb);
+        
         let newContent;
         for(let i = 0; i < sb.length; i++){
             if(m_id === sb[i].id){
                 newContent = sb[i].component;
             }
         }
-        console.log("newContent",newContent);
+        //console.log("newContent",newContent);
         this.setState({
             mainContent: newContent
         })
@@ -78,7 +74,10 @@ class MainScreenOverlay extends React.Component{
                     />
                 </div>
                 <div id="mainContentContainer" className={"main__content"}>
-                    <this.state.mainContent />
+                    <this.state.mainContent 
+                    userIDProps={this.state.userID}
+                    userClassProps={this.state.userClass}
+                    />
                 </div>
             </div>
         )
