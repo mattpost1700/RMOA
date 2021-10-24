@@ -4,7 +4,7 @@ class SideBarButton extends React.Component{
     render(){
         return(
             <button 
-            onClick={() => this.props.handleMainContentProps(this.props.optionProps.id)}
+            onClick={() => this.props.handleSideBarClickProps(this.props.optionProps.id)}
             >{this.props.optionProps.title}</button>
         )
     }

@@ -8,14 +8,15 @@ class SideBar extends React.Component{
         return(
             
             <ul className={"sidebar"}
-            id="sideBarList">{
+            id="sideBarList">
+                {
                 this.props.sideBarOptionsProps.map(option =>(
                     <li className={"sidebar__item"}
                         key={option.id}
                     >
                         <SideBarButton 
                         optionProps={option} 
-                        handleMainContentProps={this.props.handleMainContentProps}
+                        handleSideBarClickProps={this.props.handleSideBarClickProps}
                         />
                     </li> 
                 ))
