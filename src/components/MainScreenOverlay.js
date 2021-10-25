@@ -6,8 +6,9 @@ import SeatingChart from "./mainContentContainer/SeatingChart";
 import OptionScreen from "./mainContentContainer/OptionScreen";
 import "../appCSS/main-screen-overlay.css";
 class MainScreenOverlay extends React.Component{
-    //This information should be mapped to the current user
+    //This information should be mapped to the current user   
     state ={
+        lastOrderIDGenerated: 1000,
         topBarTitle: "TopBar Title",
         userID: "90210",
         userClass: "Server",
@@ -49,12 +50,14 @@ class MainScreenOverlay extends React.Component{
                 tableID: 1,
                 status: "free",
                 capacity: 4,
-                currentOrder: 1
+                currentOrder: 0
             }
         ],
         orders:[
             {
-                orderID: 1,
+                orderID: 1000,
+                parentTableID: 0,
+                paid: false,
                 items: []
             }
         ]
@@ -82,11 +85,42 @@ class MainScreenOverlay extends React.Component{
         })
         //console.log("mainContent", this.state.mainContent);
     }
+    //**************************************************************** */
+    //SeatingChart methods for tables
+
+    // Gets the associated order from a table
+    // If order is not found, create a new order
+    // and set it as this tables order
+    getOrder = (mTable) =>{
+        for(let p_order in this.state.orders){
+            if(mTable.TableID === p_order.parentTableID){
+                return p_order;
+            }
+        }
+        //If we found no associated order
+        let newOrderID = this.state.lastOrderIDGenerated + 1;
+        this.setState({lastOrderIDGenerated: newOrderID});
+        for(let i = 0 ; i < this.state.tables.length; i++){
+            if(mTable.TableID === this.state.tables[i].TableID){
+                let pTables = [...this.state.tables];
+                let pTable = {...pTables[i]};
+                pTable.currentOrder = newOrderID;
+                pTables[i] = pTable;
+                this.setState({tables: pTables})
+            }
+        }
+        return({
+            orderID: newOrderID,
+            parentTableID: mTable.TableID,
+            paid: false,
+            items: []
+        })
+    }
+
 
     // The idea behind this function is to dynamically create
     // the components we need for each with all the state
     // and function written in this class.
-
     // This is sort of like a Factory Method
     generateMainContentView = () =>{
         switch(this.state.mainContent.name){
@@ -96,7 +130,6 @@ class MainScreenOverlay extends React.Component{
                     userIDProps={this.state.userID}
                     userClassProps={this.state.userClass}
                     tablesProps={this.state.tables}
-                    ordersProps={this.state.orders}
                     />
                 )
             }
