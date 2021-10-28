@@ -21,6 +21,7 @@ class SeatingChart extends React.Component{
                >
                <ResTable 
                tableProps={table}
+               orderViewProps={this.props.orderViewProps}
                />
                </li>
            ))
