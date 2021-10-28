@@ -1,7 +1,10 @@
 import React from "react";
 
 import ResTable from "../ResTable";
-import Order from "../Order"
+
+// This class could be synonymous with a TableView class
+// to go along with the OrderView class
+// They serve similar purposes
 class SeatingChart extends React.Component{
     render(){
         return (

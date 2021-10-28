@@ -51,23 +51,25 @@ class MainScreenOverlay extends React.Component{
                 tableID: 1,
                 status: "free",
                 capacity: 4,
-                currentOrder: 0
+                currentOrder: 1000
             }
         ],
         orders:[
             {
                 orderID: 1000,
-                parentTableID: 0,
+                parentTableID: 1,
                 paid: false,
-                items: []
+                orderItems: []
             }
         ],
+        //This model should be sufficient 
         orderModel:
         {
             orderID: 0,
             parentTableID: 0,
             paid: false,
-            items: []
+            totalBills: 1,
+            orderItems: []
         }
 
     }
@@ -108,6 +110,7 @@ class MainScreenOverlay extends React.Component{
     // the model of the OrderView
     setModelForOrderView = (mTable) =>{
         console.log("In setModelForOrderView");
+        console.log("mTable is ", mTable);
         let mOrder = this.getOrder(mTable);
         console.log("mOrder is ", mOrder);
         this.setState({orderModel: mOrder});
@@ -117,34 +120,42 @@ class MainScreenOverlay extends React.Component{
     // If order is not found, create a new order
     // and set it as this tables order
     getOrder = (mTable) =>{
-        let {orders} = this.state.orders;
+        let orders = this.state.orders;
         for(let i = 0; i < orders.length; i++){
             console.log("orders[i] should be object ", orders[i]);
-            if(mTable.TableID === orders[i].parentTableID){
-                console.log("p_order is ", ;
-                return p_order;
+            if(mTable.tableID === orders[i].parentTableID){
+                console.log("orders[i] is ", orders[i]);
+                return orders[i];
             }
         }
         //If we found no associated order
         let newOrderID = this.state.lastOrderIDGenerated + 1;
         this.setState({lastOrderIDGenerated: newOrderID});
-        for(let i = 0 ; i < this.state.tables.length; i++){
-            if(mTable.TableID === this.state.tables[i].TableID){
-                let pTables = [...this.state.tables];
+        let tables = this.state.tables;
+        for(let i = 0 ; i < tables.length; i++){
+            if(mTable.TableID === tables[i].TableID){
+                let pTables = [...tables];
+                console.log(pTables);
                 let pTable = {...pTables[i]};
+                console.log(pTable);
                 pTable.currentOrder = newOrderID;
+                console.log(pTable);
                 pTables[i] = pTable;
+                console.log(pTables);
+                // Remember, state gets updated in the future, not right now
+                // if you need to use what you set, use a local variable
                 this.setState({tables: pTables})
+                console.log("this.state.tables",this.state.tables);
             }
         }
-        let m_order = {
+        let mOrder = {
             orderID: newOrderID,
-            parentTableID: mTable.TableID,
+            parentTableID: mTable.tableID,
             paid: false,
-            items: []
+            orderItems: []
         }
-        console.log("m_order is ", m_order);
-        return( m_order)
+        console.log("m_order is ", mOrder);
+        return( mOrder)
     }
 
 
@@ -153,6 +164,7 @@ class MainScreenOverlay extends React.Component{
     // and function written in this class.
     // This is sort of like a Factory Method
     generateMainContentView = () =>{
+        console.log("mainContent.name is ", this.state.mainContent.name);
         switch(this.state.mainContent.name){
             case "Seating Chart":{
                 return (
@@ -166,6 +178,7 @@ class MainScreenOverlay extends React.Component{
             }
             case "Order View":{
                 return (
+                    
                     <OrderView 
                     userIDProps={this.state.userID}
                     userClassProps={this.state.userClass}
