@@ -3,7 +3,9 @@ import React from "react";
 class ResTable extends React.Component{
     render(){
         return (
-            <p>I'm a table</p>
+            <button
+            onClick={() => this.props.orderViewProps(this.props.tableProps)}
+            >I'm a ResTable</button>
         )
     }
 }
