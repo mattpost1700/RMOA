@@ -1,0 +1,15 @@
+.seating-chart-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 25px;
+    padding: 25px 50px;
+    width: 100%;
+    height: 100%;
+}
+
+.seating-chart-container__table-wrapper{
+    width: 100%;
+    height: 100%;
+}
+

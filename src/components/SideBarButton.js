@@ -12,17 +12,20 @@ class SideBarButton extends React.Component{
                         buttons[j].classList.remove("active");
                     }
                     buttons[i].classList.add("active");
-
                 }
              }
-            }
         }
 
+    }
+
+    componentDidMount() {
+        this.buttonClick();
+    }
 
     render(){
-        this.buttonClick();
+
         return(
-            <button className={"sidebar-button"}
+            <button className={(this.props.optionProps.mainMenu) ? "sidebar-button active" : "sidebar-button"}
             onClick={() => this.props.handleSideBarClickProps(this.props.optionProps.id)}
             >{this.props.optionProps.title}</button>
         )

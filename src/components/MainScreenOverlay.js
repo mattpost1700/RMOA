@@ -17,27 +17,32 @@ class MainScreenOverlay extends React.Component{
             {
                 id: 1,
                 title: "Seating Chart",
-                component: SeatingChart
+                component: SeatingChart,
+                mainMenu: true
             },
             {
                 id: 2,
                 title: "Option #2",
-                component: OptionScreen
+                component: OptionScreen,
+                mainMenu: false
             },
             {
                 id: 3,
                 title: "Option #3",
-                component: OptionScreen
+                component: OptionScreen,
+                mainMenu: false
             },
             {
                 id: 4,
                 title: "Option #4",
-                component: OptionScreen
+                component: OptionScreen,
+                mainMenu: false
             },
             {
                 id: 5,
                 title: "Option #5",
-                component: OptionScreen
+                component: OptionScreen,
+                mainMenu: false
             }
         ],
 
@@ -52,6 +57,12 @@ class MainScreenOverlay extends React.Component{
                 status: "free",
                 capacity: 4,
                 currentOrder: 1000
+            },
+            {
+                tableID: 2,
+                status: "full",
+                capacity: 4,
+                currentOrder: 0
             }
         ],
         orders:[
