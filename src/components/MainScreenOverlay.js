@@ -13,36 +13,38 @@ class MainScreenOverlay extends React.Component{
         topBarTitle: "TopBar Title",
         userID: "90210",
         userClass: "Server",
+        visited: [],
+        currSideBarID: 1,
         sideBarOptions: [
             {
                 id: 1,
                 title: "Seating Chart",
                 component: SeatingChart,
-                mainMenu: true
+                active: true
             },
             {
                 id: 2,
                 title: "Option #2",
                 component: OptionScreen,
-                mainMenu: false
+                active: false
             },
             {
                 id: 3,
                 title: "Option #3",
                 component: OptionScreen,
-                mainMenu: false
+                active: false
             },
             {
                 id: 4,
                 title: "Option #4",
                 component: OptionScreen,
-                mainMenu: false
+                active: false
             },
             {
                 id: 5,
                 title: "Option #5",
                 component: OptionScreen,
-                mainMenu: false
+                active: false
             }
         ],
 
@@ -86,6 +88,10 @@ class MainScreenOverlay extends React.Component{
     }
     handleSideBarClick = (m_id) =>{
         //console.log(m_id);
+        let v = this.state.visited;
+        v.push({content: this.state.mainContent, id: this.state.currSideBarID});
+        this.setState({visited : v});
+        this.setState({currSideBarID: m_id});
 
         let sb = this.state.sideBarOptions;
         //console.log(sb);
@@ -96,6 +102,13 @@ class MainScreenOverlay extends React.Component{
         };
         for(let i = 0; i < sb.length; i++){
             if(m_id === sb[i].id){
+                //handle active state when menu item clicked
+                sb.forEach(i => {
+                    if(i.active) i.active = false;
+                })
+                sb[i].active = true;
+
+                this.setState({sideBarOptions:sb})
                 newContent.name = sb[i].title;
                 newContent.component = sb[i].component;              
             }
@@ -106,6 +119,26 @@ class MainScreenOverlay extends React.Component{
         })
         //console.log("mainContent", this.state.mainContent);
     }
+    handleBackClick = () => {
+        let v = this.state.visited;
+        if(v.length > 0) {
+            let newContent = v.pop();
+            this.setState({visited: v});
+            this.setState({mainContent: newContent.content});
+            let sb = this.state.sideBarOptions;
+            sb.forEach(i => {
+                i.active = false;
+                if(i.id === newContent.id){
+                    console.log(newContent.id);
+                    i.active = true;
+                    this.setState({currSideBarID: i.id});
+                }
+            });
+            this.setState({sideBarOptions: sb});
+
+        }
+    }
+
     //**************************************************************** */
     //SeatingChart methods for tables
     //
@@ -211,7 +244,8 @@ class MainScreenOverlay extends React.Component{
         return(
             <div id="mainContainer" className={"main"}>
                 <div id="topBarContainer" className={"main__top"}>
-                        <TopBar 
+                        <TopBar
+                            topBarBackProps = {this.handleBackClick}
                         topBarTitleProps={this.state.topBarTitle}
                         userIDProps={this.state.userID}
                         userClassProps={this.state.userClass}
