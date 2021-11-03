@@ -6,7 +6,9 @@
     box-shadow: 2px 2px 2px #aaa;
     transition: 0.4s;
 }
-
+.table:disabled{
+    color: #000;
+}
 
 
 .table-free{

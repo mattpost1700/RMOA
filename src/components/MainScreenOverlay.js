@@ -88,10 +88,8 @@ class MainScreenOverlay extends React.Component{
     }
     handleSideBarClick = (m_id) =>{
         //console.log(m_id);
-        let v = this.state.visited;
-        v.push({content: this.state.mainContent, id: this.state.currSideBarID});
-        this.setState({visited : v});
-        this.setState({currSideBarID: m_id});
+        this.addPageToStack(this.state.mainContent, m_id);
+
 
         let sb = this.state.sideBarOptions;
         //console.log(sb);
@@ -107,18 +105,19 @@ class MainScreenOverlay extends React.Component{
                     if(i.active) i.active = false;
                 })
                 sb[i].active = true;
-
-                this.setState({sideBarOptions:sb})
                 newContent.name = sb[i].title;
-                newContent.component = sb[i].component;              
+                newContent.component = sb[i].component;
+                this.setState({sideBarOptions:sb})
             }
         }
         //console.log("newContent",newContent);
         this.setState({
             mainContent: newContent
-        })
+        });
         //console.log("mainContent", this.state.mainContent);
     }
+
+
     handleBackClick = () => {
         let v = this.state.visited;
         if(v.length > 0) {
@@ -129,7 +128,6 @@ class MainScreenOverlay extends React.Component{
             sb.forEach(i => {
                 i.active = false;
                 if(i.id === newContent.id){
-                    console.log(newContent.id);
                     i.active = true;
                     this.setState({currSideBarID: i.id});
                 }
@@ -139,6 +137,23 @@ class MainScreenOverlay extends React.Component{
         }
     }
 
+
+    //When going to a new page use this method to add pages to the back button stack
+    //The first parameter takes the content of the page you are leaving {name:"", component:""}
+    //the second parameter takes the SideBarOptions id of the page you are going to
+    //if staying in the same tab you can leave out the id or set it to 0
+    //this is the only method you need to call for the back button to function
+    addPageToStack(content, newPageId = 0){
+        let v = this.state.visited;
+
+        v.push({content: content, id: this.state.currSideBarID});
+        this.setState({visited: v});
+
+        if (newPageId !== 0)
+            this.setState({currSideBarID: newPageId});
+
+    }
+
     //**************************************************************** */
     //SeatingChart methods for tables
     //
@@ -146,6 +161,7 @@ class MainScreenOverlay extends React.Component{
     // This method is passed as props
     // and setups the OrderView for an order model
     executeViewOrder = (mTable) =>{
+        this.addPageToStack(this.state.mainContent);
         console.log("In excuteViewOrder");
         this.setModelForOrderView(mTable);
         this.setState({mainContent: {name: "Order View", component: OrderView}})
