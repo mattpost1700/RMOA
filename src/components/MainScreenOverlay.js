@@ -5,6 +5,7 @@ import TopBar from "./TopBar";
 import SeatingChart from "./mainContentContainer/SeatingChart";
 import OptionScreen from "./mainContentContainer/OptionScreen";
 import OrderView from "./mainContentContainer/OrderView";
+import Order from "./Order"
 import "../appCSS/main-screen-overlay.css";
 class MainScreenOverlay extends React.Component{
     //This information should be mapped to the current user   
@@ -58,33 +59,26 @@ class MainScreenOverlay extends React.Component{
                 tableID: 1,
                 status: "free",
                 capacity: 4,
-                currentOrder: 1000
+                order: Order
             },
             {
                 tableID: 2,
                 status: "full",
                 capacity: 4,
-                currentOrder: 0
+                order: Order
             }
         ],
-        orders:[
-            {
-                orderID: 1000,
-                parentTableID: 1,
-                paid: false,
-                orderItems: []
-            }
-        ],
-        //This model should be sufficient 
-        orderModel:
+        //To pass down to an OrderView
+        orderModel: 
         {
-            orderID: 0,
-            parentTableID: 0,
-            paid: false,
-            totalBills: 1,
-            orderItems: []
+            tableID: 0,
+            order: undefined
         }
-
+    }
+    generateNewOrderId = () =>{
+        let newOrderID = this.state.lastOrderIDGenerated + 1;
+        this.setState({lastOrderIDGenerated: newOrderID});
+        return newOrderID;
     }
     handleSideBarClick = (m_id) =>{
         //console.log(m_id);
@@ -155,53 +149,24 @@ class MainScreenOverlay extends React.Component{
     setModelForOrderView = (mTable) =>{
         console.log("In setModelForOrderView");
         console.log("mTable is ", mTable);
-        let mOrder = this.getOrder(mTable);
+        let mOrder = mTable.Order;
+        if(mOrder == undefined){
+            mTable.Order = new Order(this.generateNewOrderId());
+            mOrder = mTable.Order;
+        }
         console.log("mOrder is ", mOrder);
-        this.setState({orderModel: mOrder});
+        this.setState({orderModel: {tableID: mTable.tableID, order: mOrder}});
 
     }
-    // Gets the associated order from a table
-    // If order is not found, create a new order
-    // and set it as this tables order
-    getOrder = (mTable) =>{
-        let orders = this.state.orders;
-        for(let i = 0; i < orders.length; i++){
-            console.log("orders[i] should be object ", orders[i]);
-            if(mTable.tableID === orders[i].parentTableID){
-                console.log("orders[i] is ", orders[i]);
-                return orders[i];
-            }
-        }
-        //If we found no associated order
-        let newOrderID = this.state.lastOrderIDGenerated + 1;
-        this.setState({lastOrderIDGenerated: newOrderID});
-        let tables = this.state.tables;
-        for(let i = 0 ; i < tables.length; i++){
-            if(mTable.TableID === tables[i].TableID){
-                let pTables = [...tables];
-                console.log(pTables);
-                let pTable = {...pTables[i]};
-                console.log(pTable);
-                pTable.currentOrder = newOrderID;
-                console.log(pTable);
-                pTables[i] = pTable;
-                console.log(pTables);
-                // Remember, state gets updated in the future, not right now
-                // if you need to use what you set, use a local variable
-                this.setState({tables: pTables})
-                console.log("this.state.tables",this.state.tables);
-            }
-        }
-        let mOrder = {
-            orderID: newOrderID,
-            parentTableID: mTable.tableID,
-            paid: false,
-            orderItems: []
-        }
-        console.log("m_order is ", mOrder);
-        return( mOrder)
-    }
+    //************************************************************** */
+    //OrderView methods
+    //
 
+    // Takes an array of orderItems and updates the order
+    // of the passed in tableID
+    updateOrder = (mTableID, mOrderItems) => {
+        console.log("updateOrder has been called");
+    }
 
     // The idea behind this function is to dynamically create
     // the components we need for each with all the state
@@ -226,7 +191,8 @@ class MainScreenOverlay extends React.Component{
                     <OrderView 
                     userIDProps={this.state.userID}
                     userClassProps={this.state.userClass}
-                    
+                    orderProps={this.state.orderModel}
+                    updateOrderProps={this.updateOrder}
                     />
                 )
             }
