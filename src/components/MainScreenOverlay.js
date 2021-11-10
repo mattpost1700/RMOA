@@ -66,7 +66,7 @@ class MainScreenOverlay extends React.Component{
                 tableID: 2,
                 status: "full",
                 capacity: 4,
-                order: Order
+                order: undefined
             }
         ],
         //To pass down to an OrderView
@@ -152,6 +152,7 @@ class MainScreenOverlay extends React.Component{
         console.log("mTable is ", mTable);
         let mOrder = mTable.order;
         if(mOrder == undefined){
+            console.log("mOrder was undefined");
             mTable.order = new Order(this.generateNewOrderId());
             mOrder = mTable.order;
         }

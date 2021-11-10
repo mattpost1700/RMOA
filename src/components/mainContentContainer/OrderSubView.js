@@ -4,9 +4,13 @@ class OrderSubView extends React.Component{
     render(){
         
         return(
-            <div>
-                <p>I'm an OrderSubView</p>
-            </div>
+            <ol>
+                {this.props.billProps.map((mOrderItem, index) =>(
+                    <li>
+                        <p>{mOrderItem.name}</p> <p> {mOrderItem.price}</p>
+                    </li>
+                ))}
+            </ol>
             
         )
     }
