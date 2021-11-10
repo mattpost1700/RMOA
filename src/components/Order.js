@@ -2,12 +2,12 @@ import React from "react";
 
 
 class Order {
-    orderNumber = 0;
+    orderID = 0;
     paid = false;
     totalBills = 1;
     orderItems = [];
-    constructor(orderNumber){
-        this.orderNumber = orderNumber;
+    constructor(orderID){
+        this.orderID = orderID;
     }
 }
 export default Order

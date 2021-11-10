@@ -50,7 +50,7 @@ class OrderView extends React.Component{
             <div>
                 <div id="infoContainer">
                     <p>Table #: {this.props.orderProps.tableID}</p>
-                    <p>Order # {this.props.orderProps.order.orderNumber}</p>
+                    <p>Order # {this.props.orderProps.order.orderID}</p>
                 </div>
                 
                 <div id="orderSubContainer">
