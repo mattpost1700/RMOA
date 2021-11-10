@@ -6,6 +6,7 @@ import SeatingChart from "./mainContentContainer/SeatingChart";
 import OptionScreen from "./mainContentContainer/OptionScreen";
 import OrderView from "./mainContentContainer/OrderView";
 import Order from "./Order"
+import MockOrder from "../testFiles/mockOrder";
 import "../appCSS/main-screen-overlay.css";
 class MainScreenOverlay extends React.Component{
     //This information should be mapped to the current user   
@@ -59,7 +60,7 @@ class MainScreenOverlay extends React.Component{
                 tableID: 1,
                 status: "free",
                 capacity: 4,
-                order: Order
+                order: MockOrder,
             },
             {
                 tableID: 2,
@@ -149,10 +150,10 @@ class MainScreenOverlay extends React.Component{
     setModelForOrderView = (mTable) =>{
         console.log("In setModelForOrderView");
         console.log("mTable is ", mTable);
-        let mOrder = mTable.Order;
+        let mOrder = mTable.order;
         if(mOrder == undefined){
-            mTable.Order = new Order(this.generateNewOrderId());
-            mOrder = mTable.Order;
+            mTable.order = new Order(this.generateNewOrderId());
+            mOrder = mTable.order;
         }
         console.log("mOrder is ", mOrder);
         this.setState({orderModel: {tableID: mTable.tableID, order: mOrder}});
