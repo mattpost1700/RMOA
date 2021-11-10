@@ -20,17 +20,20 @@ class OrderView extends React.Component{
         let billsArray = []
         let numOfBills = this.props.orderProps.order.totalBills;
         for(let i = 0; i < numOfBills; i++){
+            //Pushing empty arrays to fill
             billsArray.push([]);
         }
         //These are the confirmed OrderItems
         let mOrderItems = this.props.orderProps.order.orderItems;
         for(let i = 0; i < mOrderItems.length; i++){
-            let mBill = mOrderItems[i].bill;
+            // The array value will be minus 1 of the actual bill
+            let mBill = mOrderItems[i].bill - 1;
             billsArray[mBill].push(mOrderItems[i]);
         }
         let mTempOrderItems = this.state.tempOrderItems;
         for(let i = 0; i < mTempOrderItems.length; i++){
-            let mBill = mTempOrderItems[i].bill;
+            // The array value will be minus 1 of the actual bill
+            let mBill = mTempOrderItems[i].bill - 1;
             billsArray[mBill].push(mTempOrderItems[i]);
         }
         return billsArray
@@ -53,11 +56,23 @@ class OrderView extends React.Component{
                     <p>Order # {this.props.orderProps.order.orderID}</p>
                 </div>
                 
-                <div id="orderSubContainer">
+                <div id="orderSubContainer"
+                    style={{
+                        width: "400px",
+                        height: "300px",
+                        border: "1px solid",
+                    }}
+                >
+                    
                     {
                     mBillsArray.map((bill, index) =>(
                         <div
                         key={index}
+                        style={{
+                            width: "100px",
+                            height: "200px",
+                            border: "1px solid",
+                        }}
                         > 
                         <OrderSubView
                         billProps={bill}
