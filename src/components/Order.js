@@ -1,11 +1,13 @@
 import React from "react";
 
 
-class Order extends React.Component{
-    render(){
-        return(
-            <p>I'm an order</p>
-        )
+class Order {
+    orderID = 0;
+    paid = false;
+    totalBills = 1;
+    orderItems = [];
+    constructor(orderID){
+        this.orderID = orderID;
     }
 }
 export default Order
