@@ -6,7 +6,6 @@ class ResTable extends React.Component{
         console.log(this.props.tableProps.status === "free");
         return (
             <button className={(this.props.tableProps.status === "free") ? "table table-free" : "table table-occupied"}
-                    disabled={this.props.tableProps.status !== "free"}
             onClick={() => this.props.orderViewProps(this.props.tableProps)}
             >
                 <p>Table {this.props.tableProps.tableID}</p>

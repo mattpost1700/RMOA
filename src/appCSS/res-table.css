@@ -23,5 +23,5 @@
 
 .table-occupied{
     background: #f00;
-    cursor: not-allowed;
+    cursor: pointer;
 }
