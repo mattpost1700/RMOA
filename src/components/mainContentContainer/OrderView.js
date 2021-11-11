@@ -1,7 +1,9 @@
 import React from "react";
+import '../../appCSS/order-view.css';
 
 import Order from "../Order"
 import OrderSubView from "./OrderSubView";
+import {forEach} from "react-bootstrap/ElementChildren";
 // Not sure if this is a good idea or not, but the idea is
 // to have this class represent the OrderModel
 
@@ -11,7 +13,8 @@ class OrderView extends React.Component{
         // added to a bill before confirming our selection
         // Since every order has an associated bill, we can
         // put every added OrderItem in this array and sort it later.
-        tempOrderItems: []
+        tempOrderItems: [],
+
     }
     // This function take the order and separates
     // it into different bills. billsArray is a 2D array.
@@ -38,6 +41,9 @@ class OrderView extends React.Component{
         }
         return billsArray
     }
+
+
+
     render(){
         let mBillsArray = this.generateOrderSubView();
         return(
@@ -50,44 +56,42 @@ class OrderView extends React.Component{
             // at all i.e. not clickable. I'm naming it OrderSubView
             // instead of BillView, since BillView will most likely be
             // used elsewhere.
-            <div>
-                <div id="infoContainer">
-                    <p>Table #: {this.props.orderProps.tableID}</p>
-                    <p>Order # {this.props.orderProps.order.orderID}</p>
+            <div className={"orderView"}>
+                <div id="infoContainer" className={"orderView__info"}>
+                    <p className={"orderView__tableNum"}>Table #: {this.props.orderProps.tableID}</p>
+                    <div id="buttonsContainer" className={"orderView__buttons"}>
+                        <button id="food/drinkMenu" className={"orderView__button"}>Food/Drink</button>
+                        <button id="splitFunction" className={"orderView__button"}>Split</button>
+                        <button id="mergeFunction" className={"orderView__button"}>Merge</button>
+                        <button id="confirmFunction" className={"orderView__button"}>Confirm</button>
+                    </div>
+                    <p className={"orderView__orderNum"}>Order # {this.props.orderProps.order.orderID}</p>
                 </div>
                 
-                <div id="orderSubContainer"
-                    style={{
-                        width: "400px",
-                        height: "300px",
-                        border: "1px solid",
-                    }}
-                >
-                    
+                <div className={"orderView__container"} id="orderSubContainer">
+
                     {
                     mBillsArray.map((bill, index) =>(
-                        <div
+
+                        <div className="orderView__order-wrapper">
+                        <input className={"orderView__selection"} type="checkbox"/>
+
+                        <div className={"orderView__order"}
                         key={index}
-                        style={{
-                            width: "100px",
-                            height: "200px",
-                            border: "1px solid",
-                        }}
-                        > 
+                        >
+
                         <OrderSubView
                         billProps={bill}
                         />
+
+                        </div>
+
                         </div>
                     ))
                     }
                 </div>
 
-                <div id="buttonsContainer">
-                    <button id="food/drinkMenu">Food/Drink</button>
-                    <button id="splitFunction">Split</button>
-                    <button id="mergeFunction">Merge</button>
-                    <button id="confirmFunction">Confirm</button>
-                </div>
+
             </div>
         )
     }
