@@ -80,6 +80,27 @@ class OrderView extends React.Component{
         }
         return billsArray
     }
+    //**************************************************************** */
+    // Food/Drink methods
+    //
+
+    addOrderItems = (mOrderItems) =>{
+        let updatedTempOrderItems = this.state.tempOrderItems.concat(mOrderItems);
+        this.setState({tempOrderItems: updatedTempOrderItems});
+    }
+
+    removeOrderItem = (mOrderItem) =>{
+        this.setState({
+            tempOrderItems: [
+                ...this.state.tempOrderItems.filter(item =>{
+                    return item.id !== mOrderItem.id
+                })
+            ]
+        })
+    }
+    //**************************************************************** */
+    // LifeCycle methods
+    //
     constructor(props){
         super(props);
         this.state.checkboxes = this.setCheckboxes();
