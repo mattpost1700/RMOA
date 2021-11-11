@@ -11,11 +11,53 @@ class OrderView extends React.Component{
         // added to a bill before confirming our selection
         // Since every order has an associated bill, we can
         // put every added OrderItem in this array and sort it later.
-        tempOrderItems: []
+        tempOrderItems: [],
+
+        // An array of booleans
+        checkboxes: []
+    }
+    // This function setups the state for the checkboxes.
+    // This should be run in the constructor of the React.Component
+    // It sets all the checkboxes to false. This might need
+    // to be tweaked in the future.
+    setCheckboxes = () =>{
+        console.log("In setCheckBoxes");
+        let numOfBills = this.props.orderProps.order.totalBills;
+        console.log("numOfBills", numOfBills);
+        let mCheckboxes = [];
+        for(let i = 0; i < numOfBills; i++){
+            mCheckboxes.push(false);
+        }
+        console.log("mCheckboxes", mCheckboxes);
+        return mCheckboxes;
+    }
+    handleCheckboxClick = (index) =>{
+        //console.log("hello from handleCheckboxClick method");
+        //console.log("index is", index);
+        
+        let flag = this.state.checkboxes[index];
+        //console.log("flag is", flag);
+        if(flag == true){
+            this.state.checkboxes[index] = false;
+        }
+        else if(flag == false){
+            let count = 0;
+            let flags = this.state.checkboxes;
+            for(let i = 0; i < flags.length; i++){
+                if(flags[i] == true){
+                    //console.log("flags[i] was ", flags[i]);
+                    count = count + 1;
+                }
+            }
+            if(count < 2){
+                //console.log("count is ", count);
+                this.state.checkboxes[index] = true;
+            }
+        }
+        this.setState({checkboxes: this.state.checkboxes});
     }
     // This function take the order and separates
     // it into different bills. billsArray is a 2D array.
-    // This function also sets up the state for the 
     generateOrderSubView = () =>{
         let billsArray = []
         let numOfBills = this.props.orderProps.order.totalBills;
@@ -37,6 +79,10 @@ class OrderView extends React.Component{
             billsArray[mBill].push(mTempOrderItems[i]);
         }
         return billsArray
+    }
+    constructor(props){
+        super(props);
+        this.state.checkboxes = this.setCheckboxes();
     }
     render(){
         let mBillsArray = this.generateOrderSubView();
@@ -74,6 +120,11 @@ class OrderView extends React.Component{
                             border: "1px solid",
                         }}
                         > 
+                        <input 
+                        type="checkbox"
+                        checked={this.state.checkboxes[index]}
+                        onChange={() => this.handleCheckboxClick(index)}
+                        />
                         <OrderSubView
                         billProps={bill}
                         />
