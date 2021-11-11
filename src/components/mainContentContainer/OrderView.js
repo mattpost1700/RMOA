@@ -1,9 +1,7 @@
 import React from "react";
-import '../../appCSS/order-view.css';
 
 import Order from "../Order"
 import OrderSubView from "./OrderSubView";
-import {forEach} from "react-bootstrap/ElementChildren";
 // Not sure if this is a good idea or not, but the idea is
 // to have this class represent the OrderModel
 
@@ -15,10 +13,51 @@ class OrderView extends React.Component{
         // put every added OrderItem in this array and sort it later.
         tempOrderItems: [],
 
+        // An array of booleans
+        checkboxes: []
+    }
+    // This function setups the state for the checkboxes.
+    // This should be run in the constructor of the React.Component
+    // It sets all the checkboxes to false. This might need
+    // to be tweaked in the future.
+    setCheckboxes = () =>{
+        console.log("In setCheckBoxes");
+        let numOfBills = this.props.orderProps.order.totalBills;
+        console.log("numOfBills", numOfBills);
+        let mCheckboxes = [];
+        for(let i = 0; i < numOfBills; i++){
+            mCheckboxes.push(false);
+        }
+        console.log("mCheckboxes", mCheckboxes);
+        return mCheckboxes;
+    }
+    handleCheckboxClick = (index) =>{
+        //console.log("hello from handleCheckboxClick method");
+        //console.log("index is", index);
+        
+        let flag = this.state.checkboxes[index];
+        //console.log("flag is", flag);
+        if(flag == true){
+            this.state.checkboxes[index] = false;
+        }
+        else if(flag == false){
+            let count = 0;
+            let flags = this.state.checkboxes;
+            for(let i = 0; i < flags.length; i++){
+                if(flags[i] == true){
+                    //console.log("flags[i] was ", flags[i]);
+                    count = count + 1;
+                }
+            }
+            if(count < 2){
+                //console.log("count is ", count);
+                this.state.checkboxes[index] = true;
+            }
+        }
+        this.setState({checkboxes: this.state.checkboxes});
     }
     // This function take the order and separates
     // it into different bills. billsArray is a 2D array.
-    // This function also sets up the state for the 
     generateOrderSubView = () =>{
         let billsArray = []
         let numOfBills = this.props.orderProps.order.totalBills;
@@ -41,9 +80,31 @@ class OrderView extends React.Component{
         }
         return billsArray
     }
+    //**************************************************************** */
+    // Food/Drink methods
+    //
 
+    addOrderItems = (mOrderItems) =>{
+        let updatedTempOrderItems = this.state.tempOrderItems.concat(mOrderItems);
+        this.setState({tempOrderItems: updatedTempOrderItems});
+    }
 
-
+    removeOrderItem = (mOrderItem) =>{
+        this.setState({
+            tempOrderItems: [
+                ...this.state.tempOrderItems.filter(item =>{
+                    return item.id !== mOrderItem.id
+                })
+            ]
+        })
+    }
+    //**************************************************************** */
+    // LifeCycle methods
+    //
+    constructor(props){
+        super(props);
+        this.state.checkboxes = this.setCheckboxes();
+    }
     render(){
         let mBillsArray = this.generateOrderSubView();
         return(
@@ -56,42 +117,49 @@ class OrderView extends React.Component{
             // at all i.e. not clickable. I'm naming it OrderSubView
             // instead of BillView, since BillView will most likely be
             // used elsewhere.
-            <div className={"orderView"}>
-                <div id="infoContainer" className={"orderView__info"}>
-                    <p className={"orderView__tableNum"}>Table #: {this.props.orderProps.tableID}</p>
-                    <div id="buttonsContainer" className={"orderView__buttons"}>
-                        <button id="food/drinkMenu" className={"orderView__button"}>Food/Drink</button>
-                        <button id="splitFunction" className={"orderView__button"}>Split</button>
-                        <button id="mergeFunction" className={"orderView__button"}>Merge</button>
-                        <button id="confirmFunction" className={"orderView__button"}>Confirm</button>
-                    </div>
-                    <p className={"orderView__orderNum"}>Order # {this.props.orderProps.order.orderID}</p>
+            <div>
+                <div id="infoContainer">
+                    <p>Table #: {this.props.orderProps.tableID}</p>
+                    <p>Order # {this.props.orderProps.order.orderID}</p>
                 </div>
                 
-                <div className={"orderView__container"} id="orderSubContainer">
-
+                <div id="orderSubContainer"
+                    style={{
+                        width: "400px",
+                        height: "300px",
+                        border: "1px solid",
+                    }}
+                >
+                    
                     {
                     mBillsArray.map((bill, index) =>(
-
-                        <div className="orderView__order-wrapper">
-                        <input className={"orderView__selection"} type="checkbox"/>
-
-                        <div className={"orderView__order"}
+                        <div
                         key={index}
-                        >
-
+                        style={{
+                            width: "100px",
+                            height: "200px",
+                            border: "1px solid",
+                        }}
+                        > 
+                        <input 
+                        type="checkbox"
+                        checked={this.state.checkboxes[index]}
+                        onChange={() => this.handleCheckboxClick(index)}
+                        />
                         <OrderSubView
                         billProps={bill}
                         />
-
-                        </div>
-
                         </div>
                     ))
                     }
                 </div>
 
-
+                <div id="buttonsContainer">
+                    <button id="food/drinkMenu">Food/Drink</button>
+                    <button id="splitFunction">Split</button>
+                    <button id="mergeFunction">Merge</button>
+                    <button id="confirmFunction">Confirm</button>
+                </div>
             </div>
         )
     }
