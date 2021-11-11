@@ -174,7 +174,6 @@ class MainScreenOverlay extends React.Component{
         }
         console.log("mOrder is ", mOrder);
         this.setState({orderModel: {tableID: mTable.tableID, order: mOrder}});
-
     }
     //************************************************************** */
     //OrderView methods
