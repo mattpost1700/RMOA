@@ -55,6 +55,7 @@ class OrderView extends React.Component{
             }
         }
         this.setState({checkboxes: this.state.checkboxes});
+        console.log("checkboxes", this.state.checkboxes);
     }
     // This function take the order and separates
     // it into different bills. billsArray is a 2D array.
@@ -105,8 +106,81 @@ class OrderView extends React.Component{
         super(props);
         this.state.checkboxes = this.setCheckboxes();
     }
+
+
+
+    //This function breaks the bills down if they are too large
+    //This does not affect the actual data structure of a bill
+    generateBills = (mBillsArray) =>{
+        //number of items per sub bill
+        let numPerBill = 8;
+
+        let billGroup = [];
+        let bills = [];
+
+        //loop through each bill
+        for(let idx = 0; idx < mBillsArray.length; idx++) {
+            billGroup = [];
+
+            //split the items in the bill into pages with length of numPerBill
+            for (let i = 0; i < mBillsArray[idx].length; i += numPerBill) {
+                let val = [];
+
+                for (let j = 0; j < numPerBill; j++) {
+                    if (mBillsArray[idx][i + j] !== undefined)
+                        val[j] = mBillsArray[idx][i + j];
+                }
+                billGroup.push(val);
+            }
+
+
+
+            let page = [];
+
+            //loop for each page of the bill
+            for (let i = 0; i < billGroup.length; i++) {
+                page.push(
+                    <div className="orderView__order-subwrapper">
+
+                        <div className={"orderView__order"}
+                             key={idx}
+                        >
+                            <p className={"orderView__billnum"}>Bill # {billGroup[i][0].bill}</p>
+                            <OrderSubView
+                                billProps={billGroup[i]}
+                            />
+                        </div>
+                    </div>
+                )
+            }
+
+            //add the order wrapper to the bill pages
+            bills.push(<div className={"orderView__order-wrapper"}>
+
+                <input
+                    className={"orderView__selection"}
+                    type="checkbox"
+                    checked={this.state.checkboxes[idx]}
+                    onChange={() => this.handleCheckboxClick(idx)}
+                />
+                {page}
+            </div>);
+        }
+
+
+        return(
+        <div id="orderSubContainer" className={"orderView__container"}>
+            {bills}
+        </div>
+        );
+
+    }
+
+
+
     render(){
         let mBillsArray = this.generateOrderSubView();
+        let bills = this.generateBills(mBillsArray);
         return(
             // Cory, what I think would be a good idea is to make
             // the orderSubContainer a swipable left & right element.
@@ -128,30 +202,8 @@ class OrderView extends React.Component{
                     </div>
                     <p className={"orderView__orderNum"}>Order # {this.props.orderProps.order.orderID}</p>
                 </div>
-                
-                <div id="orderSubContainer" className={"orderView__container"}>
-                    
-                    {
-                    mBillsArray.map((bill, index) =>(
-                        <div className="orderView__order-wrapper">
-                            <input
-                                className={"orderView__selection"}
-                                type="checkbox"
-                                checked={this.state.checkboxes[index]}
-                                onChange={() => this.handleCheckboxClick(index)}
-                            />
-                        <div className={"orderView__order"}
-                        key={index}
-                        > 
 
-                        <OrderSubView
-                        billProps={bill}
-                        />
-                        </div>
-                        </div>
-                    ))
-                    }
-                </div>
+                {bills}
 
 
             </div>

@@ -7,6 +7,7 @@ import OptionScreen from "./mainContentContainer/OptionScreen";
 import OrderView from "./mainContentContainer/OrderView";
 import Order from "./Order"
 import MockOrder from "../testFiles/mockOrder";
+import MockOrderLong from "../testFiles/mockOrderLong";
 import "../appCSS/main-screen-overlay.css";
 class MainScreenOverlay extends React.Component{
     //This information should be mapped to the current user   
@@ -58,6 +59,12 @@ class MainScreenOverlay extends React.Component{
         tables: [
             {
                 tableID: 1,
+                status: "free",
+                capacity: 4,
+                order: MockOrderLong,
+            },
+            {
+                tableID: 3,
                 status: "free",
                 capacity: 4,
                 order: MockOrder,
