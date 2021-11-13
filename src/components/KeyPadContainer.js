@@ -5,11 +5,30 @@ import "../appCSS/key-pad-container.css";
 
 class KeyPadContainer extends React.Component {
     state ={
-        pin: ""
+        pin: "",
+        pinLength: 0 // for some reason "str.length" was returning undefined before
     }
 
     handleButtonClick = (button) => {
-        this.setState({pin: this.state.pin + button})
+        if(this.state.pinLength < 4) {
+            this.setState({
+                pin: this.state.pin + button,
+                pinLength: this.state.pinLength + 1
+            })
+        } else {
+            alert("Too many digits for a pin length: " + this.state.pinLength)
+        }
+    }
+
+    handleClearClick = () => {
+        this.setState({
+            pin: "",
+            pinLength: 0
+        })
+    }
+
+    handleSubmitClick = () => {
+        // Query database -> login or fail msg
     }
 
     render(){
@@ -30,7 +49,10 @@ class KeyPadContainer extends React.Component {
                         <ButtonContainer
                             handleButtonClick={this.handleButtonClick}
                         />
-                        <EnterClearContainer />
+                        <EnterClearContainer
+                            handleClearClick={this.handleClearClick}
+                            handleSubmitClick={this.handleSubmitClick}
+                        />
                     </div>
                 </div>
             </div>
