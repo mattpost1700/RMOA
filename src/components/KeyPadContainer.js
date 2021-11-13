@@ -8,6 +8,10 @@ class KeyPadContainer extends React.Component {
         pin: ""
     }
 
+    handleButtonClick = (button) => {
+        this.setState({pin: this.state.pin + button})
+    }
+
     render(){
         return(
             <div className={"login"}>
@@ -23,13 +27,14 @@ class KeyPadContainer extends React.Component {
                         />
                     </div>
                     <div className={"keypad-buttons"}>
-                        <ButtonContainer />
+                        <ButtonContainer
+                            handleButtonClick={this.handleButtonClick}
+                        />
                         <EnterClearContainer />
                     </div>
                 </div>
             </div>
         )
     }
-
 }
 export default KeyPadContainer
