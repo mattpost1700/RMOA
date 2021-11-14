@@ -1,0 +1,9 @@
+.orderList{
+    text-align: center;
+    list-style-position: inside;
+    padding-left: 0;
+}
+
+.orderList__item{
+    line-height: 1.8;
+}

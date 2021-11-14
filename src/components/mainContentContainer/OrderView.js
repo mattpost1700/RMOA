@@ -1,5 +1,5 @@
 import React from "react";
-
+import "../../appCSS/order-view.css";
 import Order from "../Order"
 import OrderSubView from "./OrderSubView";
 // Not sure if this is a good idea or not, but the idea is
@@ -129,49 +129,43 @@ class OrderView extends React.Component{
             // at all i.e. not clickable. I'm naming it OrderSubView
             // instead of BillView, since BillView will most likely be
             // used elsewhere.
-            <div>
-                <div id="infoContainer">
-                    <p>Table #: {this.props.orderProps.tableID}</p>
-                    <p>Order # {this.props.orderProps.order.orderID}</p>
+            <div className={"orderView"}>
+                <div id="infoContainer" className={"orderView__info"}>
+                    <p className={"orderView__tableNum"}>Table #: {this.props.orderProps.tableID}</p>
+                    <div id="buttonsContainer" className={"orderView__buttons"}>
+                        <button id="food/drinkMenu" className={"orderView__button"}>Food/Drink</button>
+                        <button id="splitFunction" className={"orderView__button"}>Split</button>
+                        <button id="mergeFunction" className={"orderView__button"}>Merge</button>
+                        <button id="confirmFunction" className={"orderView__button"}>Confirm</button>
+                    </div>
+                    <p className={"orderView__orderNum"}>Order # {this.props.orderProps.order.orderID}</p>
                 </div>
                 
-                <div id="orderSubContainer"
-                    style={{
-                        width: "400px",
-                        height: "300px",
-                        border: "1px solid",
-                    }}
-                >
+                <div id="orderSubContainer" className={"orderView__container"}>
                     
                     {
                     mBillsArray.map((bill, index) =>(
-                        <div
+                        <div className="orderView__order-wrapper">
+                            <input
+                                className={"orderView__selection"}
+                                type="checkbox"
+                                checked={this.state.checkboxes[index]}
+                                onChange={() => this.handleCheckboxClick(index)}
+                            />
+                        <div className={"orderView__order"}
                         key={index}
-                        style={{
-                            width: "100px",
-                            height: "200px",
-                            border: "1px solid",
-                        }}
                         > 
-                        <input 
-                        type="checkbox"
-                        checked={this.state.checkboxes[index]}
-                        onChange={() => this.handleCheckboxClick(index)}
-                        />
+
                         <OrderSubView
                         billProps={bill}
                         />
+                        </div>
                         </div>
                     ))
                     }
                 </div>
 
-                <div id="buttonsContainer">
-                    <button id="food/drinkMenu">Food/Drink</button>
-                    <button id="splitFunction">Split</button>
-                    <button id="mergeFunction">Merge</button>
-                    <button id="confirmFunction">Confirm</button>
-                </div>
+
             </div>
         )
     }

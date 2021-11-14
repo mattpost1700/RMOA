@@ -27,6 +27,7 @@ class SideBarButton extends React.Component{
         return(
             <button className={(this.props.optionProps.active) ? "sidebar-button active" : "sidebar-button"}
             onClick={() => this.props.handleSideBarClickProps(this.props.optionProps.id)}
+                    disabled={this.props.optionProps.active}
             >{this.props.optionProps.title}</button>
         )
     }
