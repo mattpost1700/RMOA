@@ -29,6 +29,12 @@ class KeyPadContainer extends React.Component {
 
     handleSubmitClick = () => {
         // Query database -> login or fail msg
+        if(this.state.pin < 4){
+            console.log("invalid pin with pin: " + this.state.pin)
+        }
+        else {
+            console.log("submit clicked with pin: " + this.state.pin)
+        }
     }
 
     render(){
@@ -38,11 +44,11 @@ class KeyPadContainer extends React.Component {
                 <div className="login__content">
                     <div className={"login__details"}>
                         <label htmlFor="empPin">Pin</label>
-                        <input
-                            className={"login__pin"}
-                            id="empPin"
-                            type="password"
-                            value={this.state.pin}
+                        <input readOnly
+                               className={"login__pin"}
+                               id="empPin"
+                               type="password"
+                               value={this.state.pin}
                         />
                     </div>
                     <div className={"keypad-buttons"}>
