@@ -31,14 +31,20 @@ class OrderView extends React.Component{
         console.log("mCheckboxes", mCheckboxes);
         return mCheckboxes;
     }
-    handleCheckboxClick = (index) =>{
+    handleCheckboxClick = (mIndex) =>{
         //console.log("hello from handleCheckboxClick method");
         //console.log("index is", index);
         
-        let flag = this.state.checkboxes[index];
+        let flag = this.state.checkboxes[mIndex];
         //console.log("flag is", flag);
         if(flag == true){
-            this.state.checkboxes[index] = false;
+            let temp = this.state.checkboxes;
+            for(let i = 0; i < temp.length; i++){
+                if(i === mIndex){
+                    temp[i] = false;
+                }
+            }
+            this.setState({checkboxes: temp})
         }
         else if(flag == false){
             let count = 0;
@@ -51,7 +57,13 @@ class OrderView extends React.Component{
             }
             if(count < 2){
                 //console.log("count is ", count);
-                this.state.checkboxes[index] = true;
+                let temp = this.state.checkboxes;
+                for(let i = 0; i < temp.length; i++){
+                    if(i === mIndex){
+                        temp[i] = true;
+                    }
+                }
+                this.setState({checkboxes: temp})
             }
         }
         this.setState({checkboxes: this.state.checkboxes});
