@@ -6,6 +6,7 @@ class OrderItem{
     price = 0.00;
     bill = 0;
     confirmed = false;
+    ready = false;
     constructor(menuItem){
         this.name = menuItem.name;
         this.price = menuItem.price;
