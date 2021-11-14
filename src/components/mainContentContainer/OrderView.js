@@ -18,7 +18,20 @@ class OrderView extends React.Component{
 
         mainContent: {
             name: "Main OrderView"
-        }
+        },
+        firstBillModel: {
+            orderID: 0,
+            paid: false,
+            bill: 0,
+            orderItems: []
+        },
+        secondBillModel: {
+            orderID: 0,
+            paid: false,
+            bill: 0,
+            orderItems: []
+        },
+
     }
     // This function setups the state for the checkboxes.
     // This should be run in the constructor of the React.Component
@@ -72,6 +85,93 @@ class OrderView extends React.Component{
         }
         this.setState({checkboxes: this.state.checkboxes});
     }
+    //**************************************************************** */
+    // Food/Drink methods
+    //
+
+    
+    // If zero or two bills are selected, this function does nothing
+    handleFoodDrinkClicked = () =>{
+        console.log("handleFoodDrinkClicked is clicked!");
+        let [firstBill, secondBill] = this.getBillsSelected();
+        console.log("firstBill", firstBill);
+        console.log("secondBill", secondBill);
+        if(firstBill !== 0 && secondBill === 0){
+            //set the BillModel
+            let mOrderItems = this.generateOrderSubView()[firstBill - 1]; //Handle off by 1
+            console.log("mOrderItems", mOrderItems);
+            this.setState(
+                {firstBillModel: {
+                    orderID: this.props.orderProps.tableID,
+                    paid: false,
+                    bill: firstBill,
+                    orderItems: mOrderItems,
+                }
+                }
+            )
+            //set mainContent to render FoodDrinkView
+            this.setState({
+                mainContent:{
+                    name: "FoodDrinkView"
+                }
+            })
+        }
+    }
+    addOrderItems = (mOrderItems) =>{
+        let updatedTempOrderItems = this.state.tempOrderItems.concat(mOrderItems);
+        this.setState({tempOrderItems: updatedTempOrderItems});
+    }
+
+    removeOrderItem = (mOrderItem) =>{
+        this.setState({
+            tempOrderItems: [
+                ...this.state.tempOrderItems.filter(item =>{
+                    return item.id !== mOrderItem.id
+                })
+            ]
+        })
+    }
+    //**************************************************************** */
+    // SplitBill methods
+    //
+    handleSplitClicked = () =>{
+        console.log("handleSplitClicked is clicked!");
+
+    }
+
+    //**************************************************************** */
+    // MergeBill methods
+    //
+    handleMergeClicked = () =>{
+        console.log("handleMergeClicked is clicked");
+
+    }
+
+    //**************************************************************** */
+    // Confirm methods
+    //
+    handleConfirmClicked = () =>{
+        console.log("handleConfirmClicked is clicked!");
+
+    }
+    // Returns the checkboxes selected by bill ID/Number
+    // Zero indicates bill was not chosen
+    // If only one bill is chosen, only bill_1 will be nonzero
+    getBillsSelected = () =>{
+        let bill_1 = 0;
+        let bill_2 = 0;
+        this.state.checkboxes.forEach((element,index) => {
+            if(element === true && bill_1 === 0){
+                bill_1 = index + 1;// In order to handle off by 1
+            }
+            else if(element === true && bill_1 !== 0){
+                bill_2 = index + 1;// In order to handle off by 1
+            }
+        });
+        console.log("bill_1", bill_1);
+        console.log("bill_2", bill_2);
+        return [bill_1,bill_2];
+    }
     // Like in MainScreenOverlay, there are multiple views that
     // need to be dynamically created. Doing it this way allows each
     // possible subview to dictate how it wants to use the parent
@@ -85,10 +185,22 @@ class OrderView extends React.Component{
                     <div id="infoContainer" className={"orderView__info"}>
                         <p className={"orderView__tableNum"}>Table #: {this.props.orderProps.tableID}</p>
                         <div id="buttonsContainer" className={"orderView__buttons"}>
-                            <button id="food/drinkMenu" className={"orderView__button"}>Food/Drink</button>
-                            <button id="splitFunction" className={"orderView__button"}>Split</button>
-                            <button id="mergeFunction" className={"orderView__button"}>Merge</button>
-                            <button id="confirmFunction" className={"orderView__button"}>Confirm</button>
+                            <button id="food/drinkMenu" 
+                            className={"orderView__button"}
+                            onClick={() => this.handleFoodDrinkClicked()}
+                            >Food/Drink</button>
+                            <button id="splitFunction" 
+                            className={"orderView__button"}
+                            onClick={() => this.handleSplitClicked()}
+                            >Split</button>
+                            <button id="mergeFunction" 
+                            className={"orderView__button"}
+                            onClick={() => this.handleMergeClicked()}
+                            >Merge</button>
+                            <button id="confirmFunction" 
+                            className={"orderView__button"}
+                            onClick={() => this.handleConfirmClicked()}
+                            >Confirm</button>
                         </div>
                         <p className={"orderView__orderNum"}>Order # {this.props.orderProps.order.orderID}</p>
                     </div>                  
@@ -116,9 +228,19 @@ class OrderView extends React.Component{
                 </div>
             )
             }
-            case "AddOrderItemsView":{
+            case "FoodDrinkView":{
                 return(
-                    <p>I'm an AddOrderItemsView</p>
+                    <p>I'm a FoodDrinkView</p>
+                )
+            }
+            case "SplitBillView":{
+                return(
+                    <p>I'm a SplitBillView</p>
+                )
+            }
+            case "MergeBillView":{
+                return(
+                    <p>I'm a MergeBillView</p>
                 )
             }
 
@@ -149,24 +271,7 @@ class OrderView extends React.Component{
         }
         return billsArray
     }
-    //**************************************************************** */
-    // Food/Drink methods
-    //
-
-    addOrderItems = (mOrderItems) =>{
-        let updatedTempOrderItems = this.state.tempOrderItems.concat(mOrderItems);
-        this.setState({tempOrderItems: updatedTempOrderItems});
-    }
-
-    removeOrderItem = (mOrderItem) =>{
-        this.setState({
-            tempOrderItems: [
-                ...this.state.tempOrderItems.filter(item =>{
-                    return item.id !== mOrderItem.id
-                })
-            ]
-        })
-    }
+    
     //**************************************************************** */
     // LifeCycle methods
     //
