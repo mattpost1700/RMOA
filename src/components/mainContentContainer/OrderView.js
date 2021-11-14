@@ -1,7 +1,9 @@
 import React from "react";
 import "../../appCSS/order-view.css";
 import Order from "../Order"
+
 import OrderSubView from "./OrderSubView";
+import FoodDrinkView from "./FoodDrinkView";
 // Not sure if this is a good idea or not, but the idea is
 // to have this class represent the OrderModel
 
@@ -154,6 +156,7 @@ class OrderView extends React.Component{
         console.log("handleConfirmClicked is clicked!");
 
     }
+
     // Returns the checkboxes selected by bill ID/Number
     // Zero indicates bill was not chosen
     // If only one bill is chosen, only bill_1 will be nonzero
@@ -230,7 +233,9 @@ class OrderView extends React.Component{
             }
             case "FoodDrinkView":{
                 return(
-                    <p>I'm a FoodDrinkView</p>
+                    <FoodDrinkView
+
+                    ></FoodDrinkView>
                 )
             }
             case "SplitBillView":{
