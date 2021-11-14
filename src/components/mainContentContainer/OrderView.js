@@ -87,6 +87,13 @@ class OrderView extends React.Component{
         }
         this.setState({checkboxes: this.state.checkboxes});
     }
+    backToOrderView = () =>{
+        this.setState({
+            mainContent:{
+                name: "Main OrderView"
+            }
+        })
+    }
     //**************************************************************** */
     // Food/Drink methods
     //
@@ -210,15 +217,16 @@ class OrderView extends React.Component{
                     <div id="orderSubContainer" className={"orderView__container"}>                      
                         {
                         mBillsArray.map((bill, index) =>(
-                            <div className="orderView__order-wrapper">
-                                <input
-                                    className={"orderView__selection"}
-                                    type="checkbox"
-                                    checked={this.state.checkboxes[index]}
-                                    onChange={() => this.handleCheckboxClick(index)}
-                                />
-                            <div className={"orderView__order"}
+                            <div className="orderView__order-wrapper"
                             key={index}
+                            >
+                            <input
+                                className={"orderView__selection"}
+                                type="checkbox"
+                                checked={this.state.checkboxes[index]}
+                                onChange={() => this.handleCheckboxClick(index)}
+                            />
+                            <div className={"orderView__order"}                           
                             > 
                             <OrderSubView
                             billProps={bill}
@@ -234,7 +242,10 @@ class OrderView extends React.Component{
             case "FoodDrinkView":{
                 return(
                     <FoodDrinkView
-
+                    billModelProps={this.state.firstBillModel}
+                    addOrderItemsProps={this.addOrderItems}
+                    removeOrderItemProps={this.removeOrderItem}
+                    backToOrderViewProps={this.backToOrderView}
                     ></FoodDrinkView>
                 )
             }
