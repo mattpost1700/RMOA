@@ -14,7 +14,11 @@ class OrderView extends React.Component{
         tempOrderItems: [],
 
         // An array of booleans
-        checkboxes: []
+        checkboxes: [],
+
+        mainContent: {
+            name: "Main OrderView"
+        }
     }
     // This function setups the state for the checkboxes.
     // This should be run in the constructor of the React.Component
@@ -68,6 +72,59 @@ class OrderView extends React.Component{
         }
         this.setState({checkboxes: this.state.checkboxes});
     }
+    // Like in MainScreenOverlay, there are multiple views that
+    // need to be dynamically created. Doing it this way allows each
+    // possible subview to dictate how it wants to use the parent
+    // container's space
+    generateMainContentView = () =>{
+        switch(this.state.mainContent.name){
+            case "Main OrderView":{
+                let mBillsArray = this.generateOrderSubView();
+            return(
+                <div className={"orderView"}>
+                    <div id="infoContainer" className={"orderView__info"}>
+                        <p className={"orderView__tableNum"}>Table #: {this.props.orderProps.tableID}</p>
+                        <div id="buttonsContainer" className={"orderView__buttons"}>
+                            <button id="food/drinkMenu" className={"orderView__button"}>Food/Drink</button>
+                            <button id="splitFunction" className={"orderView__button"}>Split</button>
+                            <button id="mergeFunction" className={"orderView__button"}>Merge</button>
+                            <button id="confirmFunction" className={"orderView__button"}>Confirm</button>
+                        </div>
+                        <p className={"orderView__orderNum"}>Order # {this.props.orderProps.order.orderID}</p>
+                    </div>                  
+                    <div id="orderSubContainer" className={"orderView__container"}>                      
+                        {
+                        mBillsArray.map((bill, index) =>(
+                            <div className="orderView__order-wrapper">
+                                <input
+                                    className={"orderView__selection"}
+                                    type="checkbox"
+                                    checked={this.state.checkboxes[index]}
+                                    onChange={() => this.handleCheckboxClick(index)}
+                                />
+                            <div className={"orderView__order"}
+                            key={index}
+                            > 
+                            <OrderSubView
+                            billProps={bill}
+                            />
+                            </div>
+                            </div>
+                        ))
+                        }
+                    </div>
+                </div>
+            )
+            }
+            case "AddOrderItemsView":{
+                return(
+                    <p>I'm an AddOrderItemsView</p>
+                )
+            }
+
+        }
+       
+    }
     // This function take the order and separates
     // it into different bills. billsArray is a 2D array.
     generateOrderSubView = () =>{
@@ -118,54 +175,10 @@ class OrderView extends React.Component{
         this.state.checkboxes = this.setCheckboxes();
     }
     render(){
-        let mBillsArray = this.generateOrderSubView();
+        const mainContentView = this.generateMainContentView();
         return(
-            // Cory, what I think would be a good idea is to make
-            // the orderSubContainer a swipable left & right element.
-            // Within that container, we'll generate each bill that
-            // we need. Those bills should be selectable/deselectable.
-            // Depending on how many are selected, the buttons on the
-            // right should have different functions or not have a function
-            // at all i.e. not clickable. I'm naming it OrderSubView
-            // instead of BillView, since BillView will most likely be
-            // used elsewhere.
-            <div className={"orderView"}>
-                <div id="infoContainer" className={"orderView__info"}>
-                    <p className={"orderView__tableNum"}>Table #: {this.props.orderProps.tableID}</p>
-                    <div id="buttonsContainer" className={"orderView__buttons"}>
-                        <button id="food/drinkMenu" className={"orderView__button"}>Food/Drink</button>
-                        <button id="splitFunction" className={"orderView__button"}>Split</button>
-                        <button id="mergeFunction" className={"orderView__button"}>Merge</button>
-                        <button id="confirmFunction" className={"orderView__button"}>Confirm</button>
-                    </div>
-                    <p className={"orderView__orderNum"}>Order # {this.props.orderProps.order.orderID}</p>
-                </div>
-                
-                <div id="orderSubContainer" className={"orderView__container"}>
-                    
-                    {
-                    mBillsArray.map((bill, index) =>(
-                        <div className="orderView__order-wrapper">
-                            <input
-                                className={"orderView__selection"}
-                                type="checkbox"
-                                checked={this.state.checkboxes[index]}
-                                onChange={() => this.handleCheckboxClick(index)}
-                            />
-                        <div className={"orderView__order"}
-                        key={index}
-                        > 
-
-                        <OrderSubView
-                        billProps={bill}
-                        />
-                        </div>
-                        </div>
-                    ))
-                    }
-                </div>
-
-
+            <div>
+            {mainContentView}
             </div>
         )
     }
