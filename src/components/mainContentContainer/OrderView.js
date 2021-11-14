@@ -37,7 +37,7 @@ class OrderView extends React.Component{
         
         let flag = this.state.checkboxes[mIndex];
         //console.log("flag is", flag);
-        if(flag == true){
+        if(flag === true){
             let temp = this.state.checkboxes;
             for(let i = 0; i < temp.length; i++){
                 if(i === mIndex){
@@ -46,11 +46,11 @@ class OrderView extends React.Component{
             }
             this.setState({checkboxes: temp})
         }
-        else if(flag == false){
+        else if(flag === false){
             let count = 0;
             let flags = this.state.checkboxes;
             for(let i = 0; i < flags.length; i++){
-                if(flags[i] == true){
+                if(flags[i] === true){
                     //console.log("flags[i] was ", flags[i]);
                     count = count + 1;
                 }
