@@ -159,10 +159,11 @@ class OrderView extends React.Component{
     //**************************************************************** */
     // Confirm methods
     //
-    constructor(props){
-        super(props);
-        this.state.checkboxes = this.setCheckboxes();
+    handleConfirmClicked = () =>{
+        console.log("handleConfirmClicked is clicked!");
+
     }
+
 
     // Returns the checkboxes selected by bill ID/Number
     // Zero indicates bill was not chosen
@@ -335,8 +336,13 @@ class OrderView extends React.Component{
         );
 
     }
-
-
+    //**************************************************************** */
+    // LifeCycle methods
+    //
+    constructor(props){
+        super(props);
+        this.state.checkboxes = this.setCheckboxes();
+    }
 
     render(){
         const mainContentView = this.generateMainContentView();
