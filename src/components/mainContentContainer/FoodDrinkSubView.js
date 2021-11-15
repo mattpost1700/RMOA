@@ -7,7 +7,7 @@ class FoodDrinkSubView extends React.Component{
         console.log("handleRemoveClicked is clicked");
         console.log("mOrderItem", mOrderItem);
         if(mOrderItem.confirmed === false){
-            this.props.removeOrderItemsProps(mOrderItem);
+            this.props.removeOrderItemProps(mOrderItem);
         }
     }
     // Cory, for the list item in this component, I think putting a 
