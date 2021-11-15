@@ -21,6 +21,7 @@ class FoodDrinkView extends React.Component{
                 </div>
                 <div id="menu">
                 <MenuView 
+                billModelProps={this.props.billModelProps}
                 addOrderItemsProps={this.props.addOrderItemsProps}
                 />
                 </div>

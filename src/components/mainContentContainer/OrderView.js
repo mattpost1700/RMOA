@@ -1,6 +1,6 @@
 import React from "react";
 import "../../appCSS/order-view.css";
-import Order from "../Order"
+import OrderItem from "../OrderItem"
 
 import OrderSubView from "./OrderSubView";
 import FoodDrinkView from "./FoodDrinkView";
@@ -9,6 +9,7 @@ import FoodDrinkView from "./FoodDrinkView";
 
 class OrderView extends React.Component{  
     state ={
+        lastOrderItemIDGenerated: 1000,
         // We'll use state here temporarily keep any OrderItems
         // added to a bill before confirming our selection
         // Since every order has an associated bill, we can
@@ -126,8 +127,17 @@ class OrderView extends React.Component{
             })
         }
     }
-    addOrderItems = (mOrderItems) =>{
-        let updatedTempOrderItems = this.state.tempOrderItems.concat(mOrderItems);
+    generateOrderItemId = () =>{
+        let newOrderItemID = this.state.lastOrderItemIDGenerated + 1;
+        this.setState({lastOrderItemIDGenerated: newOrderItemID});
+        return newOrderItemID;
+    }
+    addOrderItems = (mMenuItem, mBill) =>{
+        let mOrderItem = new OrderItem(mMenuItem);
+        mOrderItem.bill = mBill;
+        mOrderItem.id = this.generateOrderItemId();
+        console.log("mOrderItem to add", mOrderItem);
+        let updatedTempOrderItems = this.state.tempOrderItems.concat(mOrderItem);
         this.setState({tempOrderItems: updatedTempOrderItems});
     }
 
