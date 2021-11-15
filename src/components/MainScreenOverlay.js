@@ -167,7 +167,7 @@ class MainScreenOverlay extends React.Component{
         console.log("In setModelForOrderView");
         console.log("mTable is ", mTable);
         let mOrder = mTable.order;
-        if(mOrder == undefined){
+        if(mOrder === undefined){
             console.log("mOrder was undefined");
             mTable.order = new Order(this.generateNewOrderId());
             mOrder = mTable.order;

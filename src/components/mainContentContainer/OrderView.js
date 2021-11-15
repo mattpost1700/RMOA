@@ -1,7 +1,9 @@
 import React from "react";
 import "../../appCSS/order-view.css";
 import Order from "../Order"
+
 import OrderSubView from "./OrderSubView";
+import FoodDrinkView from "./FoodDrinkView";
 // Not sure if this is a good idea or not, but the idea is
 // to have this class represent the OrderModel
 
@@ -14,7 +16,24 @@ class OrderView extends React.Component{
         tempOrderItems: [],
 
         // An array of booleans
-        checkboxes: []
+        checkboxes: [],
+
+        mainContent: {
+            name: "Main OrderView"
+        },
+        firstBillModel: {
+            orderID: 0,
+            paid: false,
+            bill: 0,
+            orderItems: []
+        },
+        secondBillModel: {
+            orderID: 0,
+            paid: false,
+            bill: 0,
+            orderItems: []
+        },
+
     }
     // This function setups the state for the checkboxes.
     // This should be run in the constructor of the React.Component
@@ -31,30 +50,218 @@ class OrderView extends React.Component{
         console.log("mCheckboxes", mCheckboxes);
         return mCheckboxes;
     }
-    handleCheckboxClick = (index) =>{
+    handleCheckboxClick = (mIndex) =>{
         //console.log("hello from handleCheckboxClick method");
         //console.log("index is", index);
         
-        let flag = this.state.checkboxes[index];
+        let flag = this.state.checkboxes[mIndex];
         //console.log("flag is", flag);
-        if(flag == true){
-            this.state.checkboxes[index] = false;
+        if(flag === true){
+            let temp = this.state.checkboxes;
+            for(let i = 0; i < temp.length; i++){
+                if(i === mIndex){
+                    temp[i] = false;
+                }
+            }
+            this.setState({checkboxes: temp})
         }
-        else if(flag == false){
+        else if(flag === false){
             let count = 0;
             let flags = this.state.checkboxes;
             for(let i = 0; i < flags.length; i++){
-                if(flags[i] == true){
+                if(flags[i] === true){
                     //console.log("flags[i] was ", flags[i]);
                     count = count + 1;
                 }
             }
             if(count < 2){
                 //console.log("count is ", count);
-                this.state.checkboxes[index] = true;
+                let temp = this.state.checkboxes;
+                for(let i = 0; i < temp.length; i++){
+                    if(i === mIndex){
+                        temp[i] = true;
+                    }
+                }
+                this.setState({checkboxes: temp})
             }
         }
         this.setState({checkboxes: this.state.checkboxes});
+    }
+    backToOrderView = () =>{
+        this.setState({
+            mainContent:{
+                name: "Main OrderView"
+            }
+        })
+    }
+    //**************************************************************** */
+    // Food/Drink methods
+    //
+
+    
+    // If zero or two bills are selected, this function does nothing
+    handleFoodDrinkClicked = () =>{
+        console.log("handleFoodDrinkClicked is clicked!");
+        let [firstBill, secondBill] = this.getBillsSelected();
+        console.log("firstBill", firstBill);
+        console.log("secondBill", secondBill);
+        if(firstBill !== 0 && secondBill === 0){
+            //set the BillModel
+            let mOrderItems = this.generateOrderSubView()[firstBill - 1]; //Handle off by 1
+            console.log("mOrderItems", mOrderItems);
+            this.setState(
+                {firstBillModel: {
+                    orderID: this.props.orderProps.tableID,
+                    paid: false,
+                    bill: firstBill,
+                    orderItems: mOrderItems,
+                }
+                }
+            )
+            //set mainContent to render FoodDrinkView
+            this.setState({
+                mainContent:{
+                    name: "FoodDrinkView"
+                }
+            })
+        }
+    }
+    addOrderItems = (mOrderItems) =>{
+        let updatedTempOrderItems = this.state.tempOrderItems.concat(mOrderItems);
+        this.setState({tempOrderItems: updatedTempOrderItems});
+    }
+
+    removeOrderItem = (mOrderItem) =>{
+        this.setState({
+            tempOrderItems: [
+                ...this.state.tempOrderItems.filter(item =>{
+                    return item.id !== mOrderItem.id
+                })
+            ]
+        })
+    }
+    //**************************************************************** */
+    // SplitBill methods
+    //
+    handleSplitClicked = () =>{
+        console.log("handleSplitClicked is clicked!");
+
+    }
+
+    //**************************************************************** */
+    // MergeBill methods
+    //
+    handleMergeClicked = () =>{
+        console.log("handleMergeClicked is clicked");
+
+    }
+
+    //**************************************************************** */
+    // Confirm methods
+    //
+    handleConfirmClicked = () =>{
+        console.log("handleConfirmClicked is clicked!");
+
+    }
+
+    // Returns the checkboxes selected by bill ID/Number
+    // Zero indicates bill was not chosen
+    // If only one bill is chosen, only bill_1 will be nonzero
+    getBillsSelected = () =>{
+        let bill_1 = 0;
+        let bill_2 = 0;
+        this.state.checkboxes.forEach((element,index) => {
+            if(element === true && bill_1 === 0){
+                bill_1 = index + 1;// In order to handle off by 1
+            }
+            else if(element === true && bill_1 !== 0){
+                bill_2 = index + 1;// In order to handle off by 1
+            }
+        });
+        console.log("bill_1", bill_1);
+        console.log("bill_2", bill_2);
+        return [bill_1,bill_2];
+    }
+    // Like in MainScreenOverlay, there are multiple views that
+    // need to be dynamically created. Doing it this way allows each
+    // possible subview to dictate how it wants to use the parent
+    // container's space
+    generateMainContentView = () =>{
+        switch(this.state.mainContent.name){
+            case "Main OrderView":{
+                let mBillsArray = this.generateOrderSubView();
+            return(
+                <div className={"orderView"}>
+                    <div id="infoContainer" className={"orderView__info"}>
+                        <p className={"orderView__tableNum"}>Table #: {this.props.orderProps.tableID}</p>
+                        <div id="buttonsContainer" className={"orderView__buttons"}>
+                            <button id="food/drinkMenu" 
+                            className={"orderView__button"}
+                            onClick={() => this.handleFoodDrinkClicked()}
+                            >Food/Drink</button>
+                            <button id="splitFunction" 
+                            className={"orderView__button"}
+                            onClick={() => this.handleSplitClicked()}
+                            >Split</button>
+                            <button id="mergeFunction" 
+                            className={"orderView__button"}
+                            onClick={() => this.handleMergeClicked()}
+                            >Merge</button>
+                            <button id="confirmFunction" 
+                            className={"orderView__button"}
+                            onClick={() => this.handleConfirmClicked()}
+                            >Confirm</button>
+                        </div>
+                        <p className={"orderView__orderNum"}>Order # {this.props.orderProps.order.orderID}</p>
+                    </div>                  
+                    <div id="orderSubContainer" className={"orderView__container"}>                      
+                        {
+                        mBillsArray.map((bill, index) =>(
+                            <div className="orderView__order-wrapper"
+                            key={index}
+                            >
+                            <input
+                                className={"orderView__selection"}
+                                type="checkbox"
+                                checked={this.state.checkboxes[index]}
+                                onChange={() => this.handleCheckboxClick(index)}
+                            />
+                            <div className={"orderView__order"}                           
+                            > 
+                            <OrderSubView
+                            billProps={bill}
+                            />
+                            </div>
+                            </div>
+                        ))
+                        }
+                    </div>
+                </div>
+            )
+            }
+            case "FoodDrinkView":{
+                return(
+                    <FoodDrinkView
+                    billModelProps={this.state.firstBillModel}
+                    addOrderItemsProps={this.addOrderItems}
+                    removeOrderItemProps={this.removeOrderItem}
+                    backToOrderViewProps={this.backToOrderView}
+                    ></FoodDrinkView>
+                )
+            }
+            case "SplitBillView":{
+                return(
+                    <p>I'm a SplitBillView</p>
+                )
+            }
+            case "MergeBillView":{
+                return(
+                    <p>I'm a MergeBillView</p>
+                )
+            }
+
+        }
+       
     }
     // This function take the order and separates
     // it into different bills. billsArray is a 2D array.
@@ -80,24 +287,7 @@ class OrderView extends React.Component{
         }
         return billsArray
     }
-    //**************************************************************** */
-    // Food/Drink methods
-    //
-
-    addOrderItems = (mOrderItems) =>{
-        let updatedTempOrderItems = this.state.tempOrderItems.concat(mOrderItems);
-        this.setState({tempOrderItems: updatedTempOrderItems});
-    }
-
-    removeOrderItem = (mOrderItem) =>{
-        this.setState({
-            tempOrderItems: [
-                ...this.state.tempOrderItems.filter(item =>{
-                    return item.id !== mOrderItem.id
-                })
-            ]
-        })
-    }
+    
     //**************************************************************** */
     // LifeCycle methods
     //
@@ -106,54 +296,10 @@ class OrderView extends React.Component{
         this.state.checkboxes = this.setCheckboxes();
     }
     render(){
-        let mBillsArray = this.generateOrderSubView();
+        const mainContentView = this.generateMainContentView();
         return(
-            // Cory, what I think would be a good idea is to make
-            // the orderSubContainer a swipable left & right element.
-            // Within that container, we'll generate each bill that
-            // we need. Those bills should be selectable/deselectable.
-            // Depending on how many are selected, the buttons on the
-            // right should have different functions or not have a function
-            // at all i.e. not clickable. I'm naming it OrderSubView
-            // instead of BillView, since BillView will most likely be
-            // used elsewhere.
-            <div className={"orderView"}>
-                <div id="infoContainer" className={"orderView__info"}>
-                    <p className={"orderView__tableNum"}>Table #: {this.props.orderProps.tableID}</p>
-                    <div id="buttonsContainer" className={"orderView__buttons"}>
-                        <button id="food/drinkMenu" className={"orderView__button"}>Food/Drink</button>
-                        <button id="splitFunction" className={"orderView__button"}>Split</button>
-                        <button id="mergeFunction" className={"orderView__button"}>Merge</button>
-                        <button id="confirmFunction" className={"orderView__button"}>Confirm</button>
-                    </div>
-                    <p className={"orderView__orderNum"}>Order # {this.props.orderProps.order.orderID}</p>
-                </div>
-                
-                <div id="orderSubContainer" className={"orderView__container"}>
-                    
-                    {
-                    mBillsArray.map((bill, index) =>(
-                        <div className="orderView__order-wrapper">
-                            <input
-                                className={"orderView__selection"}
-                                type="checkbox"
-                                checked={this.state.checkboxes[index]}
-                                onChange={() => this.handleCheckboxClick(index)}
-                            />
-                        <div className={"orderView__order"}
-                        key={index}
-                        > 
-
-                        <OrderSubView
-                        billProps={bill}
-                        />
-                        </div>
-                        </div>
-                    ))
-                    }
-                </div>
-
-
+            <div>
+            {mainContentView}
             </div>
         )
     }
