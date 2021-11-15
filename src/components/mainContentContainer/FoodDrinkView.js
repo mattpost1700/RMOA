@@ -1,6 +1,6 @@
 import React from "react";
 import FoodDrinkSubView from "./FoodDrinkSubView";
-
+import MenuView from "./MenuView";
 class FoodDrinkView extends React.Component{
     handleBackToOrderViewClicked = () =>{
         console.log("handleBackToOrderViewClicked is clicked!");
@@ -20,7 +20,9 @@ class FoodDrinkView extends React.Component{
                 />
                 </div>
                 <div id="menu">
-
+                <MenuView 
+                addOrderItemsProps={this.props.addOrderItemsProps}
+                />
                 </div>
             </div>
         )
