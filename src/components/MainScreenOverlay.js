@@ -64,13 +64,13 @@ class MainScreenOverlay extends React.Component{
                 order: MockOrderLong,
             },
             {
-                tableID: 3,
+                tableID: 2,
                 status: "free",
                 capacity: 4,
                 order: MockOrder,
             },
             {
-                tableID: 2,
+                tableID: 3,
                 status: "full",
                 capacity: 4,
                 order: undefined

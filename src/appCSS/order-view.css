@@ -1,8 +1,7 @@
-.orderView{
+.content{
     width: 100%;
-    grid-template-rows: 1fr 7fr;
-    display: grid;
 }
+
 .orderView__info{
     display: flex;
     justify-content: space-between;
@@ -16,7 +15,7 @@
 }
 
 .orderView__container{
-    padding: 25px;
+    padding: 25px 25px 20px 25px;
     display: flex;
     width: 100%;
     overflow-x: auto;
@@ -68,9 +67,12 @@
 }
 
 .orderView__order-wrapper:hover{
-    margin-left: 10px;
-    margin-right: 60px;
+    margin-left: 20px;
+    margin-right: 70px;
 
+}
+.orderView__order-wrapper:first-child:hover{
+    margin-left: 0;
 }
 
 .orderView__order-wrapper:hover .orderView__order{
