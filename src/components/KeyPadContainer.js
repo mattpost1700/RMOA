@@ -34,15 +34,15 @@ class KeyPadContainer extends React.Component {
     render(){
         return(
             <div className={"login"}>
-                <h1 className={"login__title"}>Restaurant Login</h1>
+                <h1 className={"login__title"}>Login</h1>
                 <div className="login__content">
                     <div className={"login__details"}>
-                        <label htmlFor="empPin">Pin</label>
                         <input
                             className={"login__pin"}
                             id="empPin"
                             type="password"
                             value={this.state.pin}
+                            placeholder={"PIN"}
                         />
                     </div>
                     <div className={"keypad-buttons"}>

@@ -111,6 +111,7 @@
     animation:  inactive 0.8s;
     z-index: -1;
 }
+
 .orderView__active{
     animation: active 0.8s;
 }
@@ -124,12 +125,11 @@
     0%{
         top: 10px;
         right: -10px;
-        z-index: 0;
+        z-index: -5;
     }
     50%{
         top: -400px;
         right: -10px;
-        z-index: 0;
     }
     100%{
         top: 0;
