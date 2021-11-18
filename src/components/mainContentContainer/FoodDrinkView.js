@@ -3,22 +3,24 @@ import FoodDrinkSubView from "./FoodDrinkSubView";
 import MenuView from "./MenuView";
 class FoodDrinkView extends React.Component{
     state = {
-        tempOrderItems: [],
+        mSwitch: -1,
+        //tempOrderItems: [],
     }
     handleBackToOrderViewClicked = () =>{
         console.log("handleBackToOrderViewClicked is clicked!");
         this.props.backToOrderViewProps();
     }
-    getTempOrderItems = () =>{
-        return this.state.tempOrderItems;
-    }
+    // getTempOrderItems = () =>{
+    //     return this.state.tempOrderItems;
+    // }
     modifyItemsCallback = (mOrderItems) =>{      
-        this.setState({
-            tempOrderItems: mOrderItems
-        })
+        // this.setState({
+        //     tempOrderItems: mOrderItems
+        // })
+        this.setState({mSwitch: this.state.mSwitch * -1})
     }
     render(){
-        let morderItemsProps = this.props.billModelProps.orderItems.concat(this.state.tempOrderItems);
+        let morderItemsProps = this.props.billModelProps.orderItems.concat(this.props.getTempOrderItemsProps());
         return(
             <div>
                 <button 
@@ -38,7 +40,7 @@ class FoodDrinkView extends React.Component{
                 orderItemsProps={morderItemsProps}
                 billModelProps={this.props.billModelProps}
                 addOrderItemsProps={this.props.addOrderItemsProps}
-                modifyItemsCallback={this.modifyItemsCallback}
+                modifyItemsCallbackProps={this.modifyItemsCallback}
                 />
                 </div>
             </div>

@@ -139,18 +139,19 @@ class OrderView extends React.Component{
         console.log("mOrderItem to add", mOrderItem);
         let updatedTempOrderItems = this.state.tempOrderItems.concat(mOrderItem);
         this.setState({tempOrderItems: updatedTempOrderItems});
-        callback(this.state.tempOrderItems);
+        callback(updatedTempOrderItems);
     }
 
     removeOrderItem = (mOrderItem,callback) =>{
-        this.setState({
-            tempOrderItems: [
-                ...this.state.tempOrderItems.filter(item =>{
-                    return item.id !== mOrderItem.id
-                })
-            ]
-        })
-        callback(this.state.tempOrderItems);
+        let temp = [...this.state.tempOrderItems.filter(item =>{
+            return item.id !== mOrderItem.id;
+        })]
+        this.setState({tempOrderItems: temp})
+        callback(temp);
+    }
+
+    getTempOrderItems = () =>{
+        return this.state.tempOrderItems;
     }
     //**************************************************************** */
     // SplitBill methods
@@ -255,6 +256,7 @@ class OrderView extends React.Component{
                 return(
                     <FoodDrinkView
                     billModelProps={this.state.firstBillModel}
+                    getTempOrderItemsProps={this.getTempOrderItems}
                     addOrderItemsProps={this.addOrderItems}
                     removeOrderItemProps={this.removeOrderItem}
                     backToOrderViewProps={this.backToOrderView}
@@ -306,6 +308,8 @@ class OrderView extends React.Component{
     constructor(props){
         super(props);
         this.state.checkboxes = this.setCheckboxes();
+        let numOfOrderItems = this.props.orderProps.order.orderItems.length
+        this.state.lastOrderItemIDGenerated = 1000 + numOfOrderItems;
     }
     render(){
         const mainContentView = this.generateMainContentView();
