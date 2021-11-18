@@ -108,7 +108,8 @@ class OrderView extends React.Component{
         console.log("secondBill", secondBill);
         if(firstBill !== 0 && secondBill === 0){
             //set the BillModel
-            let mOrderItems = this.generateOrderSubView()[firstBill - 1]; //Handle off by 1
+            //Cannot use generateOrderSubView()
+            let mOrderItems = this.getConfirmedOrderItemsBills()[firstBill - 1]; //Handle off by 1
             console.log("mOrderItems", mOrderItems);
             this.setState(
                 {firstBillModel: {
@@ -301,7 +302,22 @@ class OrderView extends React.Component{
         }
         return billsArray
     }
-    
+    getConfirmedOrderItemsBills = () =>{
+        let billsArray = []
+        let numOfBills = this.props.orderProps.order.totalBills;
+        for(let i = 0; i < numOfBills; i++){
+            //Pushing empty arrays to fill
+            billsArray.push([]);
+        }
+        //These are the confirmed OrderItems
+        let mOrderItems = this.props.orderProps.order.orderItems;
+        for(let i = 0; i < mOrderItems.length; i++){
+            // The array value will be minus 1 of the actual bill
+            let mBill = mOrderItems[i].bill - 1;
+            billsArray[mBill].push(mOrderItems[i]);
+        }
+        return billsArray
+    }
     //**************************************************************** */
     // LifeCycle methods
     //
