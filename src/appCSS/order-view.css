@@ -118,6 +118,7 @@
 
 .orderView__next-active{
     opacity: 0;
+    pointer-events: none;
 }
 
 
@@ -129,7 +130,7 @@
     }
     50%{
         top: -400px;
-        right: -10px;
+        right: 0;
     }
     100%{
         top: 0;

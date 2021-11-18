@@ -14,15 +14,15 @@
     position: absolute;
     bottom: 0;
     padding: 20px 12px;
+    transition: 0.4s;
 }
 
 .login-button__button:hover,
-.login-button__button:focus{
-    background-color: #FFD20C;
-}
+.login-button__button:focus,
 .login-button__button:active{
     background-color: #FFD20C;
 }
+
 
 
 
