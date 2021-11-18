@@ -132,16 +132,17 @@ class OrderView extends React.Component{
         this.setState({lastOrderItemIDGenerated: newOrderItemID});
         return newOrderItemID;
     }
-    addOrderItems = (mMenuItem, mBill) =>{
+    addOrderItems = (mMenuItem, mBill, callback) =>{
         let mOrderItem = new OrderItem(mMenuItem);
         mOrderItem.bill = mBill;
         mOrderItem.id = this.generateOrderItemId();
         console.log("mOrderItem to add", mOrderItem);
         let updatedTempOrderItems = this.state.tempOrderItems.concat(mOrderItem);
         this.setState({tempOrderItems: updatedTempOrderItems});
+        callback(this.state.tempOrderItems);
     }
 
-    removeOrderItem = (mOrderItem) =>{
+    removeOrderItem = (mOrderItem,callback) =>{
         this.setState({
             tempOrderItems: [
                 ...this.state.tempOrderItems.filter(item =>{
@@ -149,6 +150,7 @@ class OrderView extends React.Component{
                 })
             ]
         })
+        callback(this.state.tempOrderItems);
     }
     //**************************************************************** */
     // SplitBill methods
