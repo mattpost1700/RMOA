@@ -4,19 +4,13 @@ import MenuView from "./MenuView";
 class FoodDrinkView extends React.Component{
     state = {
         mSwitch: -1,
-        //tempOrderItems: [],
     }
     handleBackToOrderViewClicked = () =>{
         console.log("handleBackToOrderViewClicked is clicked!");
         this.props.backToOrderViewProps();
     }
-    // getTempOrderItems = () =>{
-    //     return this.state.tempOrderItems;
-    // }
-    modifyItemsCallback = (mOrderItems) =>{      
-        // this.setState({
-        //     tempOrderItems: mOrderItems
-        // })
+    
+    modifyItemsCallback = () =>{      
         this.setState({mSwitch: this.state.mSwitch * -1})
     }
     render(){

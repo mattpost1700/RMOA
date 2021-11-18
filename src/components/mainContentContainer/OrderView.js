@@ -140,7 +140,7 @@ class OrderView extends React.Component{
         console.log("mOrderItem to add", mOrderItem);
         let updatedTempOrderItems = this.state.tempOrderItems.concat(mOrderItem);
         this.setState({tempOrderItems: updatedTempOrderItems});
-        callback(updatedTempOrderItems);
+        callback();
     }
 
     removeOrderItem = (mOrderItem,callback) =>{
@@ -148,7 +148,7 @@ class OrderView extends React.Component{
             return item.id !== mOrderItem.id;
         })]
         this.setState({tempOrderItems: temp})
-        callback(temp);
+        callback();
     }
 
     getTempOrderItems = () =>{
