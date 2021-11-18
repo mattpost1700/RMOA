@@ -1,6 +1,6 @@
 import React from "react";
 import "../../appCSS/order-view.css";
-import Order from "../Order"
+import OrderItem from "../OrderItem"
 
 import OrderSubView from "./OrderSubView";
 import FoodDrinkView from "./FoodDrinkView";
@@ -9,6 +9,7 @@ import FoodDrinkView from "./FoodDrinkView";
 
 class OrderView extends React.Component{  
     state ={
+        lastOrderItemIDGenerated: 1000,
         // We'll use state here temporarily keep any OrderItems
         // added to a bill before confirming our selection
         // Since every order has an associated bill, we can
@@ -98,7 +99,7 @@ class OrderView extends React.Component{
     // Food/Drink methods
     //
 
-
+    
     // If zero or two bills are selected, this function does nothing
     handleFoodDrinkClicked = () =>{
         console.log("handleFoodDrinkClicked is clicked!");
@@ -107,7 +108,8 @@ class OrderView extends React.Component{
         console.log("secondBill", secondBill);
         if(firstBill !== 0 && secondBill === 0){
             //set the BillModel
-            let mOrderItems = this.generateOrderSubView()[firstBill - 1]; //Handle off by 1
+            //Cannot use generateOrderSubView()
+            let mOrderItems = this.getConfirmedOrderItemsBills()[firstBill - 1]; //Handle off by 1
             console.log("mOrderItems", mOrderItems);
             this.setState(
                 {firstBillModel: {
@@ -126,19 +128,31 @@ class OrderView extends React.Component{
             })
         }
     }
-    addOrderItems = (mOrderItems) =>{
-        let updatedTempOrderItems = this.state.tempOrderItems.concat(mOrderItems);
+    generateOrderItemId = () =>{
+        let newOrderItemID = this.state.lastOrderItemIDGenerated + 1;
+        this.setState({lastOrderItemIDGenerated: newOrderItemID});
+        return newOrderItemID;
+    }
+    addOrderItems = (mMenuItem, mBill, callback) =>{
+        let mOrderItem = new OrderItem(mMenuItem);
+        mOrderItem.bill = mBill;
+        mOrderItem.id = this.generateOrderItemId();
+        console.log("mOrderItem to add", mOrderItem);
+        let updatedTempOrderItems = this.state.tempOrderItems.concat(mOrderItem);
         this.setState({tempOrderItems: updatedTempOrderItems});
+        callback();
     }
 
-    removeOrderItem = (mOrderItem) =>{
-        this.setState({
-            tempOrderItems: [
-                ...this.state.tempOrderItems.filter(item =>{
-                    return item.id !== mOrderItem.id
-                })
-            ]
-        })
+    removeOrderItem = (mOrderItem,callback) =>{
+        let temp = [...this.state.tempOrderItems.filter(item =>{
+            return item.id !== mOrderItem.id;
+        })]
+        this.setState({tempOrderItems: temp})
+        callback();
+    }
+
+    getTempOrderItems = () =>{
+        return this.state.tempOrderItems;
     }
     //**************************************************************** */
     // SplitBill methods
@@ -163,7 +177,6 @@ class OrderView extends React.Component{
         console.log("handleConfirmClicked is clicked!");
 
     }
-
 
     // Returns the checkboxes selected by bill ID/Number
     // Zero indicates bill was not chosen
@@ -196,19 +209,19 @@ class OrderView extends React.Component{
                     <div id="infoContainer" className={"orderView__info"}>
                         <p className={"orderView__tableNum"}>Table #: {this.props.orderProps.tableID}</p>
                         <div id="buttonsContainer" className={"orderView__buttons"}>
-                            <button id="food/drinkMenu"
+                            <button id="food/drinkMenu" 
                             className={"orderView__button"}
                             onClick={() => this.handleFoodDrinkClicked()}
                             >Food/Drink</button>
-                            <button id="splitFunction"
+                            <button id="splitFunction" 
                             className={"orderView__button"}
                             onClick={() => this.handleSplitClicked()}
                             >Split</button>
-                            <button id="mergeFunction"
+                            <button id="mergeFunction" 
                             className={"orderView__button"}
                             onClick={() => this.handleMergeClicked()}
                             >Merge</button>
-                            <button id="confirmFunction"
+                            <button id="confirmFunction" 
                             className={"orderView__button"}
                             onClick={() => this.handleConfirmClicked()}
                             >Confirm</button>
@@ -241,7 +254,7 @@ class OrderView extends React.Component{
             }
 
         }
-
+       
     }
     // This function take the order and separates
     // it into different bills. billsArray is a 2D array.
@@ -267,131 +280,31 @@ class OrderView extends React.Component{
         }
         return billsArray
     }
-
-
-
-    //This function breaks the bills down if they are too large
-    //This does not affect the actual data structure of a bill
-    generateBills = (mBillsArray) =>{
-        //number of items per sub bill
-        let numPerBill = 7;
-
-        let billGroup = [];
-        let bills = [];
-        let olNum; //starting number for ordered list
-        //loop through each bill
-        for(let idx = 0; idx < mBillsArray.length; idx++) {
-            billGroup = [];
-
-            //split the items in the bill into pages with length of numPerBill
-            for (let i = 0; i < mBillsArray[idx].length; i += numPerBill) {
-
-
-                let val = [];
-
-                for (let j = 0; j < numPerBill; j++) {
-                    if (mBillsArray[idx][i + j] !== undefined)
-                        val[j] = mBillsArray[idx][i + j];
-                }
-                billGroup.push(val);
-            }
-
-
-
-            let page = [];
-
-            let active = 'orderView__active';
-            //loop for each page of the bill
-            for (let i = 0; i < billGroup.length; i++) {
-                olNum = i * numPerBill + 1;
-                if(i > 0){
-                    active = 'orderView__inactive';
-                }
-                page.push(
-                    <div className={"orderView__order-subwrapper " + active} id={"bill"+billGroup[i][0].bill + "-page" + i}>
-
-                        <div className={"orderView__order"}
-                             key={idx}
-                        >
-                            <p className={"orderView__billnum"}>Bill # {billGroup[i][0].bill}</p>
-                            <OrderSubView
-                                billProps={billGroup[i]}
-                                olStart={olNum}
-                            />
-                        </div>
-                    </div>
-                )
-            }
-
-
-            //add the order wrapper to the bill pages
-            bills.push(<div className={"orderView__order-wrapper"} id={"bill" + (idx+1)}>
-
-                <input
-                    className={"orderView__selection"}
-                    type="checkbox"
-                    checked={this.state.checkboxes[idx]}
-                    onChange={() => this.handleCheckboxClick(idx)}
-                />
-                {page}
-
-                    <button className={"orderView__next"} onClick={() => {this.cycleBill(idx+1)}}>Next</button>
-
-            </div>);
+    getConfirmedOrderItemsBills = () =>{
+        let billsArray = []
+        let numOfBills = this.props.orderProps.order.totalBills;
+        for(let i = 0; i < numOfBills; i++){
+            //Pushing empty arrays to fill
+            billsArray.push([]);
         }
-
-        return(
-            <div id="orderSubContainer" className={"orderView__container no-anim"}>
-                {bills}
-            </div>
-        );
-
+        //These are the confirmed OrderItems
+        let mOrderItems = this.props.orderProps.order.orderItems;
+        for(let i = 0; i < mOrderItems.length; i++){
+            // The array value will be minus 1 of the actual bill
+            let mBill = mOrderItems[i].bill - 1;
+            billsArray[mBill].push(mOrderItems[i]);
+        }
+        return billsArray
     }
-
-    //Change bill page
-    cycleBill = (bill) => {
-        //prevent animation on page load
-        if(document.getElementsByClassName("no-anim").length > 0) {
-            document.getElementsByClassName("no-anim")[0].classList.remove("no-anim");
-        }
-
-        let curr = document.getElementById("bill" + bill);
-        let pages = curr.getElementsByClassName("orderView__order-subwrapper");
-        for(let i = 0; i < pages.length; i++){
-            if(pages[i].classList.contains('orderView__active')){
-                pages[i].classList.remove('orderView__active');
-                pages[i].classList.add('orderView__inactive');
-                if(i+1 < pages.length){
-                    pages[i+1].classList.add('orderView__active');
-                    pages[i+1].classList.remove('orderView__inactive');
-                }else{
-                    pages[0].classList.add('orderView__active');
-                    pages[0].classList.remove('orderView__inactive');
-                }
-
-                let button = curr.getElementsByClassName("orderView__next")[0];
-                button.classList.add("orderView__next-active");
-                setTimeout(function(){
-                    button.classList.remove("orderView__next-active");
-                }, 800)
-
-                return;
-            }
-        }
-
-    }
-
-
-
-
     //**************************************************************** */
     // LifeCycle methods
     //
     constructor(props){
         super(props);
         this.state.checkboxes = this.setCheckboxes();
+        let numOfOrderItems = this.props.orderProps.order.orderItems.length
+        this.state.lastOrderItemIDGenerated = 1000 + numOfOrderItems;
     }
-
     render(){
         const mainContentView = this.generateMainContentView();
         return(
