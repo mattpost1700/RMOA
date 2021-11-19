@@ -21,12 +21,12 @@ class FoodDrinkSubView extends React.Component{
             <ol className={"orderList"}>
                 {this.props.orderItemsProps.map((mOrderItem, index) =>(
                     <li className={"orderList__item"}
-                    key={index}
+                        key={index}
                     >
                         <span className={"orderList__name"}>{mOrderItem.name} - </span> <span className={"orderList__price"}> ${mOrderItem.price}</span>
-                    <button 
-                    onClick={() => this.handleRemoveClicked(mOrderItem)}
-                    >Remove</button>
+                        <button
+                            onClick={() => this.handleRemoveClicked(mOrderItem)}
+                        >Remove</button>
                     </li>
                 ))}
             </ol>

@@ -236,6 +236,7 @@ class OrderView extends React.Component{
                 return(
                     <FoodDrinkView
                     billModelProps={this.state.firstBillModel}
+                    getTempOrderItemsProps={this.getTempOrderItems}
                     addOrderItemsProps={this.addOrderItems}
                     removeOrderItemProps={this.removeOrderItem}
                     backToOrderViewProps={this.backToOrderView}

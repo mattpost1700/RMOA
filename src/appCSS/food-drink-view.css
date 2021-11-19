@@ -1,0 +1,60 @@
+.food-drink{
+    height: 100%;
+    position: relative;
+}
+.food-drink__wrapper{
+    display: flex;
+    justify-content: space-around;
+
+    padding: 75px 25px 25px 25px;
+    height: 100%;
+}
+
+.food-drink__bill{
+    transition: 0.4s;
+    padding: 25px;
+    min-width: 250px;
+    border: 1px solid;
+    position: relative;
+    height: 100%;
+    background: #fff;
+    box-shadow: -5px 3px 3px #aaaaaa;
+
+}
+.food-drink__subbill{
+    height: 100%;
+    overflow: auto;
+}
+
+.food-drink__bill::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(rgba(255,255,255,1) 40%, transparent 80%);
+}
+.food-drink__bill::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(transparent -10%, rgba(255,255,255,1) 31%);
+}
+
+.food-drink__subbill::-webkit-scrollbar{
+    display: none;
+}
+
+.food-drink__bill-num{
+    text-align: center;
+}
+
+.food-drink__back{
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}

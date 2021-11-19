@@ -27,12 +27,12 @@ class MenuView extends React.Component{
             <ol className={"orderList"}>
                 {this.state.menu.map((mMenuItem, index) =>(
                     <li className={"orderList__item"}
-                    key={index}
+                        key={index}
                     >
                         <span className={"orderList__name"}>{mMenuItem.name} - </span> <span className={"orderList__price"}> ${mMenuItem.price}</span>
-                    <button 
-                    onClick={() => this.handleAddClicked(mMenuItem)}
-                    >Add</button>
+                        <button
+                            onClick={() => this.handleAddClicked(mMenuItem)}
+                        >Add</button>
                     </li>
                 ))}
             </ol>
