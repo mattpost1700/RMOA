@@ -14,7 +14,8 @@ class FoodDrinkView extends React.Component{
         this.setState({mSwitch: this.state.mSwitch * -1})
     }
     render(){
-        let morderItemsProps = this.props.billModelProps.orderItems.concat(this.props.getTempOrderItemsProps());
+        let mBill = this.props.billModelProps.bill;
+        let morderItemsProps = this.props.billModelProps.orderItems.concat(this.props.getTempOrderItemsBillsProps()[mBill-1]);
         return(
             <div>
                 <button 

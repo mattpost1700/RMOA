@@ -257,7 +257,7 @@ class OrderView extends React.Component{
                 return(
                     <FoodDrinkView
                     billModelProps={this.state.firstBillModel}
-                    getTempOrderItemsProps={this.getTempOrderItems}
+                    getTempOrderItemsBillsProps={this.getTempOrderItemsBills}
                     addOrderItemsProps={this.addOrderItems}
                     removeOrderItemProps={this.removeOrderItem}
                     backToOrderViewProps={this.backToOrderView}
@@ -303,7 +303,7 @@ class OrderView extends React.Component{
         return billsArray
     }
     getConfirmedOrderItemsBills = () =>{
-        let billsArray = []
+        let billsArray = [];
         let numOfBills = this.props.orderProps.order.totalBills;
         for(let i = 0; i < numOfBills; i++){
             //Pushing empty arrays to fill
@@ -315,6 +315,21 @@ class OrderView extends React.Component{
             // The array value will be minus 1 of the actual bill
             let mBill = mOrderItems[i].bill - 1;
             billsArray[mBill].push(mOrderItems[i]);
+        }
+        return billsArray
+    }
+    getTempOrderItemsBills = () =>{
+        let billsArray = [];
+        let numOfBills = this.props.orderProps.order.totalBills;
+        for(let i = 0; i < numOfBills; i++){
+            //Pushing empty arrays to fill
+            billsArray.push([]);
+        }
+        let mTempOrderItems = this.state.tempOrderItems;
+        for(let i = 0; i < mTempOrderItems.length; i++){
+            // The array value will be minus 1 of the actual bill
+            let mBill = mTempOrderItems[i].bill - 1;
+            billsArray[mBill].push(mTempOrderItems[i]);
         }
         return billsArray
     }
