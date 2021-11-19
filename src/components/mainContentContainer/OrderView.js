@@ -99,7 +99,7 @@ class OrderView extends React.Component{
     // Food/Drink methods
     //
 
-    
+
     // If zero or two bills are selected, this function does nothing
     handleFoodDrinkClicked = () =>{
         console.log("handleFoodDrinkClicked is clicked!");
@@ -178,6 +178,7 @@ class OrderView extends React.Component{
 
     }
 
+
     // Returns the checkboxes selected by bill ID/Number
     // Zero indicates bill was not chosen
     // If only one bill is chosen, only bill_1 will be nonzero
@@ -209,19 +210,19 @@ class OrderView extends React.Component{
                     <div id="infoContainer" className={"orderView__info"}>
                         <p className={"orderView__tableNum"}>Table #: {this.props.orderProps.tableID}</p>
                         <div id="buttonsContainer" className={"orderView__buttons"}>
-                            <button id="food/drinkMenu" 
+                            <button id="food/drinkMenu"
                             className={"orderView__button"}
                             onClick={() => this.handleFoodDrinkClicked()}
                             >Food/Drink</button>
-                            <button id="splitFunction" 
+                            <button id="splitFunction"
                             className={"orderView__button"}
                             onClick={() => this.handleSplitClicked()}
                             >Split</button>
-                            <button id="mergeFunction" 
+                            <button id="mergeFunction"
                             className={"orderView__button"}
                             onClick={() => this.handleMergeClicked()}
                             >Merge</button>
-                            <button id="confirmFunction" 
+                            <button id="confirmFunction"
                             className={"orderView__button"}
                             onClick={() => this.handleConfirmClicked()}
                             >Confirm</button>
@@ -255,7 +256,7 @@ class OrderView extends React.Component{
             }
 
         }
-       
+
     }
     // This function take the order and separates
     // it into different bills. billsArray is a 2D array.
@@ -282,7 +283,7 @@ class OrderView extends React.Component{
         return billsArray
     }
     getConfirmedOrderItemsBills = () =>{
-        let billsArray = []
+        let billsArray = [];
         let numOfBills = this.props.orderProps.order.totalBills;
         for(let i = 0; i < numOfBills; i++){
             //Pushing empty arrays to fill
@@ -297,6 +298,22 @@ class OrderView extends React.Component{
         }
         return billsArray
     }
+    getTempOrderItemsBills = () =>{
+        let billsArray = [];
+        let numOfBills = this.props.orderProps.order.totalBills;
+        for(let i = 0; i < numOfBills; i++){
+            //Pushing empty arrays to fill
+            billsArray.push([]);
+        }
+        let mTempOrderItems = this.state.tempOrderItems;
+        for(let i = 0; i < mTempOrderItems.length; i++){
+            // The array value will be minus 1 of the actual bill
+            let mBill = mTempOrderItems[i].bill - 1;
+            billsArray[mBill].push(mTempOrderItems[i]);
+        }
+        return billsArray
+    }
+
 
 
     //This function breaks the bills down if they are too large
@@ -364,7 +381,7 @@ class OrderView extends React.Component{
                 />
                 {page}
 
-                <button className={"orderView__next"} onClick={() => {this.cycleBill(idx+1)}}>Next</button>
+                    <button className={"orderView__next"} onClick={() => {this.cycleBill(idx+1)}}>Next</button>
 
             </div>);
         }
@@ -411,6 +428,8 @@ class OrderView extends React.Component{
     }
 
 
+
+
     //**************************************************************** */
     // LifeCycle methods
     //
@@ -420,6 +439,7 @@ class OrderView extends React.Component{
         let numOfOrderItems = this.props.orderProps.order.orderItems.length
         this.state.lastOrderItemIDGenerated = 1000 + numOfOrderItems;
     }
+
     render(){
         const mainContentView = this.generateMainContentView();
         return(
