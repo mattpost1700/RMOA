@@ -4,6 +4,7 @@ import OrderItem from "../OrderItem"
 
 import OrderSubView from "./OrderSubView";
 import FoodDrinkView from "./FoodDrinkView";
+import SplitBillView from "./SplitBillView";
 // Not sure if this is a good idea or not, but the idea is
 // to have this class represent the OrderModel
 
@@ -159,7 +160,31 @@ class OrderView extends React.Component{
     //
     handleSplitClicked = () =>{
         console.log("handleSplitClicked is clicked!");
-
+        console.log("handleFoodDrinkClicked is clicked!");
+        let [firstBill, secondBill] = this.getBillsSelected();
+        console.log("firstBill", firstBill);
+        console.log("secondBill", secondBill);
+        if(firstBill !== 0 && secondBill === 0){
+            //set the BillModel
+            //Cannot use generateOrderSubView()
+            let mOrderItems = this.getConfirmedOrderItemsBills()[firstBill - 1]; //Handle off by 1
+            console.log("mOrderItems", mOrderItems);
+            this.setState(
+                {firstBillModel: {
+                    orderID: this.props.orderProps.tableID,
+                    paid: false,
+                    bill: firstBill,
+                    orderItems: mOrderItems,
+                }
+                }
+            )
+            //set mainContent to render FoodDrinkView
+            this.setState({
+                mainContent:{
+                    name: "SplitBillView"
+                }
+            })
+        }
     }
 
     //**************************************************************** */
@@ -246,7 +271,11 @@ class OrderView extends React.Component{
             }
             case "SplitBillView":{
                 return(
-                    <p>I'm a SplitBillView</p>
+                    <SplitBillView
+                    billModelProps={this.state.firstBillModel}
+                    getTempOrderItemsBillsProps={this.getTempOrderItemsBills}
+                    backToOrderViewProps={this.backToOrderView}
+                    />
                 )
             }
             case "MergeBillView":{
