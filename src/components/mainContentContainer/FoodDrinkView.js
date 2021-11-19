@@ -14,6 +14,12 @@ class FoodDrinkView extends React.Component{
     modifyItemsCallback = () =>{
         this.setState({mSwitch: this.state.mSwitch * -1})
     }
+
+
+    scrollToBottom = () => {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    }
+
     render(){
         let mBill = this.props.billModelProps.bill;
         let morderItemsProps = this.props.billModelProps.orderItems.concat(this.props.getTempOrderItemsBillsProps()[mBill-1]);
@@ -25,7 +31,7 @@ class FoodDrinkView extends React.Component{
                 >Back to Orders</button>
                 <div className="food-drink__wrapper">
                 <div id="bill" className={"food-drink__bill"}>
-                    <div className="food-drink__subbill">
+
                     <p className={"food-drink__bill-num"}>Bill #{morderItemsProps[0].bill}</p>
                     <FoodDrinkSubView
                         orderItemsProps={morderItemsProps}
@@ -33,7 +39,7 @@ class FoodDrinkView extends React.Component{
                         removeOrderItemProps={this.props.removeOrderItemProps}
                         modifyItemsCallbackProps={this.modifyItemsCallback}
                     />
-                    </div>
+                    <div ref={(el) => {this.messagesEnd = el;}}/>
                 </div>
                 <div id="menu" className={"food-drink__menu"}>
                     <MenuView
@@ -41,6 +47,7 @@ class FoodDrinkView extends React.Component{
                         billModelProps={this.props.billModelProps}
                         addOrderItemsProps={this.props.addOrderItemsProps}
                         modifyItemsCallbackProps={this.modifyItemsCallback}
+                        scrollToBottom={this.scrollToBottom}
                     />
                 </div>
                 </div>

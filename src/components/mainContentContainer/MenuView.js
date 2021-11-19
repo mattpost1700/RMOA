@@ -12,6 +12,7 @@ class MenuView extends React.Component{
         let mBill = this.props.billModelProps.bill;
         console.log("mBill", mBill);
         this.props.addOrderItemsProps(mMenuItem, mBill,this.props.modifyItemsCallbackProps);
+        this.props.scrollToBottom();
     }
     // Matt, this is a good place for a database call
     // Right now, mock Menu data will come from the testFiles

@@ -236,11 +236,11 @@ class OrderView extends React.Component{
             case "FoodDrinkView":{
                 return(
                     <FoodDrinkView
-                    billModelProps={this.state.firstBillModel}
-                    getTempOrderItemsProps={this.getTempOrderItems}
-                    addOrderItemsProps={this.addOrderItems}
-                    removeOrderItemProps={this.removeOrderItem}
-                    backToOrderViewProps={this.backToOrderView}
+                        billModelProps={this.state.firstBillModel}
+                        getTempOrderItemsBillsProps={this.getTempOrderItemsBills}
+                        addOrderItemsProps={this.addOrderItems}
+                        removeOrderItemProps={this.removeOrderItem}
+                        backToOrderViewProps={this.backToOrderView}
                     />
                 )
             }

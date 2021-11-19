@@ -19,16 +19,13 @@
     height: 100%;
     background: #fff;
     box-shadow: -5px 3px 3px #aaaaaa;
-
-}
-.food-drink__subbill{
-    height: 100%;
     overflow: auto;
 }
 
+
 .food-drink__bill::before{
     content: '';
-    position: absolute;
+    position: sticky;
     top: 0;
     left: 0;
     width: 100%;
@@ -37,7 +34,7 @@
 }
 .food-drink__bill::after{
     content: '';
-    position: absolute;
+    position: sticky;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -45,7 +42,7 @@
     background: linear-gradient(transparent -10%, rgba(255,255,255,1) 31%);
 }
 
-.food-drink__subbill::-webkit-scrollbar{
+.food-drink__bill::-webkit-scrollbar{
     display: none;
 }
 
