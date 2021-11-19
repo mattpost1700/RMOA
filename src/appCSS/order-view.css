@@ -1,8 +1,10 @@
-.orderView{
+.content{
     width: 100%;
-    grid-template-rows: 1fr 7fr;
-    display: grid;
 }
+.orderView{
+    height: 100%;
+}
+
 .orderView__info{
     display: flex;
     justify-content: space-between;
@@ -16,11 +18,13 @@
 }
 
 .orderView__container{
-    padding: 25px;
+    padding: 25px 25px 20px 25px;
     display: flex;
     width: 100%;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
     -ms-overflow-style: none;
+
 }
 
 .orderView__container::-webkit-scrollbar{
@@ -31,7 +35,8 @@
     transition: 0.4s;
     margin-left: -50px;
     position: relative;
-    height: fit-content;
+    min-height: 350px;
+    z-index: 1;
 }
 .orderView__order-wrapper:first-child{
     margin-left: 0;
@@ -42,25 +47,145 @@
     min-width: 250px;
     border: 1px solid;
     position: relative;
-
+    height: 100%;
     background: #fff;
-    margin-top: 10px;
-    margin-bottom: 10px;
     box-shadow: -5px 3px 3px #aaaaaa;
 }
 
+.orderView__next{
+    transition: 0.4s;
+    position: absolute;
+    bottom: 25px;
+    right: 50%;
+    transform:translateX(50%);
+
+    background-color: #FFC107;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.orderView__next:nth-child(3){
+    display: none;
+}
+
+
+.orderView__prev{
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+}
+
+.orderView__order-wrapper:hover .orderView__next,
+.orderView__order-wrapper:hover .orderView__prev{
+    z-index: 10;
+}
+
+.orderView__billnum{
+    text-align: center;
+}
+
+
+
+
+.orderView__order-subwrapper{
+    transition: 0.4s;
+    position: relative;
+    top: 0;
+    right: 0;
+    z-index: 0;
+    height: 100%;
+    padding: 15px 0;
+}
+
+.no-anim .orderView__inactive,
+.no-anim .orderView__active{
+    animation-duration: 0s !important;
+}
+
+.orderView__inactive{
+    position: absolute;
+    top: 10px;
+    right: -10px;
+    animation:  inactive 0.8s;
+    z-index: -1;
+}
+
+.orderView__active{
+    animation: active 0.8s;
+}
+
+.orderView__next-active{
+    opacity: 0;
+}
+
+
+@keyframes active {
+    0%{
+        top: 10px;
+        right: -10px;
+        z-index: -5;
+    }
+    50%{
+        top: -400px;
+        right: -10px;
+    }
+    100%{
+        top: 0;
+        right: 0;
+        z-index: 1;
+    }
+}
+
+@keyframes inactive {
+    0%{
+        top: 0;
+        right: 0;
+        z-index: 1;
+    }
+
+    100%{
+        top: 10px;
+        right: -10px;
+        z-index: 0;
+    }
+}
+
+
+
+
+.orderView__order-subwrapper:only-of-type{
+    position: relative;
+    top: 0;
+    right: 0;
+}
+
 .orderView__order-wrapper:hover{
-    margin-left: 10px;
-    margin-right: 60px;
+    margin-left: 20px;
+    margin-right: 70px;
 
 }
-
-.orderView__order-wrapper:hover .orderView__order{
-    margin-top: 0;
+.orderView__order-wrapper:first-child:hover{
+    margin-left: 0;
 }
 
-.orderView__selection:checked + .orderView__order {
-    margin-top: -10px;
+.orderView__order-wrapper:hover .orderView__order-subwrapper{
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.orderView__selection:checked ~ .orderView__order-subwrapper{
+    padding-top: 0;
+    padding-bottom: 30px;
+}
+
+.orderView__order-wrapper:hover .orderView__next{
+    margin-bottom: 5px;
+}
+
+.orderView__selection:checked ~ .orderView__next{
+    margin-bottom: 15px;
 }
 
 .orderView__selection:hover{

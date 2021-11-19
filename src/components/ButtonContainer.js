@@ -6,34 +6,64 @@ class ButtonContainer extends React.Component{
         return(
         <div className={"keypad"}>
             <div className="keypad__button">
-                <KeyPadButton label={7}/>
+                <KeyPadButton
+                    handleButtonClick={this.props.handleButtonClick}
+                    label={7}
+                />
             </div>
             <div className="keypad__button">
-                <KeyPadButton label={8}/>
+                <KeyPadButton
+                    handleButtonClick={this.props.handleButtonClick}
+                    label={8}
+                />
             </div>
             <div className="keypad__button">
-                <KeyPadButton label={9}/>
+                <KeyPadButton
+                    handleButtonClick={this.props.handleButtonClick}
+                    label={9}
+                />
             </div>
             <div className="keypad__button">
-                <KeyPadButton label={4}/>
+                <KeyPadButton
+                    handleButtonClick={this.props.handleButtonClick}
+                    label={4}
+                />
             </div>
             <div className="keypad__button">
-                <KeyPadButton label={5}/>
+                <KeyPadButton
+                    handleButtonClick={this.props.handleButtonClick}
+                    label={5}
+                />
             </div>
             <div className="keypad__button">
-                <KeyPadButton label={6}/>
+                <KeyPadButton
+                    handleButtonClick={this.props.handleButtonClick}
+                    label={6}
+                />
             </div>
             <div className="keypad__button">
-                <KeyPadButton label={1}/>
+                <KeyPadButton
+                    handleButtonClick={this.props.handleButtonClick}
+                    label={1}
+                />
             </div>
             <div className="keypad__button">
-                <KeyPadButton label={2}/>
+                <KeyPadButton
+                    handleButtonClick={this.props.handleButtonClick}
+                    label={2}
+                />
             </div>
             <div className="keypad__button">
-                <KeyPadButton label={3}/>
+                <KeyPadButton
+                    handleButtonClick={this.props.handleButtonClick}
+                    label={3}
+                />
             </div>
             <div className="keypad__button">
-                <KeyPadButton label={0}/>
+                <KeyPadButton
+                    handleButtonClick={this.props.handleButtonClick}
+                    label={0}
+                />
             </div>
 
         </div>

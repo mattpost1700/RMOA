@@ -1,29 +1,36 @@
 .login-button{
-
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
 }
 .login-button__button{
     border: none;
-    background-color: #007BFF;
-    color: #fff;
-    padding: 5px 10px 5px 10px;
+    background-color: #FFC107;
+    color: #000;
     border-radius: 5px;
     cursor: pointer;
+
+    position: absolute;
+    bottom: 0;
+    padding: 20px 12px;
 }
 
 .login-button__button:hover,
 .login-button__button:focus{
-    background-color: #228dff;
+    background-color: #FFD20C;
 }
 .login-button__button:active{
-    background-color: #006bdd;
+    background-color: #FFD20C;
 }
 
 
 
 
 .login-button__enter{
+    right: 0;
 }
 .login-button__clear{
     margin-right: 10px;
-
+    left: 0;
 }

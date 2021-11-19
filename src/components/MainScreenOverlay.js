@@ -7,6 +7,7 @@ import OptionScreen from "./mainContentContainer/OptionScreen";
 import OrderView from "./mainContentContainer/OrderView";
 import Order from "./Order"
 import MockOrder from "../testFiles/mockOrder";
+import MockOrderLong from "../testFiles/mockOrderLong";
 import "../appCSS/main-screen-overlay.css";
 class MainScreenOverlay extends React.Component{
     //This information should be mapped to the current user   
@@ -60,10 +61,16 @@ class MainScreenOverlay extends React.Component{
                 tableID: 1,
                 status: "free",
                 capacity: 4,
-                order: MockOrder,
+                order: MockOrderLong,
             },
             {
                 tableID: 2,
+                status: "free",
+                capacity: 4,
+                order: MockOrder,
+            },
+            {
+                tableID: 3,
                 status: "full",
                 capacity: 4,
                 order: undefined
@@ -174,7 +181,6 @@ class MainScreenOverlay extends React.Component{
         }
         console.log("mOrder is ", mOrder);
         this.setState({orderModel: {tableID: mTable.tableID, order: mOrder}});
-
     }
     //************************************************************** */
     //OrderView methods
