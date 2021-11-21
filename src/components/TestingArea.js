@@ -97,6 +97,18 @@ class TestingArea extends React.Component{
         console.log("arr1", arr1);
         console.log("arrDeep1", arrDeep1);
     }
+    runTestFour = () =>{
+        let dict1 = new Dictionary();
+        dict1.addKeyPair(12, {checked:false});
+        let dict2 = new Dictionary(dict1);
+        dict2.addKeyPair(12, {checked:true});
+        console.log("dict1", dict1);
+        console.log("dict2", dict2);
+        let flag1 = dict1.getValueOfKey(12);
+        let flag2 = dict1.getValueOfKey(12).checked;
+        console.log(flag1);
+        console.log(flag2);
+    }
     recursiveCopy = (elem) =>{
         if(typeof elem !== "object"){
             return elem;
@@ -131,6 +143,10 @@ class TestingArea extends React.Component{
             id="test3"
             onClick={() => this.runTestThree()}
             >Run Test3</button>
+            <button
+            id="test4"
+            onClick={() => this.runTestFour()}
+            >Run Test4</button>
             </div>
         )
     }

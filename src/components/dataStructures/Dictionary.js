@@ -21,6 +21,7 @@ class Dictionary{
            return false;
        }
     }
+    //This will overwrite previous values, which is good
     addKeyPair(n, obj){
         let nString = String(n);
         this.values[nString] = this._recursiveCopy(obj);

@@ -105,41 +105,30 @@ class OrderView extends React.Component{
         this.setState({checkboxes: this.state.checkboxes});
     }
     handleCheckboxClickRefactor = (mIndex) =>{
-        //console.log("hello from handleCheckboxClick method");
-        //console.log("index is", index);
+        console.log("hello from handleCheckboxClick method");
+        console.log("index is", mIndex);
         
-        let flag = this.state.checkboxes[mIndex];
-        //console.log("flag is", flag);
+        let temp = new Dictionary(this.state.checkboxes);
+        let flag = temp.getValueOfKey(mIndex).checked;
+        console.log("flag is", flag);
         if(flag === true){
-            let temp = this.state.checkboxes;
-            for(let i = 0; i < temp.length; i++){
-                if(i === mIndex){
-                    temp[i] = false;
-                }
-            }
+            temp.addKeyPair(mIndex, {checked:false});
             this.setState({checkboxes: temp})
         }
         else if(flag === false){
             let count = 0;
-            let flags = this.state.checkboxes;
-            for(let i = 0; i < flags.length; i++){
-                if(flags[i] === true){
-                    //console.log("flags[i] was ", flags[i]);
+            let keys = this.state.checkboxes.getAllKeys();
+            for(let i = 0; i < keys.length; i++){
+                if(temp.getValueOfKey(keys[i]).checked === true){
                     count = count + 1;
                 }
             }
             if(count < 2){
                 //console.log("count is ", count);
-                let temp = this.state.checkboxes;
-                for(let i = 0; i < temp.length; i++){
-                    if(i === mIndex){
-                        temp[i] = true;
-                    }
-                }
+                temp.addKeyPair(mIndex, {checked:true});
                 this.setState({checkboxes: temp})
             }
         }
-        this.setState({checkboxes: this.state.checkboxes});
     }
     backToOrderView = () =>{
         this.setState({
@@ -698,7 +687,8 @@ class OrderView extends React.Component{
     //
     constructor(props){
         super(props);
-        this.state.checkboxes = this.setCheckboxes();
+        //this.state.checkboxes = this.setCheckboxes();
+        this.state.checkboxes = this.setCheckboxesRefactor();
         let numOfOrderItems = this.props.orderProps.order.orderItems.length
         this.state.lastOrderItemIDGenerated = 1000 + numOfOrderItems;
     }
