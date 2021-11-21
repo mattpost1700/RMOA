@@ -145,7 +145,7 @@ class OrderView extends React.Component{
     // If zero or two bills are selected, this function does nothing
     handleFoodDrinkClicked = () =>{
         console.log("handleFoodDrinkClicked is clicked!");
-        let [firstBill, secondBill] = this.getBillsSelected();
+        let [firstBill, secondBill] = this.getBillsSelectedRefactor();
         console.log("firstBill", firstBill);
         console.log("secondBill", secondBill);
         if(firstBill !== 0 && secondBill === 0){
@@ -204,7 +204,7 @@ class OrderView extends React.Component{
     handleSplitClicked = () =>{
         console.log("handleSplitClicked is clicked!");
         console.log("handleFoodDrinkClicked is clicked!");
-        let [firstBill, secondBill] = this.getBillsSelected();
+        let [firstBill, secondBill] = this.getBillsSelectedRefactor();
         console.log("firstBill", firstBill);
         console.log("secondBill", secondBill);
         if(firstBill !== 0 && secondBill === 0){
@@ -291,6 +291,28 @@ class OrderView extends React.Component{
                 bill_2 = index + 1;// In order to handle off by 1
             }
         });
+        console.log("bill_1", bill_1);
+        console.log("bill_2", bill_2);
+        return [bill_1,bill_2];
+    }
+    // Returns the checkboxes selected by bill ID/Number
+    // Zero indicates bill was not chosen
+    // If only one bill is chosen, only bill_1 will be nonzero
+    getBillsSelectedRefactor = () =>{
+        let bill_1 = 0;
+        let bill_2 = 0;
+        let temp = new Dictionary(this.state.checkboxes);
+        let keys = temp.getAllKeys();
+        for(let i = 0; i < keys.length; i++){
+            if(temp.getValueOfKey(keys[i]).checked === true &&
+                bill_1 === 0){
+                    bill_1 = parseInt(keys[i]);
+                }
+            else if(temp.getValueOfKey(keys[i]).checked === true &&
+                bill_1 !== 0){
+                    bill_2 = parseInt(keys[i]);
+                }
+        }
         console.log("bill_1", bill_1);
         console.log("bill_2", bill_2);
         return [bill_1,bill_2];

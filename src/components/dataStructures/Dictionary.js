@@ -26,6 +26,7 @@ class Dictionary{
         let nString = String(n);
         this.values[nString] = this._recursiveCopy(obj);
     }
+    //These will all be strings, use parseInt to get integer value
     getAllKeys(){
         return Object.keys(this.values);
     }
