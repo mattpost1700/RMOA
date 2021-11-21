@@ -3,8 +3,8 @@ import Order from "../components/Order";
 //Test a bill with many items to see how overflow is handled
 //in OrderView.js
 
-const MockOrder = {
-    orderID : 9999,
+const MockOrderLong = {
+    orderID : 8888,
     paid : false,
     totalBills : 2,
     orderItems : [
@@ -202,4 +202,4 @@ const MockOrder = {
         },
     ]    
 }
-export default MockOrder
+export default MockOrderLong

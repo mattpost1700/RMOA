@@ -11,6 +11,7 @@ import SplitBillView from "./SplitBillView";
 class OrderView extends React.Component{  
     state ={
         lastOrderItemIDGenerated: 1000,
+        lastBillIDGenerated: 99,
         // We'll use state here temporarily keep any OrderItems
         // added to a bill before confirming our selection
         // Since every order has an associated bill, we can
@@ -134,6 +135,7 @@ class OrderView extends React.Component{
         this.setState({lastOrderItemIDGenerated: newOrderItemID});
         return newOrderItemID;
     }
+    
     addOrderItems = (mMenuItem, mBill, callback) =>{
         let mOrderItem = new OrderItem(mMenuItem);
         mOrderItem.bill = mBill;
@@ -186,7 +188,36 @@ class OrderView extends React.Component{
             })
         }
     }
-
+    generateBillId = () =>{
+        let newBillID = this.state.lastBillIDGenerated + 1;
+        this.setState({lastBillIDGenerated: newBillID})
+        return newBillID;
+    }
+    moveOrderItemsToNewBill = (mOrderItems) =>{
+        console.log("In moveOrderItemsToNewBill");
+        let newBillNumber = this.generateBillId();
+        let confirmedOrderItems = this.props.orderProps.order.orderItems;
+        let mTempOrderItems = this.state.tempOrderItems;
+        //Update with new bill number
+        for(let i = 0; i < mOrderItems.length; i++){
+            for(let j = 0; j < confirmedOrderItems.length; j++){
+                if(mOrderItems[i].id === confirmedOrderItems[j].id){
+                    confirmedOrderItems[i].bill = newBillNumber;
+                }
+            }
+            for(let j = 0; j < mTempOrderItems.length; j++){
+                if(mOrderItems[i].id === mTempOrderItems[i].id){
+                    mTempOrderItems[i].bill = newBillNumber;
+                }
+            }
+        }
+        // Then set the state
+        // Not sure which state to set first
+        this.props.updateOrderProps(this.props.orderProps.orderID, confirmedOrderItems);
+        this.setState({
+            tempOrderItems: mTempOrderItems
+        });
+    }
     //**************************************************************** */
     // MergeBill methods
     //
@@ -275,6 +306,7 @@ class OrderView extends React.Component{
                     billModelProps={this.state.firstBillModel}
                     getTempOrderItemsBillsProps={this.getTempOrderItemsBills}
                     backToOrderViewProps={this.backToOrderView}
+                    moveOrderItemsToNewBillProps={this.moveOrderItemsToNewBill}
                     />
                 )
             }

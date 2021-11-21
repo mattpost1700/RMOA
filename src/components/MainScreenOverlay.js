@@ -8,6 +8,7 @@ import OrderView from "./mainContentContainer/OrderView";
 import Order from "./Order"
 import MockOrder from "../testFiles/mockOrder";
 import MockOrderLong from "../testFiles/mockOrderLong";
+import MockOrderSmall from "../testFiles/mockOrderSmall";
 import "../appCSS/main-screen-overlay.css";
 class MainScreenOverlay extends React.Component{
     //This information should be mapped to the current user   
@@ -67,7 +68,7 @@ class MainScreenOverlay extends React.Component{
                 tableID: 2,
                 status: "free",
                 capacity: 4,
-                order: MockOrder,
+                order: MockOrderSmall,
             },
             {
                 tableID: 3,
@@ -190,6 +191,15 @@ class MainScreenOverlay extends React.Component{
     // of the passed in tableID
     updateOrder = (mTableID, mOrderItems) => {
         console.log("updateOrder has been called");
+        let mTables = this.state.tables;
+        for(let i = 0; i < mTables.length; i++){
+            if(mTables[i].tableID === mTableID){
+                mTables[i].order = mOrderItems;
+            }
+        }
+        this.setState({
+            tables: mTables
+        });
     }
 
     // The idea behind this function is to dynamically create
