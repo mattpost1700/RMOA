@@ -1,6 +1,7 @@
 import React from "react";
 import SplitBillSubView from "./SplitBillSubView";
 import Dictionary from "../dataStructures/Dictionary";
+import '../../appCSS/split-bill-view.css';
 class SplitBillView extends React.Component{
     state = {
         orderItemsToKeep: [],
@@ -150,38 +151,54 @@ class SplitBillView extends React.Component{
     render(){
         // Cory, feel free to put the button in any formation that makes sense
         return(
-            <div>
-                <button 
-                id="cancelSplit"
-                onClick={() => this.handleCancelSplitClicked()}
-                >Cancel Split</button>
-                <button 
-                id="confirmSplit"
-                onClick={() => this.handleConfirmSplitClicked()}
-                >Confirm Split</button>
-                <button 
-                id="moveLeft"
-                onClick={() => this.handleMoveLeftClicked()}
-                >Move Left</button>
-                <button 
-                id="moveRight"
-                onClick={() => this.handleMoveRightClicked()}
-                >Move Right</button>
-                <div id="firstbill">
+            <div className={"split-bill"}>
+                <div className="split-bill__buttons">
+                    <button
+                    className={"split-bill__cancel split-bill__button"}
+                    id="cancelSplit"
+                    onClick={() => this.handleCancelSplitClicked()}
+                    >Cancel Split</button>
+                    <button
+                    className={"split-bill__confirm split-bill__button"}
+                    id="confirmSplit"
+                    onClick={() => this.handleConfirmSplitClicked()}
+                    >Confirm Split</button>
+
+                </div>
+                <div className="split-bill__wrapper">
+                <div id="firstbill" className={"split-bill__first"}>
                 <SplitBillSubView 
                 nameProps={"toKeep"}
                 orderItemsProps={this.state.orderItemsToKeep}
                 checkboxesProps={this.state.toKeepCheckboxes}
                 updateCheckboxesProps={this.updateCheckboxes}
+                billNum={this.state.orderItemsToKeep[0].bill}
                 />
                 </div>
-                <div id="newbill">
+
+                <div className="split-bill__move-buttons">
+                    <button
+                        className={"split-bill__left split-bill__button"}
+                        id="moveLeft"
+                        onClick={() => this.handleMoveLeftClicked()}
+                    >&#60;&#60; Move Left</button>
+                    <button
+                        className={"split-bill__right split-bill__button"}
+                        id="moveRight"
+                        onClick={() => this.handleMoveRightClicked()}
+                    >Move Right &#62;&#62;</button>
+                 </div>
+
+                <div id="newbill" className={"split-bill__new"}>
                 <SplitBillSubView
                 nameProps={"toUpdate"}
                 orderItemsProps={this.state.orderItemsToUpdate}
                 checkboxesProps={this.state.toUpdateCheckboxes}
                 updateCheckboxesProps={this.updateCheckboxes}
+                billNum={this.props.newBillID}
+
                 />
+                </div>
                 </div>
             </div>
         )

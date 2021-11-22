@@ -414,6 +414,7 @@ class OrderView extends React.Component{
                     backToOrderViewProps={this.backToOrderView}
                     moveOrderItemsToNewBillProps={this.moveOrderItemsToNewBill}
                     resetCheckboxesProps={this.resetCheckboxes}
+                    newBillID={this.state.lastBillIDGenerated + 1}
                     />
                 )
             }

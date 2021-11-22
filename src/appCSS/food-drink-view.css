@@ -4,7 +4,7 @@
 }
 .food-drink__wrapper{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
 
     padding: 75px 25px 25px 25px;
     height: 100%;
@@ -18,12 +18,13 @@
     position: relative;
     height: 100%;
     background: #fff;
-    box-shadow: -5px 3px 3px #aaaaaa;
+    box-shadow: -3px 3px 3px #aaaaaa;
     overflow: auto;
 }
 
 .food-drink__bill-wrapper{
     position: relative;
+    margin-right: 50px;
 }
 
 .food-drink__bill-wrapper::before{
@@ -86,7 +87,7 @@
     position: relative;
     height: 100%;
     background: #fff;
-    box-shadow: -5px 3px 3px #aaaaaa;
+    box-shadow: -3px 3px 3px #aaaaaa;
     overflow: auto;
 }
 
