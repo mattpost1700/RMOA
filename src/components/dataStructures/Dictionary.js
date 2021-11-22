@@ -30,6 +30,7 @@ class Dictionary{
     getAllKeys(){
         return Object.keys(this.values);
     }
+    //Returns undefined if n is not any key
     getValueOfKey(n){
         let nString = String(n);
         return this.values[nString];

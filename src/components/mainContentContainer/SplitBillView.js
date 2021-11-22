@@ -1,5 +1,6 @@
 import React from "react";
 import SplitBillSubView from "./SplitBillSubView";
+import Dictionary from "../dataStructures/Dictionary";
 class SplitBillView extends React.Component{
     state = {
         orderItemsToKeep: [],
@@ -23,6 +24,7 @@ class SplitBillView extends React.Component{
             console.log("orderItemsToUpdate", this.state.orderItemsToUpdate)
             this.props.moveOrderItemsToNewBillProps(this.state.orderItemsToUpdate);
         }
+        this.props.resetCheckboxesProps();
         this.props.backToOrderViewProps();
     }
     handleMoveLeftClicked = () =>{
@@ -131,9 +133,18 @@ class SplitBillView extends React.Component{
     } 
     constructor(props){
         super(props)
+        console.log("In SplitBillView constructor!");
         let mBill = this.props.billModelProps.bill;
-        let mOrderItemsToKeep = this.props.billModelProps.orderItems.concat(this.props.getTempOrderItemsBillsProps()[mBill-1]);
+        console.log("mBill", mBill);
+        let mOrderItemsToKeep = this.props.billModelProps.orderItems;
+        let mTempOrderItems = this.props.getTempOrderItemsBillsProps().getValueOfKey(mBill);
+        console.log("mTempOrderItems", mTempOrderItems);
+        if(mTempOrderItems !== undefined){
+            console.log("mTempOrderItems was not undefined");
+            mOrderItemsToKeep = mOrderItemsToKeep.concat(mTempOrderItems);
+        }
         this.state.orderItemsToKeep = mOrderItemsToKeep;
+        console.log("mOrderItemsToKeep", mOrderItemsToKeep);
         this.state.toKeepCheckboxes = this.setCheckboxes(mOrderItemsToKeep);
     }
     render(){

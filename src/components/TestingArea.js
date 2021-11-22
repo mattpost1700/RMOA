@@ -108,6 +108,10 @@ class TestingArea extends React.Component{
         let flag2 = dict1.getValueOfKey(12).checked;
         console.log(flag1);
         console.log(flag2);
+        let dict3 = new Dictionary();
+
+        let obj1 = dict3.getValueOfKey(12);
+        console.log("obj1", obj1);
     }
     recursiveCopy = (elem) =>{
         if(typeof elem !== "object"){

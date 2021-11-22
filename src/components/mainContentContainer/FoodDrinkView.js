@@ -1,6 +1,7 @@
 import React from "react";
 import FoodDrinkSubView from "./FoodDrinkSubView";
 import MenuView from "./MenuView";
+import Dictionary from "../dataStructures/Dictionary";
 class FoodDrinkView extends React.Component{
     state = {
         mSwitch: -1,
@@ -15,7 +16,11 @@ class FoodDrinkView extends React.Component{
     }
     render(){
         let mBill = this.props.billModelProps.bill;
-        let morderItemsProps = this.props.billModelProps.orderItems.concat(this.props.getTempOrderItemsBillsProps()[mBill-1]);
+        let mOrderItems = this.props.billModelProps.orderItems
+        let mTempOrderItems = this.props.getTempOrderItemsBillsProps().getValueOfKey(mBill);
+        if(mTempOrderItems !== undefined){
+            mOrderItems = mOrderItems.concat(mTempOrderItems);
+        }
         return(
             <div>
                 <button 
@@ -24,7 +29,7 @@ class FoodDrinkView extends React.Component{
                 >Back to Orders</button>
                 <div id="bill">
                 <FoodDrinkSubView 
-                orderItemsProps={morderItemsProps}
+                orderItemsProps={mOrderItems}
                 billModelProps={this.props.billModelProps}
                 removeOrderItemProps={this.props.removeOrderItemProps}
                 modifyItemsCallbackProps={this.modifyItemsCallback}
@@ -32,7 +37,7 @@ class FoodDrinkView extends React.Component{
                 </div>
                 <div id="menu">
                 <MenuView 
-                orderItemsProps={morderItemsProps}
+                orderItemsProps={mOrderItems}
                 billModelProps={this.props.billModelProps}
                 addOrderItemsProps={this.props.addOrderItemsProps}
                 modifyItemsCallbackProps={this.modifyItemsCallback}

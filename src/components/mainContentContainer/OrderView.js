@@ -5,6 +5,7 @@ import OrderItem from "../OrderItem"
 import OrderSubView from "./OrderSubView";
 import FoodDrinkView from "./FoodDrinkView";
 import SplitBillView from "./SplitBillView";
+import MergeBillView from "./MergeBillView";
 import Dictionary from "../dataStructures/Dictionary";
 // Not sure if this is a good idea or not, but the idea is
 // to have this class represent the OrderModel
@@ -137,6 +138,12 @@ class OrderView extends React.Component{
             }
         })
     }
+    resetCheckboxes = () =>{
+        let temp = this.setCheckboxesRefactor();
+        this.setState({
+            checkboxes: temp
+        })
+    }
     //**************************************************************** */
     // Food/Drink methods
     //
@@ -203,14 +210,13 @@ class OrderView extends React.Component{
     //
     handleSplitClicked = () =>{
         console.log("handleSplitClicked is clicked!");
-        console.log("handleFoodDrinkClicked is clicked!");
         let [firstBill, secondBill] = this.getBillsSelectedRefactor();
         console.log("firstBill", firstBill);
         console.log("secondBill", secondBill);
         if(firstBill !== 0 && secondBill === 0){
             //set the BillModel
             //Cannot use generateOrderSubView()
-            let mOrderItems = this.getConfirmedOrderItemsBills()[firstBill - 1]; //Handle off by 1
+            //let mOrderItems = this.getConfirmedOrderItemsBills()[firstBill - 1]; //Handle off by 1
             let mOrderItemsR = this.getConfirmedOrderItemsBillsRefactor().getValueOfKey(firstBill);
             console.log("mOrderItems", mOrderItemsR);
             this.setState(
@@ -265,7 +271,39 @@ class OrderView extends React.Component{
     //
     handleMergeClicked = () =>{
         console.log("handleMergeClicked is clicked");
-
+        let [firstBill, secondBill] = this.getBillsSelectedRefactor();
+        console.log("firstBill", firstBill);
+        console.log("secondBill", secondBill);
+        if(firstBill !== 0 && secondBill !== 0){
+            //set the BillModel
+            //Cannot use generateOrderSubView()
+            //let mOrderItems = this.getConfirmedOrderItemsBills()[firstBill - 1]; //Handle off by 1
+            let mOrderItemsFirstBill = this.getConfirmedOrderItemsBillsRefactor().getValueOfKey(firstBill);
+            let mOrderItemsSecondBill = this.getConfirmedOrderItemsBillsRefactor().getValueOfKey(secondBill);
+            console.log("mOrderItemsFirstBill", mOrderItemsFirstBill);
+            console.log("mOrderItemsSecondBill", mOrderItemsSecondBill)
+            this.setState(
+                {firstBillModel: {
+                    orderID: this.props.orderProps.tableID,
+                    paid: false,
+                    bill: firstBill,
+                    orderItems: mOrderItemsFirstBill,
+                },
+                secondBillModel:{
+                    orderId: this.props.orderProps.tableID,
+                    paid: false,
+                    bill: secondBill,
+                    orderItems: mOrderItemsSecondBill
+                }
+                }
+            )
+            //set mainContent to render FoodDrinkView
+            this.setState({
+                mainContent:{
+                    name: "MergeBillView"
+                }
+            })
+        }
     }
 
     //**************************************************************** */
@@ -361,7 +399,7 @@ class OrderView extends React.Component{
                 return(
                     <FoodDrinkView
                     billModelProps={this.state.firstBillModel}
-                    getTempOrderItemsBillsProps={this.getTempOrderItemsBills}
+                    getTempOrderItemsBillsProps={this.getTempOrderItemsBillsRefactor}
                     addOrderItemsProps={this.addOrderItems}
                     removeOrderItemProps={this.removeOrderItem}
                     backToOrderViewProps={this.backToOrderView}
@@ -372,15 +410,22 @@ class OrderView extends React.Component{
                 return(
                     <SplitBillView
                     billModelProps={this.state.firstBillModel}
-                    getTempOrderItemsBillsProps={this.getTempOrderItemsBills}
+                    getTempOrderItemsBillsProps={this.getTempOrderItemsBillsRefactor}
                     backToOrderViewProps={this.backToOrderView}
                     moveOrderItemsToNewBillProps={this.moveOrderItemsToNewBill}
+                    resetCheckboxesProps={this.resetCheckboxes}
                     />
                 )
             }
             case "MergeBillView":{
                 return(
-                    <p>I'm a MergeBillView</p>
+                    <MergeBillView 
+                    firstBillModelProps={this.state.firstBillModel}
+                    secondBillModelProps={this.state.secondBillMode}
+                    getTempOrderItemsBillsProps={this.getTempOrderItemsBillsRefactor}
+                    backToOrderViewProps={this.backToOrderView}
+                    resetCheckboxesProps={this.resetCheckboxes}
+                    />
                 )
             }
 
@@ -457,6 +502,7 @@ class OrderView extends React.Component{
         }
         return billsArray
     }
+    //Returns a Dictionary object
     getConfirmedOrderItemsBillsRefactor = () =>{
         let billsDict = new Dictionary();
         
@@ -488,7 +534,9 @@ class OrderView extends React.Component{
         }
         return billsArray
     }
+    //Returns a Dictionary object
     getTempOrderItemsBillsRefactor = () =>{
+        console.log("In getTempOrderItemsBillsRefactor");
         let billsDict = new Dictionary();
         //These are the temporary OrderItems
         let mTempOrderItems = this.state.tempOrderItems;
@@ -501,7 +549,7 @@ class OrderView extends React.Component{
                 billsDict.addArrayElement(mTempOrderItems[i].bill, mTempOrderItems[i]);
             }
         }
-        
+        console.log("billsDict", billsDict)
         return billsDict
     }
 
@@ -700,15 +748,12 @@ class OrderView extends React.Component{
         }
 
     }
-
-
-
-
     //**************************************************************** */
     // LifeCycle methods
     //
     constructor(props){
         super(props);
+        console.log("In OrderView constructor!");
         //this.state.checkboxes = this.setCheckboxes();
         this.state.checkboxes = this.setCheckboxesRefactor();
         let numOfOrderItems = this.props.orderProps.order.orderItems.length
