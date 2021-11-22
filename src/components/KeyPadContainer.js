@@ -3,17 +3,11 @@ import ButtonContainer from "./ButtonContainer";
 import EnterClearContainer from "./EnterClearContainer";
 import "../appCSS/key-pad-container.css";
 
-// firebase
-//import * as firebase from 'firebase';
 
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-//import { collection, query, where } from "firebase/firestore";
-//import 'firebase/auth';
-//import 'firebase/analytics';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs, query, where} from 'firebase/firestore';
 
-//import { useAuthState } from 'react-firebase-hooks/auth';
-//import { useCollectionData } from 'react-firebase-hooks/firestore';
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyDfcxJYmzZFj1C8RWTUaDWEpR3njO6-Knc",
@@ -25,16 +19,8 @@ const firebaseConfig = {
     measurementId: "G-7HS8R7V1YV"
 };
 
-
-if (!firebase.apps.length) {
-    firebase.initializeApp({firebaseConfig});
-}else {
-    firebase.app(); // if already initialized, use that one
-}
-
-//const auth = firebase.auth();
-const firestore = firebase.firestore();
-//const analytics = firebase.analytics();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 
 class KeyPadContainer extends React.Component {
@@ -62,12 +48,19 @@ class KeyPadContainer extends React.Component {
     }
 
     handleSubmitClick = () => {
-        // Query database -> login or fail msg
-        const userRef = firestore.collection('users')
+        //Query database -> login or fail msg
+        //const q = query(collection(firestore, "users"), where("pin", "==", this.state.pin));
+        //const userRef = collection(db,'users');
+        const q = query(collection(db, "users"), where("pin", "==", this.state.pin));
         //const userLoggedIn = useCollectionData(userRef, { pin: this.state.pin })
-        const userLoggedIn = firebase.firestore.query(userRef, firebase.where("pin", "==", this.state.pin))
-
-        if(userLoggedIn != null) {
+        // const userLoggedIn = query(userRef, where("pin", "==", this.state.pin))
+        let querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+            });
+        console.log("q", q);
+        if(q !== "1234") {
             alert('logged in')
         } else {
             alert('not logged in')
