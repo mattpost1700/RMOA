@@ -191,6 +191,7 @@ class MainScreenOverlay extends React.Component{
     // of the passed in tableID
     updateOrder = (mTableID, mOrderItems) => {
         console.log("updateOrder has been called");
+        console.log("mOrderItems", mOrderItems);
         let mTables = this.state.tables;
         for(let i = 0; i < mTables.length; i++){
             if(mTables[i].tableID === mTableID){

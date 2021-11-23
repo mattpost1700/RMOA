@@ -1,5 +1,5 @@
 import React from "react";
-
+import SplitBillSubView from "./SplitBillSubView";
 class MergeBillView extends React.Component{
     state ={
         orderItemsFirstBill: [],
@@ -7,6 +7,90 @@ class MergeBillView extends React.Component{
         //An array of booleans
         firstBillCheckboxes: [],
         secondBillCheckboxes: [],
+    }
+    handleCancelMergeClicked = () =>{
+        console.log("handleCancelMergeClicked is clicked!");
+        // All of the state in this component should be cleared when 
+        // going back to the previous view, so all changes should be
+        // forgotten.
+        this.props.backToOrderViewProps();
+    }
+    handleConfirmMergeClicked = () =>{
+        console.log("handleConfirmMergeClicked is clicked!");
+        //Both bills will contain all the OrderItems, send both
+        // up the function despite either being empty
+        
+        
+        console.log("orderItemsFirstBill", this.state.orderItemsFirstBill)
+        console.log("orderItemsSecondBill", this.state.orderItemsSecondBill);
+        this.props.moveMultipleOrderItemsToNewBillProps(this.props.firstBillModelProps.bill,
+                                                        this.state.orderItemsFirstBill,
+                                                        this.props.secondBillModelProps.bill,
+                                                        this.state.orderItemsSecondBill);
+        
+        this.props.resetCheckboxesProps();
+        this.props.backToOrderViewProps();
+    }
+    handleMoveLeftClicked = () =>{
+        console.log("handleMoveLeftClicked is clicked!");
+        //Copy selected orderItemsSecondBill to temporary array
+        let toCopy = [];
+        for(let i = 0; i < this.state.secondBillCheckboxes.length; i++){
+            if(this.state.secondBillCheckboxes[i] === true){
+                toCopy.push(this.state.orderItemsSecondBill[i]);
+            }
+        }
+        console.log("toCopy", toCopy);
+
+        //Filter out copied OrderItems from SecondBill
+        let copySecondBill = this.state.orderItemsSecondBill;
+        for(let i = 0; i < toCopy.length; i++){
+            //This could be refactored to a nicer implementation
+            copySecondBill = copySecondBill.filter((mOrderItem) =>mOrderItem.id !== toCopy[i].id)
+        }
+        console.log("copySecondBill", copySecondBill);
+
+        //Now set appropriate states
+        let copyFirstBill = this.state.orderItemsFirstBill.concat(toCopy);
+        let mFirstBillCheckboxes = this.setCheckboxes(copyFirstBill);
+        let mSecondBillCheckboxes = this.setCheckboxes(copySecondBill);
+        this.setState({
+            orderItemsFirstBill: copyFirstBill,
+            orderItemsSecondBill: copySecondBill,
+            firstBillCheckboxes: mFirstBillCheckboxes,
+            secondBillCheckboxes: mSecondBillCheckboxes
+        })
+
+    }
+    handleMoveRightClicked = () =>{
+        console.log("handleMoveRightClicked is clicked!");
+        //Copy selected orderItemsFirstBill to temporary array
+        let toCopy = [];
+        for(let i = 0; i < this.state.firstBillCheckboxes.length; i++){
+            if(this.state.firstBillCheckboxes[i] === true){
+                toCopy.push(this.state.orderItemsFirstBill[i]);
+            }
+        }
+        console.log("toCopy", toCopy);
+
+        //Filter out copied OrderItems
+        let copyFirstBill = this.state.orderItemsFirstBill;
+        for(let i = 0; i < toCopy.length; i++){
+            //This could be refactored to a nicer implementation
+            copyFirstBill = copyFirstBill.filter((mOrderItem) =>mOrderItem.id !== toCopy[i].id)
+        }
+        console.log("copyFirstBill", copyFirstBill);
+
+        //Now set appropriate states
+        let copySecondBill = this.state.orderItemsSecondBill.concat(toCopy);
+        let mFirstBillCheckboxes = this.setCheckboxes(copyFirstBill);
+        let mSecondBillCheckboxes = this.setCheckboxes(copySecondBill);
+        this.setState({
+            orderItemsFirstBill: copyFirstBill,
+            orderItemsSecondBill: copySecondBill,
+            firstBillCheckboxes: mFirstBillCheckboxes,
+            secondBillCheckboxes: mSecondBillCheckboxes
+        })
     }
     setCheckboxes = (mOrderItems) =>{
         console.log("In setCheckBoxes");
@@ -26,7 +110,7 @@ class MergeBillView extends React.Component{
         let temp = []
         if(name === "firstBill"){      
             console.log("name was firstBill"); 
-            temp = this.state.toUpdateCheckboxes
+            temp = this.state.firstBillCheckboxes;
             if(temp[index] === true){
                 temp[index] = false;
             }
@@ -34,12 +118,12 @@ class MergeBillView extends React.Component{
                 temp[index] = true;
             }
             this.setState({
-                toUpdateCheckboxes: temp
+                firstBillCheckboxes: temp
             })
         }
         else if(name === "secondBill"){ 
             console.log("name was secondBill")
-            temp = this.state.toKeepCheckboxes
+            temp = this.state.secondBillCheckboxes;
             if(temp[index] === true){
                 temp[index] = false;
             }
@@ -47,7 +131,7 @@ class MergeBillView extends React.Component{
                 temp[index] = true;
             }
             this.setState({
-                toKeepCheckboxes: temp
+                secondBillCheckboxes: temp
             })
         }
     } 
@@ -68,10 +152,45 @@ class MergeBillView extends React.Component{
         }
         this.state.orderItemsFirstBill = mOrderItemsFirstBill;
         this.state.orderItemsSecondBill = mOrderItemsSecondBill;
+        this.state.firstBillCheckboxes = this.setCheckboxes(mOrderItemsFirstBill);
+        this.state.secondBillCheckboxes = this.setCheckboxes(mOrderItemsSecondBill);
     }
     render(){
         return(
-            <p>I'm a MergeBillView</p>
+            <div>
+                <button 
+                id="cancelMerge"
+                onClick={() => this.handleCancelMergeClicked()}
+                >Cancel Merge</button>
+                <button 
+                id="confirmMerge"
+                onClick={() => this.handleConfirmMergeClicked()}
+                >Confirm Merge</button>
+                <button 
+                id="moveLeft"
+                onClick={() => this.handleMoveLeftClicked()}
+                >Move Left</button>
+                <button 
+                id="moveRight"
+                onClick={() => this.handleMoveRightClicked()}
+                >Move Right</button>
+                <div id="firstBill">
+                <SplitBillSubView 
+                nameProps={"firstBill"}
+                orderItemsProps={this.state.orderItemsFirstBill}
+                checkboxesProps={this.state.firstBillCheckboxes}
+                updateCheckboxesProps={this.updateCheckboxes}
+                />
+                </div>
+                <div id="secondBill">
+                <SplitBillSubView
+                nameProps={"secondBill"}
+                orderItemsProps={this.state.orderItemsSecondBill}
+                checkboxesProps={this.state.secondBillCheckboxes}
+                updateCheckboxesProps={this.updateCheckboxes}
+                />
+                </div>
+            </div>
         )
     }
 }

@@ -113,6 +113,19 @@ class TestingArea extends React.Component{
         let obj1 = dict3.getValueOfKey(12);
         console.log("obj1", obj1);
     }
+    runTestFive = () =>{
+        let dict1 = new Dictionary();
+        dict1.addKeyPair(12,{name:"Doby",age:12});
+        dict1.addKeyPair(13, {name:"Jake", age:10});
+        let dict2 = new Dictionary(dict1);
+        console.log("dict1", dict1);
+        dict2.removeKeyPair(13);
+        console.log("dict2", dict2);
+        let arr1 = dict1.getAllKeys();
+        let arr2 = dict2.getAllKeys();
+        console.log("arr1", arr1);
+        console.log("arr2", arr2);
+    }
     recursiveCopy = (elem) =>{
         if(typeof elem !== "object"){
             return elem;
@@ -151,6 +164,10 @@ class TestingArea extends React.Component{
             id="test4"
             onClick={() => this.runTestFour()}
             >Run Test4</button>
+            <button
+            id="test5"
+            onClick={() => this.runTestFive()}
+            >Run Test5</button>
             </div>
         )
     }
