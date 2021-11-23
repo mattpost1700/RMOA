@@ -60,6 +60,7 @@ class SplitBillView extends React.Component{
 
     }
     handleMoveRightClicked = () =>{
+
         console.log("handleMoveRightClicked is clicked!");
         //Copy selected orderItemsToKeep to temporary array
         let toCopy = [];
@@ -172,7 +173,7 @@ class SplitBillView extends React.Component{
                 orderItemsProps={this.state.orderItemsToKeep}
                 checkboxesProps={this.state.toKeepCheckboxes}
                 updateCheckboxesProps={this.updateCheckboxes}
-                billNum={this.state.orderItemsToKeep[0].bill}
+                billNum={this.props.billModelProps.bill}
                 />
                 </div>
 
@@ -196,7 +197,6 @@ class SplitBillView extends React.Component{
                 checkboxesProps={this.state.toUpdateCheckboxes}
                 updateCheckboxesProps={this.updateCheckboxes}
                 billNum={this.props.newBillID}
-
                 />
                 </div>
                 </div>

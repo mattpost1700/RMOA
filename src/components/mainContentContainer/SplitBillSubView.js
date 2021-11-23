@@ -3,10 +3,14 @@ import SplitBillView from "./SplitBillView";
 import '../../appCSS/split-bill-sub-view.css';
 
 class SplitBillSubView extends React.Component{
+
+
     handleCheckboxClicked = (index) =>{
         console.log("handleCheckboxClicked has been clicked!");
         this.props.updateCheckboxesProps(this.props.nameProps, index);
     }
+
+
     render(){
         console.log(this.props.orderItemsProps);
         let billNum = this.props.billNum;
@@ -34,8 +38,11 @@ class SplitBillSubView extends React.Component{
                             />
                         </li>
                     ))}
+
                 </ol>
+
             </div>
+
             </div>
         )
     }

@@ -7,6 +7,7 @@ import FoodDrinkView from "./FoodDrinkView";
 import SplitBillView from "./SplitBillView";
 import MergeBillView from "./MergeBillView";
 import Dictionary from "../dataStructures/Dictionary";
+import {map} from "react-bootstrap/ElementChildren";
 // Not sure if this is a good idea or not, but the idea is
 // to have this class represent the OrderModel
 
@@ -591,83 +592,7 @@ class OrderView extends React.Component{
     }
 
 
-    //This function breaks the bills down if they are too large
-    //This does not affect the actual data structure of a bill
-    generateBills = (mBillsArray) =>{
-        //number of items per sub bill
-        let numPerBill = 7;
 
-        let billGroup = [];
-        let bills = [];
-        let olNum; //starting number for ordered list
-        //loop through each bill
-        for(let idx = 0; idx < mBillsArray.length; idx++) {
-            billGroup = [];
-
-            //split the items in the bill into pages with length of numPerBill
-            for (let i = 0; i < mBillsArray[idx].length; i += numPerBill) {
-
-
-                let val = [];
-
-                for (let j = 0; j < numPerBill; j++) {
-                    if (mBillsArray[idx][i + j] !== undefined)
-                        val[j] = mBillsArray[idx][i + j];
-                }
-                billGroup.push(val);
-            }
-
-
-
-            let page = [];
-
-            let active = 'orderView__active';
-            //loop for each page of the bill
-            for (let i = 0; i < billGroup.length; i++) {
-                olNum = i * numPerBill + 1;
-                if(i > 0){
-                    active = 'orderView__inactive';
-                }
-                page.push(
-                    <div className={"orderView__order-subwrapper " + active} id={"bill"+billGroup[i][0].bill + "-page" + i}>
-
-                        <div className={"orderView__order"}
-                             key={idx}
-                        >
-                            <p className={"orderView__billnum"}>Bill # {billGroup[i][0].bill}</p>
-                            <OrderSubView
-                                billProps={billGroup[i]}
-                                olStart={olNum}
-                            />
-                        </div>
-                    </div>
-                )
-            }
-
-
-            //add the order wrapper to the bill pages
-            bills.push(<div className={"orderView__order-wrapper"} id={"bill" + (idx+1)}>
-
-                <input
-                    className={"orderView__selection"}
-                    type="checkbox"
-                    checked={this.state.checkboxes[idx]}
-                    onChange={() => this.handleCheckboxClick(idx)}
-                />
-                {page}
-
-                    <button className={"orderView__next"} onClick={() => {this.cycleBill(idx+1)}}>Next</button>
-
-            </div>);
-        }
-
-        return(
-            <div id="orderSubContainer" className={"orderView__container no-anim"}>
-                {bills}
-            </div>
-        );
-
-    }
     //This function breaks the bills down if they are too large
     //This does not affect the actual data structure of a bill
     generateBillsRefactor = (mBillsDict) =>{
@@ -753,6 +678,7 @@ class OrderView extends React.Component{
         );
 
     }
+
     //Change bill page
     cycleBill = (bill) => {
         //prevent animation on page load
@@ -783,6 +709,10 @@ class OrderView extends React.Component{
                 return;
             }
         }
+
+
+
+
 
     }
     //**************************************************************** */

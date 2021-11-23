@@ -1,0 +1,62 @@
+.merge-bill{
+    position: relative;
+    height: 100%;
+}
+
+.merge-bill__bills{
+    display: flex;
+    justify-content: center;
+    padding: 75px 25px 25px 25px;
+    height: 100%;
+}
+
+.merge-bill__first{
+    margin-right: 25px;
+}
+
+.merge-bill__second{
+    margin-left: 25px;
+}
+
+.merge-bill__buttons{
+    position: absolute;
+    top: 15px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-right: -15px;
+}
+
+.merge-bill__button{
+    margin-right: 15px;
+    transition: 0.4s;
+    background: #FFC107;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.merge-bill__move-buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.merge-bill__button:hover{
+    background-color: #FFD20C;
+}
+
+.merge-bill__left{
+    margin-bottom: 15px;
+}
+
+.merge-bill__left:hover{
+    padding-left: 5px;
+    padding-right: 15px;
+}
+.merge-bill__right:hover{
+    padding-left: 15px;
+    padding-right: 5px;
+}
