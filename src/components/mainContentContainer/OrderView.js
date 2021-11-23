@@ -305,7 +305,42 @@ class OrderView extends React.Component{
             })
         }
     }
+    moveMultipleOrderItemsToNewBill = (bill1, mOrderItems1, bill2, mOrderItems2) =>{
+        console.log("In moveMultipleOrderItemsToNewBill");
+        let confirmedOrderItems = this.props.orderProps.order.orderItems;
+        let mTempOrderItems = this.state.tempOrderItems;
+        //OrderItems ID members will be unique
+        //Check for emp
+        for(let i = 0; i < confirmedOrderItems.length; i++){
+            for(let j = 0; j < mOrderItems1.length; j++){
+                if(confirmedOrderItems[i].id === mOrderItems1[j].id){
+                    confirmedOrderItems[i].bill = bill1;
+                }
+            }
+            for(let j = 0; j < mOrderItems2.length; j++){
+                if(confirmedOrderItems[i].id === mOrderItems2[j].id){
+                    confirmedOrderItems[i].bill = bill2;
+                }
+            }
+        }
+        for(let i = 0; i < mTempOrderItems.length; i++){
+            for(let j = 0; j < mOrderItems1.length; j++){
+                if(mTempOrderItems[i].id === mOrderItems1[j].id){
+                    mTempOrderItems[i].bill = bill1;
+                }
+            }
+            for(let j = 0; j < mOrderItems2.length; j++){
+                if(mTempOrderItems[i].id === mOrderItems2[j].id){
+                    mTempOrderItems[i].bill = bill2;
+                }
+            }
+        }
+        this.props.updateOrderProps(this.props.orderProps.orderID, confirmedOrderItems);
+        this.setState({
 
+            tempOrderItems: mTempOrderItems
+        })
+    }
     //**************************************************************** */
     // Confirm methods
     //
@@ -421,8 +456,9 @@ class OrderView extends React.Component{
                 return(
                     <MergeBillView 
                     firstBillModelProps={this.state.firstBillModel}
-                    secondBillModelProps={this.state.secondBillMode}
+                    secondBillModelProps={this.state.secondBillModel}
                     getTempOrderItemsBillsProps={this.getTempOrderItemsBillsRefactor}
+                    moveMultipleOrderItemsToNewBillProps={this.moveMultipleOrderItemsToNewBill}
                     backToOrderViewProps={this.backToOrderView}
                     resetCheckboxesProps={this.resetCheckboxes}
                     />

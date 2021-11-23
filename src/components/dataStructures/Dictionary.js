@@ -43,6 +43,10 @@ class Dictionary{
         this.values[nString].push(this._recursiveCopy(elem));
         }
     }
+    removeKeyPair(n){
+        let nString = String(n);
+        delete this.values[n];
+    }
     _recursiveCopy = (elem) =>{
         if(typeof elem !== "object"){
             return elem;
