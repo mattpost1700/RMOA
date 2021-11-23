@@ -3,6 +3,9 @@ import ButtonContainer from "./ButtonContainer";
 import EnterClearContainer from "./EnterClearContainer";
 import "../appCSS/key-pad-container.css";
 
+import MainScreenOverlay from "./MainScreenOverlay";
+import { collection, getDocs, query, where } from 'firebase/firestore';
+
 class KeyPadContainer extends React.Component {
     state ={
         pin: "",
@@ -27,9 +30,50 @@ class KeyPadContainer extends React.Component {
         })
     }
 
-    handleSubmitClick = () => {
-        // Query database -> login or fail msg
+    handleSubmitClick = async () => {
+        console.log("handleSubmitClick", ": ", "started")
+        const q = query(collection(this.props.dbProps, "users"), where("pin", "==", this.state.pin))
+        let loggedIn = false
+
+        console.log("handleSubmitClick", ": ", "starting query (pin = " + this.state.pin + ")...")
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach((doc) => {
+            // Logged in!
+            loggedIn = true
+            const fName = doc.get('first_name')
+            const lName = doc.get('last_name')
+            const position = doc.get('position')
+
+            console.log("handleSubmitClick", ": ", fName + " " + lName, "logged in")
+
+            switch (position) {
+                case 'server':
+                    // Go to main screen
+                    break;
+                case 'manager':
+                    // Go to manager screen
+                    break;
+                case 'host':
+                    // Go to host screen
+                    break;
+                case 'kitchen':
+                    // Gp to kitchen view
+                    break;
+            }
+        });
+
+        // reset text box
+        this.setState({
+            pin: "",
+            pinLength: 0
+        })
+
+        // check if logged in
+        if(!loggedIn) {
+            console.log("handleSubmitClick", ": ", "PIN does not match any user");
+        }
     }
+
 
     render(){
         return(
@@ -37,7 +81,12 @@ class KeyPadContainer extends React.Component {
                 <h1 className={"login__title"}>Login</h1>
                 <div className="login__content">
                     <div className={"login__details"}>
+<<<<<<< HEAD
                         <input
+=======
+                        <label htmlFor="empPin">Pin</label>
+                        <input readOnly
+>>>>>>> origin/mattdev
                             className={"login__pin"}
                             id="empPin"
                             type="password"
