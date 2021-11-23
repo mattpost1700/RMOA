@@ -81,12 +81,8 @@ class KeyPadContainer extends React.Component {
                 <h1 className={"login__title"}>Login</h1>
                 <div className="login__content">
                     <div className={"login__details"}>
-<<<<<<< HEAD
-                        <input
-=======
                         <label htmlFor="empPin">Pin</label>
                         <input readOnly
->>>>>>> origin/mattdev
                             className={"login__pin"}
                             id="empPin"
                             type="password"

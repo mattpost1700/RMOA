@@ -2,10 +2,8 @@ import React from "react";
 import reactDOM from "react-dom";
 import "./index.css";
 import KeyPadContainer from "./components/KeyPadContainer";
-<<<<<<< HEAD
 import MainScreenOverlay from "./components/MainScreenOverlay";
 import TestingArea from "./components/TestingArea";
-=======
 
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
@@ -23,7 +21,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
->>>>>>> origin/mattdev
 reactDOM.render(
     <React.StrictMode>
         <KeyPadContainer dbProps={db}/>
