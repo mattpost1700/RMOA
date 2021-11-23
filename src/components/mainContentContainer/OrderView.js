@@ -243,6 +243,7 @@ class OrderView extends React.Component{
     }
     moveOrderItemsToNewBill = (mOrderItems) =>{
         console.log("In moveOrderItemsToNewBill");
+        console.log("mOrderItems", mOrderItems);
         let newBillNumber = this.generateBillId();
         let confirmedOrderItems = this.props.orderProps.order.orderItems;
         let mTempOrderItems = this.state.tempOrderItems;
@@ -250,12 +251,12 @@ class OrderView extends React.Component{
         for(let i = 0; i < mOrderItems.length; i++){
             for(let j = 0; j < confirmedOrderItems.length; j++){
                 if(mOrderItems[i].id === confirmedOrderItems[j].id){
-                    confirmedOrderItems[i].bill = newBillNumber;
+                    confirmedOrderItems[j].bill = newBillNumber;
                 }
             }
             for(let j = 0; j < mTempOrderItems.length; j++){
-                if(mOrderItems[i].id === mTempOrderItems[i].id){
-                    mTempOrderItems[i].bill = newBillNumber;
+                if(mOrderItems[i].id === mTempOrderItems[j].id){
+                    mTempOrderItems[j].bill = newBillNumber;
                 }
             }
         }
