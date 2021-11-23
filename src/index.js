@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import reactDOM from "react-dom";
 import "./index.css";
 import KeyPadContainer from "./components/KeyPadContainer";
-import MainScreenOverlay from "./components/MainScreenOverlay";
 
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
@@ -22,7 +21,7 @@ const db = getFirestore(app);
 
 reactDOM.render(
     <React.StrictMode>
-        <KeyPadContainer db ={db}/>
+        <KeyPadContainer db={db}/>
     </React.StrictMode>,
     document.getElementById("root")
 )
