@@ -32,7 +32,7 @@ class KeyPadContainer extends React.Component {
 
     handleSubmitClick = async () => {
         console.log("handleSubmitClick", ": ", "started")
-        const q = query(collection(this.db, "users"), where("pin", "==", this.state.pin))
+        const q = query(collection(this.props.dbProps, "users"), where("pin", "==", this.state.pin))
         let loggedIn = false
 
         console.log("handleSubmitClick", ": ", "starting query (pin = " + this.state.pin + ")...")
@@ -82,7 +82,7 @@ class KeyPadContainer extends React.Component {
                 <div className="login__content">
                     <div className={"login__details"}>
                         <label htmlFor="empPin">Pin</label>
-                        <input
+                        <input readOnly
                             className={"login__pin"}
                             id="empPin"
                             type="password"

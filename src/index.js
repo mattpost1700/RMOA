@@ -21,7 +21,7 @@ const db = getFirestore(app);
 
 reactDOM.render(
     <React.StrictMode>
-        <KeyPadContainer db={db}/>
+        <KeyPadContainer dbProps={db}/>
     </React.StrictMode>,
     document.getElementById("root")
 )
