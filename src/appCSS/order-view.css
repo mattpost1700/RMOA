@@ -1,8 +1,7 @@
-.orderView{
+.content{
     width: 100%;
-    grid-template-rows: 1fr 7fr;
-    display: grid;
 }
+
 .orderView__info{
     display: flex;
     justify-content: space-between;
@@ -16,11 +15,13 @@
 }
 
 .orderView__container{
-    padding: 25px;
+    padding: 25px 25px 20px 25px;
     display: flex;
     width: 100%;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
     -ms-overflow-style: none;
+
 }
 
 .orderView__container::-webkit-scrollbar{
@@ -44,23 +45,42 @@
     position: relative;
 
     background: #fff;
-    margin-top: 10px;
     margin-bottom: 10px;
     box-shadow: -5px 3px 3px #aaaaaa;
 }
 
-.orderView__order-wrapper:hover{
-    margin-left: 10px;
-    margin-right: 60px;
+.orderView__billnum{
+    text-align: center;
+}
 
+.orderView__order-subwrapper:last-child{
+    position: absolute;
+    top: 10px;
+    right: -10px;
+    z-index: -1;
+}
+
+.orderView__order-subwrapper:only-of-type{
+    position: relative;
+    top: 0;
+    right: 0;
+}
+
+.orderView__order-wrapper:hover{
+    margin-left: 20px;
+    margin-right: 70px;
+
+}
+.orderView__order-wrapper:first-child:hover{
+    margin-left: 0;
 }
 
 .orderView__order-wrapper:hover .orderView__order{
-    margin-top: 0;
+    margin-top: -5px;
 }
 
-.orderView__selection:checked + .orderView__order {
-    margin-top: -10px;
+.orderView__selection:checked ~ .orderView__order-subwrapper .orderView__order {
+    margin-top: -15px;
 }
 
 .orderView__selection:hover{
