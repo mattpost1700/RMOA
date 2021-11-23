@@ -3,11 +3,9 @@ import ButtonContainer from "./ButtonContainer";
 import EnterClearContainer from "./EnterClearContainer";
 import "../appCSS/key-pad-container.css";
 
-
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, query, where} from 'firebase/firestore';
-
-
+import { getFirestore, collection, getDocs, query, where, setDoc} from 'firebase/firestore';
+import MainScreenOverlay from "./MainScreenOverlay";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDfcxJYmzZFj1C8RWTUaDWEpR3njO6-Knc",
@@ -21,7 +19,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 
 class KeyPadContainer extends React.Component {
     state ={
@@ -47,24 +44,26 @@ class KeyPadContainer extends React.Component {
         })
     }
 
-    handleSubmitClick = () => {
-        //Query database -> login or fail msg
-        //const q = query(collection(firestore, "users"), where("pin", "==", this.state.pin));
-        //const userRef = collection(db,'users');
-        const q = query(collection(db, "users"), where("pin", "==", this.state.pin));
-        //const userLoggedIn = useCollectionData(userRef, { pin: this.state.pin })
-        // const userLoggedIn = query(userRef, where("pin", "==", this.state.pin))
-        let querySnapshot = await getDocs(q);
+    handleSubmitClick = async () => {
+        console.log("handleSubmitClick", ": ", "started")
+        const q = query(collection(db, "users"), where("pin", "==", this.state.pin))
+
+        console.log("handleSubmitClick", ": ", "starting query (pin = " + this.state.pin + ")...")
+        const querySnapshot = await getDocs(q)
         querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-            });
-        console.log("q", q);
-        if(q !== "1234") {
-            alert('logged in')
-        } else {
-            alert('not logged in')
-        }
+            // Logged in!
+            const fName = doc.get('first_name')
+            const lName = doc.get('last_name');
+
+            console.log("handleSubmitClick", ": ", fName + " " + lName, "logged in")
+            return true
+        });
+        console.log("handleSubmitClick", ": ", "PIN does not match any user");
+        this.setState({
+            pin: "",
+            pinLength: 0
+        })
+        return false
     }
 
 
