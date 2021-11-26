@@ -4,6 +4,8 @@ import EnterClearContainer from "./EnterClearContainer";
 import "../appCSS/key-pad-container.css";
 
 import MainScreenOverlay from "./MainScreenOverlay";
+import { Router, Route, useParams } from "react-router-dom";
+import { useNavigate } from "react-router";
 import {collection, getDocs, query, where} from 'firebase/firestore';
 
 /**
@@ -54,7 +56,7 @@ class KeyPadContainer extends React.Component {
         let loggedIn = false
 
         console.log("handleSubmitClick", ": ", "starting query (pin = " + this.state.pin + ")...")
-        const querySnapshot = await getDocs(q)
+        let querySnapshot = await getDocs(q)
         querySnapshot.forEach((doc) => {
             // Logged in!
             loggedIn = true
@@ -65,9 +67,12 @@ class KeyPadContainer extends React.Component {
             console.log("handleSubmitClick", ": ", fName + " " + lName, "logged in")
 
             // TODO: Add routing to respective screens shown in ($...)
+            const navigate = useNavigate();
             switch (position) {
                 case 'server':
                     // Go to main screen ($MainScreenOverlay)
+                    console.log("handleSubmitClick", ": ", "Going to server view...");
+                    navigate("/MainScreenOverlay")
                     break;
                 case 'manager':
                     // Go to manager screen ($MainScreenOverlay)
