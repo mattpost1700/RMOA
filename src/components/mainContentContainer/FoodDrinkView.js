@@ -16,7 +16,8 @@ class FoodDrinkView extends React.Component{
     }
 
     // Checks if either array is empty and returns appropriate array
-    // At least one array should be nonempty
+    // If only temporary are present, an undefined object could occur.
+    // Try returning an empty array to fix this issue.
     collectOrderItems = (mBill, mConfirmedOrderItems, mTempOrderItems) =>{
         if(mConfirmedOrderItems !== undefined && mTempOrderItems !== undefined){
             return mConfirmedOrderItems.concat(mTempOrderItems);
@@ -26,6 +27,9 @@ class FoodDrinkView extends React.Component{
         }
         else if(mConfirmedOrderItems === undefined && mTempOrderItems !== undefined){
             return mTempOrderItems;
+        }
+        else{
+            return [];
         }
     }
     render(){

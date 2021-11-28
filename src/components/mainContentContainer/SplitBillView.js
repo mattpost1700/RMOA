@@ -132,7 +132,9 @@ class SplitBillView extends React.Component{
         }
     } 
     // Checks if either array is empty and returns appropriate array
-    // At least one array should be nonempty
+    // At least one array should be nonempty.
+    // This function is the same as the one in FoodDrinkView.js but
+    // the last case should never occur (hopefully...)
     collectOrderItems = (mBill, mConfirmedOrderItems, mTempOrderItems) =>{
         if(mConfirmedOrderItems !== undefined && mTempOrderItems !== undefined){
             return mConfirmedOrderItems.concat(mTempOrderItems);
@@ -142,6 +144,9 @@ class SplitBillView extends React.Component{
         }
         else if(mConfirmedOrderItems === undefined && mTempOrderItems !== undefined){
             return mTempOrderItems;
+        }
+        else{
+            return [];
         }
     }
     constructor(props){
