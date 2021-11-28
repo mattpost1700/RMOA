@@ -14,13 +14,24 @@ class FoodDrinkView extends React.Component{
     modifyItemsCallback = () =>{      
         this.setState({mSwitch: this.state.mSwitch * -1})
     }
-    render(){
-        let mBill = this.props.billModelProps.bill;
-        let mOrderItems = this.props.billModelProps.orderItems
-        let mTempOrderItems = this.props.getTempOrderItemsBillsProps().getValueOfKey(mBill);
-        if(mTempOrderItems !== undefined){
-            mOrderItems = mOrderItems.concat(mTempOrderItems);
+
+    // Checks if either array is empty and returns appropriate array
+    // At least one array should be nonempty
+    collectOrderItems = (mBill, mConfirmedOrderItems, mTempOrderItems) =>{
+        if(mConfirmedOrderItems !== undefined && mTempOrderItems !== undefined){
+            return mConfirmedOrderItems.concat(mTempOrderItems);
         }
+        else if(mConfirmedOrderItems !== undefined && mTempOrderItems === undefined){
+            return mConfirmedOrderItems;
+        }
+        else if(mConfirmedOrderItems === undefined && mTempOrderItems !== undefined){
+            return mTempOrderItems;
+        }
+    }
+    render(){
+        let mOrderItems = this.collectOrderItems(this.props.billModelProps.bill, 
+                                                this.props.billModelProps.orderItems,
+                                                this.props.getTempOrderItemsBillsProps().getValueOfKey(this.props.billModelProps.bill));
         return(
             <div>
                 <button 

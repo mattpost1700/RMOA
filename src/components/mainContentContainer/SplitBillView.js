@@ -131,24 +131,31 @@ class SplitBillView extends React.Component{
             })
         }
     } 
+    // Checks if either array is empty and returns appropriate array
+    // At least one array should be nonempty
+    collectOrderItems = (mBill, mConfirmedOrderItems, mTempOrderItems) =>{
+        if(mConfirmedOrderItems !== undefined && mTempOrderItems !== undefined){
+            return mConfirmedOrderItems.concat(mTempOrderItems);
+        }
+        else if(mConfirmedOrderItems !== undefined && mTempOrderItems === undefined){
+            return mConfirmedOrderItems;
+        }
+        else if(mConfirmedOrderItems === undefined && mTempOrderItems !== undefined){
+            return mTempOrderItems;
+        }
+    }
     constructor(props){
         super(props)
-        console.log("In SplitBillView constructor!");
-        let mBill = this.props.billModelProps.bill;
-        console.log("mBill", mBill);
-        let mOrderItemsToKeep = this.props.billModelProps.orderItems;
-        let mTempOrderItems = this.props.getTempOrderItemsBillsProps().getValueOfKey(mBill);
-        console.log("mTempOrderItems", mTempOrderItems);
-        if(mTempOrderItems !== undefined){
-            console.log("mTempOrderItems was not undefined");
-            mOrderItemsToKeep = mOrderItemsToKeep.concat(mTempOrderItems);
-        }
+        let mOrderItemsToKeep = this.collectOrderItems(this.props.billModelProps.bill,
+            this.props.billModelProps.orderItems,
+            this.props.getTempOrderItemsBillsProps().getValueOfKey(this.props.billModelProps.bill));
         this.state.orderItemsToKeep = mOrderItemsToKeep;
         console.log("mOrderItemsToKeep", mOrderItemsToKeep);
         this.state.toKeepCheckboxes = this.setCheckboxes(mOrderItemsToKeep);
     }
     render(){
         // Cory, feel free to put the button in any formation that makes sense
+        
         return(
             <div>
                 <button 
