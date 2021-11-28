@@ -17,16 +17,21 @@ class FoodDrinkSubView extends React.Component{
     // sense in place of "Remove" for the button label. I think
     // some sort of "X" will work.
     render(){
+        console.log(this.props.orderItemsProps);
         return(
             <ol className={"orderList"}>
                 {this.props.orderItemsProps.map((mOrderItem, index) =>(
                     <li className={"orderList__item"}
-                    key={index}
+                        key={index}
                     >
-                        <span className={"orderList__name"}>{mOrderItem.name} - </span> <span className={"orderList__price"}> ${mOrderItem.price}</span>
-                    <button 
-                    onClick={() => this.handleRemoveClicked(mOrderItem)}
-                    >Remove</button>
+                        <div className="orderList__wrapper">
+                            <div className="orderList__details">
+                                <span className={"orderList__name"}>{mOrderItem.name} - </span> <span className={"orderList__price"}> ${mOrderItem.price}</span>
+                            </div>
+                            <button className={"orderList__remove"}
+                                onClick={() => this.handleRemoveClicked(mOrderItem)}
+                            >&#10005;</button>
+                        </div>
                     </li>
                 ))}
             </ol>

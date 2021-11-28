@@ -1,6 +1,6 @@
 import React from "react";
 import MockMenu from "../../testFiles/mockMenu";
-import "../../appCSS/order-sub-view.css";
+import "../../appCSS/menu-view.css";
 
 class MenuView extends React.Component{
     state = {
@@ -12,6 +12,7 @@ class MenuView extends React.Component{
         let mBill = this.props.billModelProps.bill;
         console.log("mBill", mBill);
         this.props.addOrderItemsProps(mMenuItem, mBill,this.props.modifyItemsCallbackProps);
+        this.props.addClickProps();
     }
     // Matt, this is a good place for a database call
     // Right now, mock Menu data will come from the testFiles
@@ -24,15 +25,15 @@ class MenuView extends React.Component{
     }
     render(){
         return(
-            <ol className={"orderList"}>
+            <ol className={"menuList"}>
                 {this.state.menu.map((mMenuItem, index) =>(
-                    <li className={"orderList__item"}
-                    key={index}
+                    <li className={"menuList__item"}
+                        key={index}
                     >
-                        <span className={"orderList__name"}>{mMenuItem.name} - </span> <span className={"orderList__price"}> ${mMenuItem.price}</span>
-                    <button 
-                    onClick={() => this.handleAddClicked(mMenuItem)}
-                    >Add</button>
+                        <span className={"menuList__name"}>{mMenuItem.name} - </span> <span className={"menuList__price"}> ${mMenuItem.price}</span>
+                        <button className={"menuList__add"}
+                            onClick={() => this.handleAddClicked(mMenuItem)}
+                        >&#43;</button>
                     </li>
                 ))}
             </ol>

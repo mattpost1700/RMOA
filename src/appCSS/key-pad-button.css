@@ -13,5 +13,11 @@
     color: #fff;
     border: none;
     cursor: pointer;
+    transition: 0.4s;
+}
 
+.keypad-button__button:hover,
+.keypad-button__button:active,
+.keypad-button__button:focus{
+    background: #228dff;
 }

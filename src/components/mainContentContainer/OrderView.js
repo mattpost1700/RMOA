@@ -7,6 +7,7 @@ import FoodDrinkView from "./FoodDrinkView";
 import SplitBillView from "./SplitBillView";
 import MergeBillView from "./MergeBillView";
 import Dictionary from "../dataStructures/Dictionary";
+import {map} from "react-bootstrap/ElementChildren";
 // Not sure if this is a good idea or not, but the idea is
 // to have this class represent the OrderModel
 
@@ -108,7 +109,7 @@ class OrderView extends React.Component{
     handleCheckboxClickRefactor = (mIndex) =>{
         console.log("hello from handleCheckboxClick method");
         console.log("index is", mIndex);
-        
+
         let temp = new Dictionary(this.state.checkboxes);
         let flag = temp.getValueOfKey(mIndex).checked;
         console.log("flag is", flag);
@@ -184,7 +185,7 @@ class OrderView extends React.Component{
         this.setState({lastOrderItemIDGenerated: newOrderItemID});
         return newOrderItemID;
     }
-    
+
     addOrderItems = (mMenuItem, mBill, callback) =>{
         let mOrderItem = new OrderItem(mMenuItem);
         mOrderItem.bill = mBill;
@@ -451,12 +452,13 @@ class OrderView extends React.Component{
                     backToOrderViewProps={this.backToOrderView}
                     moveOrderItemsToNewBillProps={this.moveOrderItemsToNewBill}
                     resetCheckboxesProps={this.resetCheckboxes}
+                    newBillID={this.state.lastBillIDGenerated + 1}
                     />
                 )
             }
             case "MergeBillView":{
                 return(
-                    <MergeBillView 
+                    <MergeBillView
                     firstBillModelProps={this.state.firstBillModel}
                     secondBillModelProps={this.state.secondBillModel}
                     getTempOrderItemsBillsProps={this.getTempOrderItemsBillsRefactor}
@@ -498,7 +500,7 @@ class OrderView extends React.Component{
     // it into different bills. billsDict is a new Dictionary data structure
     generateOrderSubViewRefactor = () =>{
         let billsDict = new Dictionary();
-        
+
         //These are the confirmed OrderItems
         let mOrderItems = this.props.orderProps.order.orderItems;
         for(let i = 0; i < mOrderItems.length; i++){
@@ -521,7 +523,7 @@ class OrderView extends React.Component{
                 billsDict.addArrayElement(mTempOrderItems[i].bill, mTempOrderItems[i]);
             }
         }
-        
+
         return billsDict
     }
     getConfirmedOrderItemsBills = () =>{
@@ -543,7 +545,7 @@ class OrderView extends React.Component{
     //Returns a Dictionary object
     getConfirmedOrderItemsBillsRefactor = () =>{
         let billsDict = new Dictionary();
-        
+
         //These are the confirmed OrderItems
         let mOrderItems = this.props.orderProps.order.orderItems;
         for(let i = 0; i < mOrderItems.length; i++){
@@ -592,83 +594,7 @@ class OrderView extends React.Component{
     }
 
 
-    //This function breaks the bills down if they are too large
-    //This does not affect the actual data structure of a bill
-    generateBills = (mBillsArray) =>{
-        //number of items per sub bill
-        let numPerBill = 7;
 
-        let billGroup = [];
-        let bills = [];
-        let olNum; //starting number for ordered list
-        //loop through each bill
-        for(let idx = 0; idx < mBillsArray.length; idx++) {
-            billGroup = [];
-
-            //split the items in the bill into pages with length of numPerBill
-            for (let i = 0; i < mBillsArray[idx].length; i += numPerBill) {
-
-
-                let val = [];
-
-                for (let j = 0; j < numPerBill; j++) {
-                    if (mBillsArray[idx][i + j] !== undefined)
-                        val[j] = mBillsArray[idx][i + j];
-                }
-                billGroup.push(val);
-            }
-
-
-
-            let page = [];
-
-            let active = 'orderView__active';
-            //loop for each page of the bill
-            for (let i = 0; i < billGroup.length; i++) {
-                olNum = i * numPerBill + 1;
-                if(i > 0){
-                    active = 'orderView__inactive';
-                }
-                page.push(
-                    <div className={"orderView__order-subwrapper " + active} id={"bill"+billGroup[i][0].bill + "-page" + i}>
-
-                        <div className={"orderView__order"}
-                             key={idx}
-                        >
-                            <p className={"orderView__billnum"}>Bill # {billGroup[i][0].bill}</p>
-                            <OrderSubView
-                                billProps={billGroup[i]}
-                                olStart={olNum}
-                            />
-                        </div>
-                    </div>
-                )
-            }
-
-
-            //add the order wrapper to the bill pages
-            bills.push(<div className={"orderView__order-wrapper"} id={"bill" + (idx+1)}>
-
-                <input
-                    className={"orderView__selection"}
-                    type="checkbox"
-                    checked={this.state.checkboxes[idx]}
-                    onChange={() => this.handleCheckboxClick(idx)}
-                />
-                {page}
-
-                    <button className={"orderView__next"} onClick={() => {this.cycleBill(idx+1)}}>Next</button>
-
-            </div>);
-        }
-
-        return(
-            <div id="orderSubContainer" className={"orderView__container no-anim"}>
-                {bills}
-            </div>
-        );
-
-    }
     //This function breaks the bills down if they are too large
     //This does not affect the actual data structure of a bill
     generateBillsRefactor = (mBillsDict) =>{
@@ -688,7 +614,7 @@ class OrderView extends React.Component{
             // Instead of mBillsArray[idx], use getValueOfKey, which will be an array in this case
             let subGroupOfSeven = [];
             let mBill = mBillsDict.getValueOfKey(billNumbers[idx]);
-            for (let i = 0; i < mBill.length; i++) { 
+            for (let i = 0; i < mBill.length; i++) {
                 //i.e. if this next element will be the 7th or last element
                 // push to billGroup once added, then clear subGroupOfSeven for next subGroup
                 if( ((i + 1) % numPerBill === 0) || (i + 1) === mBill.length){
@@ -699,7 +625,7 @@ class OrderView extends React.Component{
                 else{
                     subGroupOfSeven.push(mBill[i]);
                 }
-                
+
             }
             //billGroup should still be a 2D array at this point
 
@@ -740,9 +666,9 @@ class OrderView extends React.Component{
                     onChange={() => this.handleCheckboxClickRefactor(billNumbers[idx])}
                 />
                 {page}
-     
+
                  <button className={"orderView__next"} onClick={() => {this.cycleBill(billNumbers[idx])}}>Next</button>
-                
+
 
             </div>);
         }
@@ -754,6 +680,7 @@ class OrderView extends React.Component{
         );
 
     }
+
     //Change bill page
     cycleBill = (bill) => {
         //prevent animation on page load
@@ -784,6 +711,10 @@ class OrderView extends React.Component{
                 return;
             }
         }
+
+
+
+
 
     }
     //**************************************************************** */

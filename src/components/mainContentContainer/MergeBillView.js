@@ -1,5 +1,6 @@
 import React from "react";
 import SplitBillSubView from "./SplitBillSubView";
+import '../../appCSS/merge-bill-view.css';
 class MergeBillView extends React.Component{
     state ={
         orderItemsFirstBill: [],
@@ -134,7 +135,7 @@ class MergeBillView extends React.Component{
                 secondBillCheckboxes: temp
             })
         }
-    } 
+    }
     constructor(props){
         super(props);
         console.log("In MergeBillView constructor!");
@@ -156,39 +157,53 @@ class MergeBillView extends React.Component{
         this.state.secondBillCheckboxes = this.setCheckboxes(mOrderItemsSecondBill);
     }
     render(){
+        let bill1 = this.props.firstBillModelProps.bill;
+        let bill2 = this.props.secondBillModelProps.bill;
+
+
         return(
-            <div>
-                <button 
-                id="cancelMerge"
-                onClick={() => this.handleCancelMergeClicked()}
-                >Cancel Merge</button>
-                <button 
-                id="confirmMerge"
-                onClick={() => this.handleConfirmMergeClicked()}
-                >Confirm Merge</button>
-                <button 
-                id="moveLeft"
-                onClick={() => this.handleMoveLeftClicked()}
-                >Move Left</button>
-                <button 
-                id="moveRight"
-                onClick={() => this.handleMoveRightClicked()}
-                >Move Right</button>
-                <div id="firstBill">
+            <div className={"merge-bill"}>
+                <div className="merge-bill__buttons">
+                    <button className={"merge-bill__button"}
+                    id="cancelMerge"
+                    onClick={() => this.handleCancelMergeClicked()}
+                    >Cancel Merge</button>
+                    <button className={"merge-bill__button"}
+                    id="confirmMerge"
+                    onClick={() => this.handleConfirmMergeClicked()}
+                    >Confirm Merge</button>
+
+                </div>
+                <div className="merge-bill__bills">
+                <div id="firstBill" className={"merge-bill__first"}>
                 <SplitBillSubView 
                 nameProps={"firstBill"}
                 orderItemsProps={this.state.orderItemsFirstBill}
                 checkboxesProps={this.state.firstBillCheckboxes}
                 updateCheckboxesProps={this.updateCheckboxes}
+                billNum={bill1}
+
                 />
                 </div>
-                <div id="secondBill">
+                    <div className="merge-bill__move-buttons">
+                        <button className={"merge-bill__button merge-bill__left"}
+                                id="moveLeft"
+                                onClick={() => this.handleMoveLeftClicked()}
+                        >&#60;&#60; Move Left</button>
+                        <button className={"merge-bill__button merge-bill__right"}
+                                id="moveRight"
+                                onClick={() => this.handleMoveRightClicked()}
+                        >Move Right &#62;&#62;</button>
+                    </div>
+                <div id="secondBill" className={"merge-bill__second"}>
                 <SplitBillSubView
                 nameProps={"secondBill"}
                 orderItemsProps={this.state.orderItemsSecondBill}
                 checkboxesProps={this.state.secondBillCheckboxes}
                 updateCheckboxesProps={this.updateCheckboxes}
+                billNum={bill2}
                 />
+                </div>
                 </div>
             </div>
         )
