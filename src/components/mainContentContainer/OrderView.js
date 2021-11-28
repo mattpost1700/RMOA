@@ -132,6 +132,7 @@ class OrderView extends React.Component{
         }
     }
     backToOrderView = () =>{
+        this.resetCheckboxes();
         this.setState({
             mainContent:{
                 name: "Main OrderView"
