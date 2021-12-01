@@ -246,10 +246,11 @@ class MainScreenOverlay extends React.Component{
             <div id="mainContainer" className={"main"}>
                 <div id="topBarContainer" className={"main__top"}>
                         <TopBar
-                            topBarBackProps = {this.handleBackClick}
+                        topBarBackProps = {this.handleBackClick}
                         topBarTitleProps={this.state.topBarTitle}
                         userIDProps={this.state.userID}
                         userClassProps={this.state.userClass}
+                        logoutOfAppProps={this.props.logoutOfAppProps}
                         />
                     </div>
                 <div id="sideBarContainer" className={"main__side"}>
