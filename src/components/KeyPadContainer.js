@@ -4,6 +4,7 @@ import EnterClearContainer from "./EnterClearContainer";
 import "../appCSS/key-pad-container.css";
 
 import MainScreenOverlay from "./MainScreenOverlay";
+import KitchenView from "./KitchenView";
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
 class KeyPadContainer extends React.Component {
@@ -73,6 +74,9 @@ class KeyPadContainer extends React.Component {
                     break;
                 case 'kitchen':
                     // Gp to kitchen view
+                    this.setState({
+                        mainContent: "KitchenView",
+                    })
                     break;
             }
         }
@@ -123,6 +127,13 @@ class KeyPadContainer extends React.Component {
             case "ServerView":{
                 return(
                     <MainScreenOverlay 
+                    logoutOfAppProps={this.logoutOfApp}
+                    />
+                )
+            }
+            case "KitchenView":{
+                return(
+                    <KitchenView
                     logoutOfAppProps={this.logoutOfApp}
                     />
                 )
