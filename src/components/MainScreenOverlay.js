@@ -201,6 +201,12 @@ class MainScreenOverlay extends React.Component{
         this.setState({
             tables: mTables
         });
+        this.sendOrderItemsToKitchen(mTableID, mTempOrderItems)
+    }
+    //Matt,
+    //This function should make a database call
+    sendOrderItemsToKitchen = (mTableID, mTempOrderItems) =>{
+
     }
     goToSeatingChart = () =>{
         this.setState({
