@@ -349,7 +349,19 @@ class OrderView extends React.Component{
     //
     handleConfirmClicked = () =>{
         console.log("handleConfirmClicked is clicked!");
-
+        //Set all tempOrderItems to confirmed = true
+        //Send all tempOrderItems up be handle in MainScreenOverlay
+        //Remove all tempOrderItems from this state - taken care of by moving to the parent view
+        //Go back to parent view
+        let temp = this.state.tempOrderItems;
+        if(temp.length > 0){
+            for(let i = 0; i < temp.length; i++){
+                temp[i].confirmed = true;
+            }
+            this.props.updateOrderProps(this.props.orderProps.tableID, temp)
+        }
+        this.props.goToSeatingChartProps();
+    
     }
 
 

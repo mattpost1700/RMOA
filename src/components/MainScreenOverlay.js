@@ -187,20 +187,28 @@ class MainScreenOverlay extends React.Component{
     //OrderView methods
     //
 
-    // Takes an array of orderItems and updates the order
+    // Takes an array of tempOrderItems and updates the order
     // of the passed in tableID
-    updateOrder = (mTableID, mOrderItems) => {
+    updateOrder = (mTableID, mTempOrderItems) => {
         console.log("updateOrder has been called");
-        console.log("mOrderItems", mOrderItems);
+        console.log("mTempOrderItems", mTempOrderItems);
         let mTables = this.state.tables;
         for(let i = 0; i < mTables.length; i++){
             if(mTables[i].tableID === mTableID){
-                mTables[i].order = mOrderItems;
+                mTables[i].order.orderItems = mTables[i].order.orderItems.concat(mTempOrderItems);
             }
         }
         this.setState({
             tables: mTables
         });
+    }
+    goToSeatingChart = () =>{
+        this.setState({
+            mainContent: {
+                name : "Seating Chart",
+                component: SeatingChart,
+            }
+        })
     }
 
     // The idea behind this function is to dynamically create
@@ -228,6 +236,7 @@ class MainScreenOverlay extends React.Component{
                     userClassProps={this.state.userClass}
                     orderProps={this.state.orderModel}
                     updateOrderProps={this.updateOrder}
+                    goToSeatingChartProps={this.goToSeatingChart}
                     />
                 )
             }
