@@ -358,7 +358,7 @@ class OrderView extends React.Component{
             for(let i = 0; i < temp.length; i++){
                 temp[i].confirmed = true;
             }
-            this.props.updateOrderProps(this.props.orderProps.tableID, temp)
+            this.props.confirmOrderProps(this.props.orderProps.tableID, temp)
         }
         this.props.goToSeatingChartProps();
     

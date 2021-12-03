@@ -127,6 +127,7 @@ class KeyPadContainer extends React.Component {
             case "ServerView":{
                 return(
                     <MainScreenOverlay 
+                    dbProps={this.props.dbProps}
                     logoutOfAppProps={this.logoutOfApp}
                     />
                 )
@@ -134,6 +135,7 @@ class KeyPadContainer extends React.Component {
             case "KitchenView":{
                 return(
                     <KitchenView
+                    dbProps={this.props.dbProps}
                     logoutOfAppProps={this.logoutOfApp}
                     />
                 )
