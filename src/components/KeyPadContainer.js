@@ -73,9 +73,9 @@ class KeyPadContainer extends React.Component {
                     // Go to host screen
                     break;
                 case 'kitchen':
-                    // Gp to kitchen view
+                    // Go to kitchen view
                     this.setState({
-                        mainContent: "KitchenView",
+                        mainContent: "KitchenView"
                     })
                     break;
             }
