@@ -1,0 +1,73 @@
+.split-bill{
+    position: relative;
+    height: 100%;
+}
+
+.split-bill__wrapper{
+    display: flex;
+    justify-content: center;
+    padding: 75px 25px 25px 25px;
+    height: 100%;
+}
+
+.split-bill__first{
+    margin-right: 25px;
+}
+.split-bill__new{
+    margin-left: 25px;
+}
+
+.split-bill__buttons{
+    position: absolute;
+    top: 15px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-right: -15px;
+}
+
+.split-bill__button{
+    margin-right: 15px;
+    transition: 0.4s;
+    background: #FFC107;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.split-bill__move-buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.split-bill__button:hover{
+    background-color: #FFD20C;
+}
+
+.split-bill__cancel{
+
+}
+
+.split-bill__confirm{
+
+}
+
+.split-bill__left{
+    margin-bottom: 15px;
+}
+
+.split-bill__right{
+
+}
+
+.split-bill__left:hover{
+    padding-left: 5px;
+    padding-right: 15px;
+}
+.split-bill__right:hover{
+    padding-left: 15px;
+    padding-right: 5px;
+}

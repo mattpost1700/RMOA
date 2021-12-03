@@ -6,7 +6,7 @@ class OrderSubView extends React.Component{
 
     render(){
         return(
-            <ol className={"orderList"}>
+            <ol start={this.props.olStart} className={"orderList"}>
 
                 {
                     this.props.billProps.map((mOrderItem, index) =>(

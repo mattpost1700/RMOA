@@ -1,0 +1,22 @@
+.menuList{
+    width: fit-content;
+    margin: 0 auto;
+    list-style-position: inside;
+    padding-left: 0;
+}
+
+.menuList__item{
+    position: relative;
+    line-height: 1.8;
+}
+
+
+.menuList__add{
+    color: #00ff00;
+    font-size: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    right: -25px;
+}

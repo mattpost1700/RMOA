@@ -8,6 +8,8 @@ import OrderView from "./mainContentContainer/OrderView";
 import Order from "./Order"
 import MockOrder from "../testFiles/mockOrder";
 import MockOrderLong from "../testFiles/mockOrderLong";
+import MockOrderSmall from "../testFiles/mockOrderSmall";
+import { collection, addDoc} from 'firebase/firestore';
 import "../appCSS/main-screen-overlay.css";
 class MainScreenOverlay extends React.Component{
     //This information should be mapped to the current user   
@@ -67,7 +69,7 @@ class MainScreenOverlay extends React.Component{
                 tableID: 2,
                 status: "free",
                 capacity: 4,
-                order: MockOrder,
+                order: MockOrderSmall,
             },
             {
                 tableID: 3,
@@ -186,10 +188,63 @@ class MainScreenOverlay extends React.Component{
     //OrderView methods
     //
 
-    // Takes an array of orderItems and updates the order
+    // Takes an array of tempOrderItems and updates the order
     // of the passed in tableID
-    updateOrder = (mTableID, mOrderItems) => {
+    updateOrder = (mTableID, mTempOrderItems) => {
         console.log("updateOrder has been called");
+        console.log("mTempOrderItems", mTempOrderItems);
+        let mTables = this.state.tables;
+        for(let i = 0; i < mTables.length; i++){
+            if(mTables[i].tableID === mTableID){
+                mTables[i].order.orderItems = mTables[i].order.orderItems.concat(mTempOrderItems);
+            }
+        }
+        this.setState({
+            tables: mTables
+        });
+    }
+
+    confirmOrder = (mTableID, mTempOrderItems) => {
+        console.log("updateOrder has been called");
+        console.log("mTempOrderItems", mTempOrderItems);
+        let mTables = this.state.tables;
+        for(let i = 0; i < mTables.length; i++){
+            if(mTables[i].tableID === mTableID){
+                mTables[i].order.orderItems = mTables[i].order.orderItems.concat(mTempOrderItems);
+            }
+        }
+        this.setState({
+            tables: mTables
+        });
+        this.sendOrderItemsToKitchen(mTableID, mTempOrderItems)
+    }
+    //Matt,
+    //This function should make a database call
+    sendOrderItemsToKitchen = async (mTableID, mTempOrderItems) =>{
+        console.log("In sendOrderItemsToKitchen");
+        //Convert mTempOrderItems into JSON string
+        const jString = JSON.stringify(mTempOrderItems);
+        console.log("jString", jString);
+        let docRef = await addDoc(collection(
+            this.props.dbProps, "orders"),{
+                tableID: mTableID,
+                orderItems: jString
+            });
+        console.log("Document written with ID: ", docRef.id);
+        //Try parsing the JSON string
+        const jParsed = JSON.parse(jString);
+        console.log("jParsed", jParsed);
+    }
+
+    
+
+    goToSeatingChart = () =>{
+        this.setState({
+            mainContent: {
+                name : "Seating Chart",
+                component: SeatingChart,
+            }
+        })
     }
 
     // The idea behind this function is to dynamically create
@@ -217,6 +272,8 @@ class MainScreenOverlay extends React.Component{
                     userClassProps={this.state.userClass}
                     orderProps={this.state.orderModel}
                     updateOrderProps={this.updateOrder}
+                    confirmOrderProps={this.confirmOrder}
+                    goToSeatingChartProps={this.goToSeatingChart}
                     />
                 )
             }
@@ -235,10 +292,11 @@ class MainScreenOverlay extends React.Component{
             <div id="mainContainer" className={"main"}>
                 <div id="topBarContainer" className={"main__top"}>
                         <TopBar
-                            topBarBackProps = {this.handleBackClick}
+                        topBarBackProps = {this.handleBackClick}
                         topBarTitleProps={this.state.topBarTitle}
                         userIDProps={this.state.userID}
                         userClassProps={this.state.userClass}
+                        logoutOfAppProps={this.props.logoutOfAppProps}
                         />
                     </div>
                 <div id="sideBarContainer" className={"main__side"}>
