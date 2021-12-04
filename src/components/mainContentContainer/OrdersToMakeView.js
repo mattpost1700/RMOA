@@ -37,7 +37,7 @@ class OrdersToMakeView extends React.Component {
         });
         console.log("mOrders", mOrders);
         this.setState({
-            orders: this.state.orders.concat(mOrders)
+            orders: mOrders
         })
     }
 
