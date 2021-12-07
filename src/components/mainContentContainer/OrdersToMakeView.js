@@ -1,5 +1,5 @@
 import React from "react";
-import {collection, getDocs, query, where} from "firebase/firestore";
+import {collection, getDocs, query, where, orderBy} from "firebase/firestore";
 //import OrdersToMakeSubView from "./OrdersToMakeSubView";
 
 class OrdersToMakeView extends React.Component {
@@ -18,7 +18,7 @@ class OrdersToMakeView extends React.Component {
 
     getOrders = async () => {
         console.log("getOrders", ": ", "started")
-        const q = query(collection(this.props.dbProps, "orders"), where("completed", "==", false))
+        const q = query(collection(this.props.dbProps, "orders"), where("completed", "==", false), orderBy("createdAt")) // oldest ticket is higher
         //let tempString = "";
         //let mOrderItems = [];
         let mOrders = [];
