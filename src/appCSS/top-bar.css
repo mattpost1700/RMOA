@@ -52,6 +52,7 @@
 }
 .topbar__right-text{
     font-weight: 600;
+    text-align: right;
 }
 .topbar__right-button {
     transition: 0.4s;
