@@ -7,26 +7,15 @@ import MainScreenOverlay from "./MainScreenOverlay";
 import KitchenView from "./KitchenView";
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
-/**
- * The log in screen with the pin pad container
- */
 class KeyPadContainer extends React.Component {
-    /**
-     * The pin number state
-     * @type {{pin: string, pinLength: number}}
-     */
-    state = {
+    state ={
         pin: "",
         pinLength: 0, // for some reason "str.length" was returning undefined before
         mainContent: "KeyPadScreen",
     }
 
-    /**
-     * The action when the a keypad button is clicked
-     * @param button The UI reference to the js button
-     */
     handleButtonClick = (button) => {
-        if (this.state.pinLength < 4) {
+        if(this.state.pinLength < 4) {
             this.setState({
                 pin: this.state.pin + button,
                 pinLength: this.state.pinLength + 1
@@ -36,9 +25,6 @@ class KeyPadContainer extends React.Component {
         }
     }
 
-    /**
-     * The action when the "Clear" button is clicked
-     */
     handleClearClick = () => {
         this.setState({
             pin: "",
@@ -55,10 +41,6 @@ class KeyPadContainer extends React.Component {
 
     }
 
-    /**
-     * The action when the "Submit" button is clicked
-     * @returns {Promise<void>}
-     */
     handleSubmitClick = async () => {
         console.log("handleSubmitClick", ": ", "started")
         const q = query(collection(this.props.dbProps, "users"), where("pin", "==", this.state.pin))
@@ -83,26 +65,18 @@ class KeyPadContainer extends React.Component {
                     this.setState({
                         mainContent: "ServerView",
                     })
-                }
-            console.log("handleSubmitClick", ": ", fName + " " + lName, "logged in")
-
-            // TODO: Add routing to respective screens shown in ($...)
-            switch (position) {
-                case 'server':
-                    // Go to main screen ($MainScreenOverlay)
                     break;
                 case 'manager':
-                    // Go to manager screen ($MainScreenOverlay)
+                    // Go to manager screen
                     break;
                 case 'host':
-                    // Go to host screen ($MainScreenOverlay)
+                    // Go to host screen
                     break;
                 case 'kitchen':
-                    // Gp to kitchen view
+                    // Go to kitchen view
                     this.setState({
-                        mainContent: "KitchenView",
+                        mainContent: "KitchenView"
                     })
-                    // Gp to kitchen view ($'KitchenOverlay') NOT CREATED YET
                     break;
             }
         }

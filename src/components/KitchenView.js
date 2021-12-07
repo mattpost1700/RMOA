@@ -123,7 +123,7 @@ class KitchenView extends React.Component{
         switch(this.state.mainContent.name){
             case "OrdersToMake":{
                 return (
-                    <OrdersToMakeView />
+                    <OrdersToMakeView dbProps={this.props.dbProps} />
                 )
             }
             
