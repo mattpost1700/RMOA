@@ -1,6 +1,7 @@
 import React from "react";
 import {collection, getDocs, query} from "firebase/firestore";
 import OrdersToMakeSubView from "./OrdersToMakeSubView";
+import "../../appCSS/orders-to-make-view.css";
 class OrdersToMakeView extends React.Component {
     state = {
         orders: [],
@@ -33,7 +34,7 @@ class OrdersToMakeView extends React.Component {
             mOrderItems = [...JSON.parse(tempString)];
             mTableID = doc.get("tableID");
             mOrders = mOrders.concat({tableID:mTableID,
-                                    orderItems: mOrderItems}) 
+                                    orderItems: mOrderItems})
         });
         console.log("mOrders", mOrders);
         this.setState({
@@ -44,15 +45,23 @@ class OrdersToMakeView extends React.Component {
     render() {
         
         return (
-            <div>
-                <button id="refreshButton"
+            <div className={"order-to-make"}>
+                <button id="refreshButton" className={"order-to-make__button"}
                 onClick={() => this.handleRefreshClick()}
                  >Refresh</button>
-                <ul>
-                    {this.state.orders.map((order, i) => 
-                    <li key={i}><OrdersToMakeSubView
-                                orderProps={order}/></li>)}
-                </ul>
+                    <ul className={"order-to-make__orders"}>
+
+                        {this.state.orders.map((order, i) =>
+                            <div className="order-to-make__card-wrapper">
+                                <div className="order-to-make__card">
+                                    <p className="order-to-make__id">Table #{order['tableID']}</p>
+                                    <li key={i}><OrdersToMakeSubView
+                                        orderProps={order}/></li>
+                                </div>
+                                <button className="order-to-make__complete">Complete</button>
+                            </div>
+                        )}
+                    </ul>
             </div>
 
         )
