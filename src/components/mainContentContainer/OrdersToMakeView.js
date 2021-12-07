@@ -1,5 +1,7 @@
 import React from "react";
 import {collection, getDocs, query, where, orderBy} from "firebase/firestore";
+import {forEach} from "react-bootstrap/ElementChildren";
+
 //import OrdersToMakeSubView from "./OrdersToMakeSubView";
 
 class OrdersToMakeView extends React.Component {
@@ -33,12 +35,27 @@ class OrdersToMakeView extends React.Component {
 
             let temp = doc.get("orderItems")
             mTableID = [doc.get("tableID")]
-            mOrders.push("===================================")
             mOrders.push(...temp)
+            mOrders.push("===================================")
             //mOrders = mOrders.concat({tableID:mTableID,
             //                        orderItems: mOrderItems})
         });
         console.log("mOrders", mOrders);
+        this.setState({
+            orders: mOrders
+        })
+    }
+
+    handleItemClick = (i) => {
+        let mOrders = this.state.orders
+        mOrders.splice(i, 1); // remove i
+        for(var i = 1; i < mOrders.length; i++) {
+            if(mOrders[i-1] === "===================================" && mOrders[i] === "===================================") {
+                mOrders.splice(i, 1);
+                mOrders.splice(i-1, 1);
+            }
+        }
+
         this.setState({
             orders: mOrders
         })
@@ -54,15 +71,15 @@ class OrdersToMakeView extends React.Component {
                 </button>
                 <ul>
                     {this.state.orders.map((order, i) =>
-                        <li key={i}> {order}</li>)}
+                        <li key={i} onClick={() => this.handleItemClick(i)}> {order}</li>)}
                     {/*<li key={i}><OrdersToMakeSubView*/}
                     {/*            orderProps={order}/></li>)}*/}
                 </ul>
             </div>
 
-    )
+        )
     }
 
-    }
+}
 
-    export default OrdersToMakeView
+export default OrdersToMakeView
