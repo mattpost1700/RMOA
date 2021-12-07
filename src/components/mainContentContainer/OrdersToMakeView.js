@@ -49,10 +49,10 @@ class OrdersToMakeView extends React.Component {
     handleItemClick = (i) => {
         let mOrders = this.state.orders
         mOrders.splice(i, 1); // remove i
-        for(var i = 1; i < mOrders.length; i++) {
-            if(mOrders[i-1] === "===================================" && mOrders[i] === "===================================") {
-                mOrders.splice(i, 1);
-                mOrders.splice(i-1, 1);
+        for(var j = 1; j < mOrders.length; j++) {
+            if(mOrders[j-1] === "===================================" && mOrders[j] === "===================================") {
+                mOrders.splice(j, 1);
+                mOrders.splice(j-1, 1);
             }
         }
 
