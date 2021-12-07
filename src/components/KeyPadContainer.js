@@ -73,9 +73,9 @@ class KeyPadContainer extends React.Component {
                     // Go to host screen
                     break;
                 case 'kitchen':
-                    // Gp to kitchen view
+                    // Go to kitchen view
                     this.setState({
-                        mainContent: "KitchenView",
+                        mainContent: "KitchenView"
                     })
                     break;
             }
@@ -127,6 +127,7 @@ class KeyPadContainer extends React.Component {
             case "ServerView":{
                 return(
                     <MainScreenOverlay 
+                    dbProps={this.props.dbProps}
                     logoutOfAppProps={this.logoutOfApp}
                     />
                 )
@@ -134,6 +135,7 @@ class KeyPadContainer extends React.Component {
             case "KitchenView":{
                 return(
                     <KitchenView
+                    dbProps={this.props.dbProps}
                     logoutOfAppProps={this.logoutOfApp}
                     />
                 )

@@ -136,21 +136,33 @@ class MergeBillView extends React.Component{
             })
         }
     }
+    collectOrderItems = (mBill, mConfirmedOrderItems, mTempOrderItems) =>{
+        if(mConfirmedOrderItems !== undefined && mTempOrderItems !== undefined){
+            return mConfirmedOrderItems.concat(mTempOrderItems);
+        }
+        else if(mConfirmedOrderItems !== undefined && mTempOrderItems === undefined){
+            return mConfirmedOrderItems;
+        }
+        else if(mConfirmedOrderItems === undefined && mTempOrderItems !== undefined){
+            return mTempOrderItems;
+        }
+        else{
+            return [];
+        }
+    }
     constructor(props){
         super(props);
         console.log("In MergeBillView constructor!");
         let mFirstBill = this.props.firstBillModelProps.bill;
         let mSecondBill = this.props.secondBillModelProps.bill;
-        let mOrderItemsFirstBill  = this.props.firstBillModelProps.orderItems;
-        let mOrderItemsSecondBill = this.props.secondBillModelProps.orderItems;
-        let mTempOrderItemsFirstBill = this.props.getTempOrderItemsBillsProps().getValueOfKey(mFirstBill);
-        let mTempOrderItemsSecondBill = this.props.getTempOrderItemsBillsProps().getValueOfKey(mSecondBill);
-        if(mTempOrderItemsFirstBill !== undefined){
-            mOrderItemsFirstBill = mOrderItemsFirstBill.concat(mTempOrderItemsFirstBill);
-        }
-        if(mTempOrderItemsSecondBill !== undefined){
-            mOrderItemsSecondBill = mOrderItemsFirstBill.concat(mTempOrderItemsSecondBill);
-        }
+        let mOrderItemsFirstBill = this.collectOrderItems(mFirstBill,
+            this.props.firstBillModelProps.orderItems,
+            this.props.getTempOrderItemsBillsProps().getValueOfKey(mFirstBill));
+        let mOrderItemsSecondBill = this.collectOrderItems(mSecondBill,
+            this.props.secondBillModelProps.orderItems,
+            this.props.getTempOrderItemsBillsProps().getValueOfKey(mSecondBill))
+        console.log("mOrderItemsFirstBill", mOrderItemsFirstBill);
+        console.log("mOrderItemsSecondBill", mOrderItemsSecondBill);
         this.state.orderItemsFirstBill = mOrderItemsFirstBill;
         this.state.orderItemsSecondBill = mOrderItemsSecondBill;
         this.state.firstBillCheckboxes = this.setCheckboxes(mOrderItemsFirstBill);

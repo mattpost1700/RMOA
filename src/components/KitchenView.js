@@ -4,6 +4,7 @@ import TopBar from "./TopBar";
 
 import OptionScreen from "./mainContentContainer/OptionScreen";
 import OrdersToMakeView from "./mainContentContainer/OrdersToMakeView";
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import "../appCSS/main-screen-overlay.css";
 class KitchenView extends React.Component{
     state = {
@@ -122,7 +123,7 @@ class KitchenView extends React.Component{
         switch(this.state.mainContent.name){
             case "OrdersToMake":{
                 return (
-                    <p>These will be the Orders To Make</p>
+                    <OrdersToMakeView dbProps={this.props.dbProps} />
                 )
             }
             
