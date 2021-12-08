@@ -76,6 +76,12 @@ class MainScreenOverlay extends React.Component{
                 status: "full",
                 capacity: 4,
                 order: undefined
+            },
+            {
+                tableID: 4,
+                status: "free",
+                capacity: 4,
+                order: undefined
             }
         ],
         //To pass down to an OrderView

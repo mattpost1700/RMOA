@@ -66,6 +66,11 @@ class OrderView extends React.Component{
             //All billNumbers should be unique
             mCheckboxes.addKeyPair(billNumbers[i],{checked:false});
         }
+        //If the Order is brand new, there won't be any bill number associated with this Order
+        // To spoof this bill number and make the UI Element appear, add one KeyPair to the Dictionary
+        if(billNumbers.length == 0){
+            mCheckboxes.addKeyPair(1, {checked:false});
+        }
         console.log("mCheckboxes", mCheckboxes);
         return mCheckboxes;
     }
@@ -152,6 +157,7 @@ class OrderView extends React.Component{
 
 
     // If zero or two bills are selected, this function does nothing
+    
     handleFoodDrinkClicked = () =>{
         console.log("handleFoodDrinkClicked is clicked!");
         let [firstBill, secondBill] = this.getBillsSelectedRefactor();
@@ -535,7 +541,12 @@ class OrderView extends React.Component{
                 billsDict.addArrayElement(mTempOrderItems[i].bill, mTempOrderItems[i]);
             }
         }
-
+        //Try adding a KeyPair of (1, $emptyArray) if there are no confirmed or temporary OrderItems
+        // i.e. this is a brand new Order
+        if(mOrderItems.length == 0 && mTempOrderItems.length == 0){
+            billsDict.addKeyPair(1, []);
+        }
+        console.log("generateOrderSubViewRefactor billsDict", billsDict);
         return billsDict
     }
     getConfirmedOrderItemsBills = () =>{
@@ -640,7 +651,9 @@ class OrderView extends React.Component{
 
             }
             //billGroup should still be a 2D array at this point
-
+            //If billGroup is completely empty at this point, it is because it is a
+            // brand new Order. Need work around for this.
+            console.log("billGroup", billGroup);
 
             let page = [];
 
@@ -652,12 +665,12 @@ class OrderView extends React.Component{
                     active = 'orderView__inactive';
                 }
                 page.push(
-                    <div className={"orderView__order-subwrapper " + active} id={"bill"+billGroup[i][0].bill + "-page" + i}>
+                    <div className={"orderView__order-subwrapper " + active} id={"bill"+ (billGroup[i][0].bill === undefined ? 1 : billGroup[i][0].bill) + "-page" + i}>
 
                         <div className={"orderView__order"}
                              key={idx}
                         >
-                            <p className={"orderView__billnum"}>Bill # {billGroup[i][0].bill}</p>
+                            <p className={"orderView__billnum"}>Bill # {billGroup[i][0].bill === undefined ? 1: billGroup[i][0].bill}</p>
                             <OrderSubView
                                 billProps={billGroup[i]}
                                 olStart={olNum}
@@ -666,7 +679,26 @@ class OrderView extends React.Component{
                     </div>
                 )
             }
+            if(billGroup.length == 0){
+                olNum = 1;
+                
+                active = 'orderView__active';
+                
+                page.push(
+                    <div className={"orderView__order-subwrapper " + active} id={"bill"+ 1 + "-page" + 0}>
 
+                        <div className={"orderView__order"}
+                             key={idx}
+                        >
+                            <p className={"orderView__billnum"}>Bill # 1</p>
+                            <OrderSubView
+                                billProps={[]}
+                                olStart={olNum}
+                            />
+                        </div>
+                    </div>
+                )
+            }
 
             //add the order wrapper to the bill pages
             bills.push(<div className={"orderView__order-wrapper"} id={"bill" + billNumbers[idx]}>
@@ -684,7 +716,7 @@ class OrderView extends React.Component{
 
             </div>);
         }
-
+        console.log("bills", bills);
         return(
             <div id="orderSubContainer" className={"orderView__container no-anim"}>
                 {bills}
