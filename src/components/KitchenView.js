@@ -9,7 +9,7 @@ import "../appCSS/main-screen-overlay.css";
 class KitchenView extends React.Component{
     state = {
         lastOrderIDGenerated: 1000,
-        topBarTitle: "TopBar Title",
+        topBarTitle: "RMOA",
         userID: "17055",
         userClass: "Kitchen",
         visited: [],

@@ -15,7 +15,7 @@ class MainScreenOverlay extends React.Component{
     //This information should be mapped to the current user   
     state ={
         lastOrderIDGenerated: 1000,
-        topBarTitle: "TopBar Title",
+        topBarTitle: "RMOA",
         userID: "90210",
         userClass: "Server",
         visited: [],
