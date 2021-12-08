@@ -5,7 +5,7 @@ class OrdersToMakeSubView extends React.Component{
 
     render(){
         return(
-            <ol start={this.props.olStart} className={"orderList"}>
+            <ol className={"orderList"}>
 
                 {
                     this.props.orderProps.orderItems.map((mOrderItem, index) =>(
