@@ -1,4 +1,4 @@
-# Before running
+# How to run
 ##### NOTE: Ensure you have node.js installed on your machine. (if not make you run `npm install`)
 1. Afterwards, open the project in it's main directory (i.e. `C:\Users\USER\WebstormProjects\RMOA` if you are using the [WebStorm IDE](https://www.jetbrains.com/))
     * This directory is the same one where you cloned the repository
