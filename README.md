@@ -1,10 +1,16 @@
-# Getting Started with Create React App
+# Before running
+##### NOTE: Ensure you have node.js installed on your machine. (if not make you run `npm install`)
+1. Afterwards, open the project in it's main directory (i.e. `C:\Users\USER\WebstormProjects\RMOA` if you are using the [WebStorm IDE](https://www.jetbrains.com/))
+    * This directory is the same one where you cloned the repository
+2. With the terminal open (either in your IDE or outside of it) type in `install firebase`.
+    * NOTE: This most most IDEs will ask you and install this for you when you try running an app that requires it.
+3. Type in the terminal `npm start`. This launches the app in your default browser. Ready to test!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+##### User pins for testing
+Server: `2222`\
+Kitchen: `4444`
 
-## Available Scripts
-
-In the project directory, you can run:
+# Default React documentation
 
 ### `npm start`
 
